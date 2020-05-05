@@ -1,0 +1,10 @@
+
+public static void main(String[] args);
+
+public UserIngredient[] getUserIngredients(UserProfile up);
+
+public UserIngredient[] getAllIngredients();
+
+public UserIngredient[] getIngredientsByGroup();
+
+public boolean placeInDatabase(UserProfile up, UserIngredient[] ingArr)
