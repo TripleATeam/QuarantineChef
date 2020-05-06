@@ -5,6 +5,6 @@ public Ingredient[] getIngredients(Profile up);
 
 public Ingredient[] getAllIngredients();
 
-public Ingredient[] getIngredientsByGroup();
+public Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup);
 
 public boolean placeInDatabase(UserProfile up, Ingredient[] ingArr)
