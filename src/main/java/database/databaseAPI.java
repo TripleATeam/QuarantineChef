@@ -8,7 +8,7 @@ import java.util.Arrays;
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class databaseAPI {
-    public static Ingredient[] allIngredients = null;
+    private static Ingredient[] allIngredients = null;
 
     public static void main(String...args) {
         UserProfile up = new UserProfile("alek", new int[2], new int[2], new int[2]);
@@ -20,6 +20,11 @@ public class databaseAPI {
         return allIngredients.clone();
     }
 
+    // @Julia/Alek
+    public UserProfile removeFromDatabase() {
+        return null;
+    }
+
     // @Julia
     public boolean placeInDatabase(UserProfile up, Ingredient[] ingArr) {
         // TODO: Finish implementation of this method after driver support
@@ -29,16 +34,10 @@ public class databaseAPI {
     // @Alek
     public static Ingredient[] getIngredients(UserProfile up) {
         ArrayList<Ingredient> retlist = new ArrayList<>();
-        Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
-        Driver driver = GraphDatabase.driver("bolt://34.224.17.173:33236", AuthTokens.basic("neo4j","radiator-sink-heights"),noSSL); // <password>
-        try (Session session = driver.session()) {
-            String cypherQuery =
-                    "MATCH (n) " +
-                            "RETURN n.Username as username"; // Type the query
-            StatementResult result = session.run(cypherQuery, parameters());
-            while (result.hasNext()) {
-                retlist.add(new Ingredient(result.next().get("username").asString(), IngredientGroup.ETC));
-            }
+        String cypherQuery = "MATCH (n) RETURN n.Username as username";
+        StatementResult result = doQuery(cypherQuery);
+        while (result.hasNext()) {
+            retlist.add(new Ingredient(result.next().get("username").asString(), IngredientGroup.ETC));
         }
         Ingredient[] retArr = new Ingredient[retlist.size()];
         for (int i = 0; i < retlist.size(); i++) {
@@ -53,10 +52,19 @@ public class databaseAPI {
         // @Julia sorry, I just wanted a little implementation, feel free to improve it
         ArrayList<Ingredient> retlist = new ArrayList<>();
         for (Ingredient i : getAllIngredients()) {
-            if (i.group == ingGroup) {
+            if (i.getGroup() == ingGroup) {
                 retlist.add(i);
             }
         }
         return (Ingredient[]) retlist.toArray();
+    }
+
+    // Returns the result of a Cypher query being passed into the database.
+    private static StatementResult doQuery(String cypherQuery) {
+        Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
+        Driver driver = GraphDatabase.driver("bolt://34.224.17.173:33236", AuthTokens.basic("neo4j","radiator-sink-heights"),noSSL); // <password>
+        try (Session session = driver.session()) {
+            return session.run(cypherQuery, parameters());
+        }
     }
 }
