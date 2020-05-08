@@ -20,12 +20,19 @@ public class RecipeFilter {
     private static final String APP_ID = "app id here";
     private static final String APP_KEY = "app key here";
 
-
+    /**
+     *Prepares virtual pantry in the backend for filtering
+     * @param currentUser is a UserProfile used to filter recipes based on preferences
+     */
     public RecipeFilter(UserProfile currentUser) {
         this.currentUser = currentUser;
         setUserPantry();
     }
 
+    /**
+     *Sets the current user's pantry, either retrieving the custom pantry from
+     * the database or retrieving temporary selections from frontend
+     */
     public void setUserPantry() {
         //only attempt getting the custom user pantry if the user is logged in
         if (this.currentUser != null) {
@@ -36,6 +43,10 @@ public class RecipeFilter {
         }
     }
 
+    /**
+     * Gets recipes to display
+     * @return Recipes formatted for frontend
+     */
     public List<Recipe> getNewRecipes() {
         List<Recipe> unfilteredRecipes = getRecipes();
         List<Recipe> filteredRecipes = filterRecipes(unfilteredRecipes);
@@ -48,6 +59,7 @@ public class RecipeFilter {
     }
 
 
+    //Gathers data from the Edamam API using the current pantry
     private List<Recipe> getRecipes() {
         //Example: "https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
         StringBuilder query = new StringBuilder("https://api.edamam.com/search?q=");
@@ -70,6 +82,7 @@ public class RecipeFilter {
         return recipeParser.getRecipeList();
     }
 
+    //Chooses which recipes to display to the user
     private List<Recipe> filterRecipes(List<Recipe> unfilteredRecipes) {
         //method returns 10 randomly selected recipes for the beta
         return unfilteredRecipes;
@@ -105,6 +118,7 @@ public class RecipeFilter {
 
     }
 
+    //Returns a set of ingredient names not currently in the user's current pantry
     private Set<String> negatePantryIngredients() {
         if (this.currentPantry == null) {
             setUserPantry();
@@ -129,6 +143,7 @@ public class RecipeFilter {
         return negativeIngredientSet;
     }
 
+    //Converts an array of ingredients to a set of ingredient names
     private Set<String> ingredientsToNameSet(Ingredient[] ingredients) {
         Set<String> nameSet = new HashSet<String>();
         for (int i = 0; i < ingredients.length; i++) {
@@ -138,6 +153,8 @@ public class RecipeFilter {
         return nameSet;
     }
 
+    //Gets all the ingredients from the database
+    //Returns an array of all ingredients
     private Ingredient[] getAllIngredients() {
         Ingredient[] allIngredients = databaseAPI.getAllIngredients();
         return allIngredients;
