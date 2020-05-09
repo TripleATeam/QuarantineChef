@@ -15,8 +15,10 @@ public class databaseAPI {
     public static void main(String...args) {
         UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
         System.out.println(getPantry(up));
+        updateUser(up);
     }
 
+    // @Alek
     public static Pantry getPantry(UserProfile up) {
         Pantry ret = null;
         String cypherQuery = "MATCH (a:User)-[r:UserPantry]->(b:Pantry) WHERE a.userID = " +
@@ -54,29 +56,47 @@ public class databaseAPI {
     }
 
     // @Julia/Alek
-    public UserProfile removeFromDatabase() {
-        return null;
+    public void removeFromDatabase(UserProfile up) {
+        String cypherQuery = "MATCH (n:User) WHERE n.userID = " + up.userID + " DETACH DELETE n";
+        doQuery(cypherQuery);
+    }
+
+    // @Alek
+    public static void updateUser(UserProfile up) {
+        if (up.preferences.length < 1) {
+            return;
+        }
+        //String cypherQuery = "MATCH (n:User) WHERE n.userID = " + up.userID + " DETACH DELETE n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("MATCH (n:User) WHERE n.userID = ");
+        sb.append(up.userID);
+        sb.append(" SET n.cuisinePreferences = [");
+        sb.append(up.preferences[0]);
+        for (int i = 1; i < up.preferences.length; i++) {
+            sb.append( ", ");
+            sb.append(up.preferences[i]);
+        }
+        sb.append("], n.dietTypes = [");
+        sb.append(up.diet[0]);
+        for (int i = 1; i < up.diet.length; i++) {
+            sb.append( ", ");
+            sb.append(up.diet[i]);
+        }
+        sb.append("], n.healthRestrictions = [");
+        sb.append(up.health[0]);
+        for (int i = 1; i < up.health.length; i++) {
+            sb.append( ", ");
+            sb.append(up.health[i]);
+        }
+        sb.append("] RETURN n");
+        String cypherQuery = sb.toString();
+        doQuery(cypherQuery);
     }
 
     // @Julia
     public boolean placeInDatabase(UserProfile up, Ingredient[] ingArr) {
         // TODO: Finish implementation of this method after driver support
         return false;
-    }
-
-    // @Alek
-    public static Ingredient[] getIngredients(UserProfile up) {
-        ArrayList<Ingredient> retlist = new ArrayList<>();
-        String cypherQuery = "MATCH (n) RETURN n.Username as username";
-        StatementResult result = doQuery(cypherQuery);
-        while (result.hasNext()) {
-            retlist.add(new Ingredient(result.next().get("username").asString(), IngredientGroup.ETC));
-        }
-        Ingredient[] retArr = new Ingredient[retlist.size()];
-        for (int i = 0; i < retlist.size(); i++) {
-            retArr[i] = retlist.get(i);
-        }
-        return retArr;
     }
 
     private IngredientGroup getIngredientGroup(Ingredient ing) {
