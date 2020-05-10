@@ -132,7 +132,12 @@ public class RecipeFilter {
     private Set<String> negatePantryIngredients() {
         if (this.currentPantry == null) {
             setUserPantry();
+            //if current pantry is still null return an empty set
+            if (this.currentPantry == null) {
+                return new HashSet<String>();
+            }
         }
+
 
         //Creates the set of every single possible ingredient name
         Ingredient[] allIngredientsArray = getAllIngredients();
