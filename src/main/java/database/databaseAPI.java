@@ -39,7 +39,7 @@ public class databaseAPI {
     // @Julia
     public static boolean placeInDatabase(UserProfile up, Pantry pantry) {
 
-        UserProfile otherProf = getUserProfile(up);
+        UserProfile otherProf = getUserProfile(up.userID);
         if (otherProf == null) {
             // Create it if it doesn't exist
             createUserProfile(up);
@@ -174,8 +174,8 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
-    private static UserProfile getUserProfile(UserProfile up) {
-        String cypherQuery = "MATCH (n:User) WHERE n.userID = " + up.userID + " RETURN" +
+    public static UserProfile getUserProfile(int userID) {
+        String cypherQuery = "MATCH (n:User) WHERE n.userID = " + userID + " RETURN" +
                 " n.cuisinePreferences as preferences, n.dietTypes as diet, n.healthRestrictions as health";
         StatementResult sr = doQuery(cypherQuery);
         UserProfile ret = null;
@@ -204,7 +204,7 @@ public class databaseAPI {
                 Long l = (Long) objArr3[i];
                 health[i] = l.intValue();
             }
-            ret = new UserProfile(up.userID, preferences, diet, health);
+            ret = new UserProfile(userID, preferences, diet, health);
         }
         return ret;
     }
