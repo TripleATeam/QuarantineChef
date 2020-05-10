@@ -13,6 +13,18 @@ public class Pantry {
         this.quantities = quantities;
     }
 
+    public Ingredient[] getIngredients() {
+        return ingredients;
+    }
+
+    public String[] getExpirations() {
+        return expirations;
+    }
+
+    public long[] getQuantities() {
+        return quantities;
+    }
+
     @Override
     public String toString() {
         return "[" + Arrays.deepToString(this.ingredients) + ", " +

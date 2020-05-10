@@ -14,6 +14,11 @@ public class databaseAPI {
 
     public static void main(String...args) {
         UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
+        Ingredient[] ingArr = new Ingredient[2];
+        ingArr[0] = new Ingredient("salt", IngredientGroup.ETC);
+        ingArr[1] = new Ingredient("pepper", IngredientGroup.ETC);
+        Pantry p = new Pantry(ingArr, new String[]{"01-01-2020", "02-01-2020", "03-01-2020"}, new long[]{0, 1, 2});
+        System.out.println(placeInDatabase(up, p));
         System.out.println(getPantry(up));
         updateUser(up);
     }
@@ -42,7 +47,7 @@ public class databaseAPI {
             for (int i = 0; i < size; i++) {
                 expirations[i] = (String) objArr1[i];
                 String ingName = (String) objArr2[i];
-                ingredients[i] = new Ingredient(ingName, /*namesToGroups.get(ingName)*/ IngredientGroup.ETC);
+                ingredients[i] = new Ingredient(ingName, getIngredientGroup(ingName));
                 quantities[i] = (long) objArr3[i];
             }
             ret = new Pantry(ingredients, expirations, quantities);
@@ -50,7 +55,7 @@ public class databaseAPI {
         return ret;
     }
 
-    // @Alek
+    // @Alek- update this after we get the ingredients
     public Ingredient[] getAllIngredients() {
         return allIngredients.clone();
     }
@@ -66,7 +71,6 @@ public class databaseAPI {
         if (up.preferences.length < 1) {
             return;
         }
-        //String cypherQuery = "MATCH (n:User) WHERE n.userID = " + up.userID + " DETACH DELETE n";
         StringBuilder sb = new StringBuilder();
         sb.append("MATCH (n:User) WHERE n.userID = ");
         sb.append(up.userID);
@@ -94,19 +98,71 @@ public class databaseAPI {
     }
 
     // @Julia
-    public boolean placeInDatabase(UserProfile up, Ingredient[] ingArr) {
-        // TODO: Finish implementation of this method after driver support
-        return false;
+    public static boolean placeInDatabase(UserProfile up, Pantry pantry) {
+        // TODO: Check if thing already exists
+        StringBuilder sb = new StringBuilder();
+        sb.append("CREATE (n:User {userID: ");
+        sb.append(up.userID);
+        sb.append(", cuisinePreferences: [");
+        sb.append(up.preferences[0]);
+        for (int i = 1; i < up.preferences.length; i++) {
+            sb.append( ", ");
+            sb.append(up.preferences[i]);
+        }
+        sb.append("], dietTypes: [");
+        sb.append(up.diet[0]);
+        for (int i = 1; i < up.diet.length; i++) {
+            sb.append( ", ");
+            sb.append(up.diet[i]);
+        }
+        sb.append("], healthRestrictions: [");
+        sb.append(up.health[0]);
+        for (int i = 1; i < up.health.length; i++) {
+            sb.append( ", ");
+            sb.append(up.health[i]);
+        }
+        sb.append("]})");
+        String cypherQuery = sb.toString();
+        doQuery(cypherQuery);
+
+        sb = new StringBuilder();
+        sb.append("CREATE (n:Pantry {userID: ");
+        sb.append(up.userID);
+        sb.append(", numIngredients: ");
+        sb.append(pantry.getIngredients().length);
+        sb.append(", ingredients: [\"");
+        sb.append(pantry.getIngredients()[0].getName());
+        for (int i = 1; i < pantry.getIngredients().length; i++) {
+            sb.append( "\", \"");
+            sb.append(pantry.getIngredients()[i].getName());
+        }
+        sb.append("\"], expirations: [\"");
+        sb.append(pantry.getExpirations()[0]);
+        for (int i = 1; i < pantry.getExpirations().length; i++) {
+            sb.append( "\", \"");
+            sb.append(pantry.getExpirations()[i]);
+        }
+        sb.append("\"], quantities: [");
+        sb.append(pantry.getQuantities()[0]);
+        for (int i = 1; i < pantry.getQuantities().length; i++) {
+            sb.append( ", ");
+            sb.append(pantry.getQuantities()[i]);
+        }
+        sb.append("]})");
+        cypherQuery = sb.toString();
+        doQuery(cypherQuery);
+
+        return true;
     }
 
-    private IngredientGroup getIngredientGroup(Ingredient ing) {
+    private static IngredientGroup getIngredientGroup(String ing) {
+        // Use the hashmap
         return IngredientGroup.ETC;
     }
 
     // @Julia
     public Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
-        // Might be a faster way to implement this
-        // @Julia sorry, I just wanted a little implementation, feel free to improve it
+        // Use the hashmap
         ArrayList<Ingredient> retlist = new ArrayList<>();
         for (Ingredient i : getAllIngredients()) {
             if (i.getGroup() == ingGroup) {
