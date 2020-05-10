@@ -56,7 +56,7 @@ public class Pantry {
         int month = Integer.parseInt(date.substring(firstDash + 1, secondDash));
         int year = Integer.parseInt(date.substring(secondDash + 1));
         System.out.println(day + " " + month + " " + year);
-        return null;
+        return new Date(year, month - 1, day);
     }
 
     public int[] getQuantities() {
