@@ -3,6 +3,7 @@ package database;
 import org.neo4j.driver.v1.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import static org.neo4j.driver.v1.Values.parameters;
@@ -21,9 +22,9 @@ public class databaseAPI {
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("swlt");
         ingArr[1] = getIngredient("pepper");
-        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new long[]{0, 1});
+        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{0, 1});
         System.out.println(placeInDatabase(up, p));
-        System.out.println(getPantry(up));
+        Pantry p2 = getPantry(up);
         updateUser(up);
     }
 
@@ -217,14 +218,14 @@ public class databaseAPI {
         StatementResult result = doQuery(cypherQuery);
         String[] expirations;
         Ingredient[] ingredients;
-        long[] quantities;
+        int[] quantities;
         while (result.hasNext()) {
             Record curr = result.next();
 
             int size = curr.get("numIngredients").asInt();
             expirations =  new String[size];
             ingredients = new Ingredient[size];
-            quantities = new long[size];
+            quantities = new int[size];
 
             Object[] objArr1 = curr.get("expirations").asList().toArray();
             Object[] objArr2 = curr.get("ingredients").asList().toArray();
@@ -233,7 +234,8 @@ public class databaseAPI {
                 expirations[i] = (String) objArr1[i];
                 String ingName = (String) objArr2[i];
                 ingredients[i] = new Ingredient(ingName, getIngredientGroup(ingName));
-                quantities[i] = (long) objArr3[i];
+                Long q = (Long) objArr3[i];
+                quantities[i] = q.intValue();
             }
             ret = new Pantry(ingredients, expirations, quantities);
         }
@@ -244,7 +246,7 @@ public class databaseAPI {
         return new Ingredient(ingName, getIngredientGroup(ingName));
     }
 
-    public Ingredient[] getAllIngredients() {
+    public static Ingredient[] getAllIngredients() {
         return allIngredients.clone();
     }
 
@@ -254,7 +256,7 @@ public class databaseAPI {
     }
 
     // @Julia
-    public Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
+    public static Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
         // TODO: Use the hashmap
         ArrayList<Ingredient> retlist = new ArrayList<>();
         for (Ingredient i : getAllIngredients()) {
