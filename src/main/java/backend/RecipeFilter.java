@@ -3,12 +3,11 @@ import java.util.*;
 import database.Ingredient;
 import database.UserProfile;
 import database.Pantry;
-import database.Date;
 
 public class RecipeFilter {
 
     /**
-     * currentUser represents the current logged in user
+     * currentUser represents the current logged in user, optional and can be null
      */
     private UserProfile currentUser;
 
@@ -17,15 +16,24 @@ public class RecipeFilter {
      */
     private Pantry currentPantry;
 
-    private static final String APP_ID = "app id here";
-    private static final String APP_KEY = "app key here";
+    /**
+     * User specified key ingredient, optional and can be null
+     */
+    private Ingredient keyIngredient;
+
+    private static final String APP_ID = "56d7887a";
+    private static final String APP_KEY = "4740dac00a0df8a5f23c6f81ad502e26";
 
     /**
-     *Prepares virtual pantry in the backend for filtering
-     * @param currentUser is a UserProfile used to filter recipes based on preferences
+     *
+     * @param currentUser UserProfile for current user, input null if temporary user
+     * @param keyIngredient Ingredient object for a key ingredient, input null if none specified
+     * @param tempPantry Pantry object, only input a pantry if no user is specified
      */
-    public RecipeFilter(UserProfile currentUser) {
+    public RecipeFilter(UserProfile currentUser, Ingredient keyIngredient, Pantry tempPantry) {
         this.currentUser = currentUser;
+        this.keyIngredient = keyIngredient;
+        this.currentPantry = tempPantry;
         setUserPantry();
     }
 
@@ -38,8 +46,6 @@ public class RecipeFilter {
         if (this.currentUser != null) {
             Pantry userPantry = databaseAPI.getPantry();
             this.currentPantry = userPantry;
-        } else {
-            //this.currentPantry = input from frontend for non-user
         }
     }
 
@@ -90,6 +96,10 @@ public class RecipeFilter {
 
     //TODO: what to do if no ingredients have an expiration date?
     private Ingredient getPriorityIngredient() {
+        if (this.keyIngredient != null) {
+            return this.keyIngredient;
+        }
+
         if (this.currentPantry == null) {
             setUserPantry();
         }
