@@ -6,15 +6,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-// import IconButton from '@material-ui/core/IconButton';
-// import CommentIcon from '@material-ui/icons/Comment';
 import MaterialUIPickers from './expiration.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        maxWidth: 500,
-        // backgroundColor: theme.palette.background.paper,
     },
 }));
 
@@ -26,15 +22,9 @@ function enumerate(list) {
   return nums;
 }
 
-const ingredients = new Map();
-ingredients.set('Dairy', ['Milk', 'Butter', 'Cheese']);
-ingredients.set('Meat', ['Beef', 'Pork', 'Lamb']);
-ingredients.set('Grains', ['Rice', 'Oats', 'Quinoa']);
-ingredients.set('Vegetables', ['Carrots', 'Broccoli', 'Onions']);
-
-export default function CheckboxList() {
+export default function CheckboxList(props) {
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([0]);
+    const [checked, setChecked] = React.useState([-1]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -51,9 +41,8 @@ export default function CheckboxList() {
 
     return (
         <List className={classes.root}>
-            {enumerate(ingredients.get('Dairy')).map((value) => {
+            {enumerate(props.ingredients).map((value) => {
                 const labelId = `checkbox-list-label-${value}`;
-
                 return (
                     <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
                         <ListItemIcon>
@@ -62,15 +51,12 @@ export default function CheckboxList() {
                                 checked={checked.indexOf(value) !== -1}
                                 // tabIndex={-1}
                                 disableRipple
-                                inputProps={{ 'aria-labelledby': ingredients.get('Dairy')[value] }}
+                                inputProps={{ 'aria-labelledby': props.ingredients[value] }}
                             />
                         </ListItemIcon>
-                        <ListItemText id={labelId} primary={ingredients.get('Dairy')[value]} />
+                        <ListItemText id={labelId} primary={props.ingredients[value]} />
                         <ListItemSecondaryAction>
-                            <MaterialUIPickers />
-                            {/*<IconButton edge="end" aria-label="comments">*/}
-                            {/*    <CommentIcon />*/}
-                            {/*</IconButton>*/}
+                            <MaterialUIPickers ingredient={props.ingredients[value]}/>
                         </ListItemSecondaryAction>
                     </ListItem>
                 );
