@@ -31,6 +31,9 @@ public class RecipeFilter {
      * @param tempPantry Pantry object, only input a pantry if no user is specified
      */
     public RecipeFilter(UserProfile currentUser, Ingredient keyIngredient, Pantry tempPantry) {
+        if (currentUser == null && tempPantry == null) {
+            throw new IllegalArgumentException();
+        }
         this.currentUser = currentUser;
         this.keyIngredient = keyIngredient;
         this.currentPantry = tempPantry;
@@ -44,7 +47,7 @@ public class RecipeFilter {
     public void setUserPantry() {
         //only attempt getting the custom user pantry if the user is logged in
         if (this.currentUser != null) {
-            Pantry userPantry = databaseAPI.getPantry();
+            Pantry userPantry = databaseAPI.getPantry(this.currentUser);
             this.currentPantry = userPantry;
         }
     }

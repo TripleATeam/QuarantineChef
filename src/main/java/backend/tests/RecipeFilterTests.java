@@ -8,6 +8,11 @@ import java.util.*;
 public class RecipeFilterTests {
 
     @Test
+    public void testGetNewRecipes() {
+
+    }
+
+    @Test
     public void testNegatePantryIngredients() {
         
     }

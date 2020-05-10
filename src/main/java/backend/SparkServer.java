@@ -20,19 +20,13 @@ public class SparkServer {
             String keyIngredient = req.queryParams("key-ingredient");
             List<RecipeView> recipes = new ArrayList<>();
 
-            /*for (int i = 0; i < 10; i++) {
-                recipes.add(new Recipe("Recipe of "+ keyIngredient + "#" + i));
-            }*/
-            /*String httpRequest =
-                    "https://api.edamam.com/search?q="+ keyIngredient +"&app_id=56d7887a&app_key=4740dac00a0df8a5f23c6f81ad502e26";
-            RecipeParser rp = new RecipeParser(httpRequest);
-            List<Recipe> recipeList = rp.getRecipeList(); */
+            int userID = -1 //should be received from frontend
 
             //create a userKeyIngredient, with unknown ingredient group
             Ingredient userKeyIngredient = new Ingredient(keyIngredient, null);
 
             //Creation of a UserProfile retrieved from frontend
-            UserProfile currentLoggedInUser = null;
+            UserProfile currentLoggedInUser = databaseAPI.getUserProfile(userID);
 
             //Creation of a Pantry for RecipeFilter
             Pantry currentPantry = null;
