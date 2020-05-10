@@ -9,4 +9,12 @@ class EdamamIngredient {
         this.text = text;
         this.weight = weight;
     }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public String getText() {
+        return text;
+    }
 }
