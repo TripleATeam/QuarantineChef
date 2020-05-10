@@ -1,7 +1,5 @@
 package backend;
 
-import database.Ingredient;
-
 import java.util.List;
 
 /*
@@ -9,11 +7,13 @@ import java.util.List;
  */
 public class Recipe {
     // Fields
-    private List<Ingredient> ingredientList;
+    private String label;
+    private List<EdamamIngredient> ingredientList;
     private String imageUrl;
     private String recipeUrl;
 
-    public Recipe(List<Ingredient> ingredientList, String imageUrl, String recipeUrl) {
+    Recipe(String label, List<EdamamIngredient> ingredientList, String imageUrl, String recipeUrl) {
+        this.label = label;
         this.ingredientList = ingredientList;
         this.imageUrl = imageUrl;
         this.recipeUrl = recipeUrl;
@@ -21,7 +21,11 @@ public class Recipe {
 
     // getters
 
-    public List<Ingredient> getIngredientList() {
+    public String getLabel() {
+        return label;
+    }
+
+    public List<EdamamIngredient> getIngredientList() {
         return ingredientList;
     }
 
