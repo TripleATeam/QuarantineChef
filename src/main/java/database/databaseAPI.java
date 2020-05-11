@@ -19,8 +19,9 @@ public class databaseAPI {
 
     public static void init() {
         try {
-            File file = new File("ingredients2.csv");
+            File file = new File("ingredients.csv");
             Scanner scan = new Scanner(file);
+            scan.nextLine();
             namesToGroups = new HashMap<>();
             groupsToNames = new HashMap<>();
             ArrayList<Ingredient> allIng = new ArrayList<>();
