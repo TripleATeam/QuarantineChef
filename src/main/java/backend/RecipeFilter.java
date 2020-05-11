@@ -121,7 +121,7 @@ public class RecipeFilter {
             Date earliestExpirationDate = expirationDate[0];
             for (int i = 1; i < userIngredients.length; i++) {
                 Date ingredientExpirationDate = expirationDate[i];
-                if (earliestExpirationDate.compareTo(ingredientExpirationDate) < 0) {
+                if (earliestExpirationDate.compareTo(ingredientExpirationDate) > 0) {
                     earliestExpirationDate = ingredientExpirationDate;
                     priorityIngredient = userIngredients[i];
                 }

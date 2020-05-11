@@ -22,24 +22,7 @@ class RecipeComponent extends Component {
       recipes: recipes,
     });
     event.preventDefault();
-  }
-
-  async handleTest(event) {
-    let pantry = {
-      ingredients: ["Beef Steak", "Chicken Breast", "Eggs"],
-      expirations: ["01-06-2020", "02-01-2020", "03-06-2020"],
-      quantities: [1, 1, 1],
-    };
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(pantry),
-    };
-
-    fetch("http://localhost:4567/save-pantry", requestOptions);
-
-    event.preventDefault();
-  }
+  } 
 
   handleChange(event) {
     this.setState({ value: event.target.value });
@@ -48,16 +31,14 @@ class RecipeComponent extends Component {
   render() {
     return (
       <Container maxWidth="sm">
-        <FormControl fullWidth variant="outlined">
+        {/* <FormControl fullWidth variant="outlined">
           <TextField label="Enter Key Ingredient" value={this.state.value} onChange={this.handleChange} />
-        </FormControl>
+        </FormControl> */}
         <FormControl>
           <Button variant="contained" onClick={this.handleSearch}>
             Search Recipe
           </Button>
-          <Button variant="contained" onClick={this.handleTest}>
-            Test
-          </Button>
+          
         </FormControl>
         <div>
           <GridList cellHeight={160} cols={2}>

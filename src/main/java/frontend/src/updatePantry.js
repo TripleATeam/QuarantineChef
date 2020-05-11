@@ -18,15 +18,14 @@ export default function UpdatePantry(props) {
         const exp = [];
         const qnt = [];
 
-        // console.log(props.pantry);
-
-        // const master = props.pantry.keys();
-        // console.log(master);
-
         for (let key of props.pantry.keys()) {
             if (props.pantry.get(key)) {
                 ing.push(key);
-                exp.push(props.expiration.get(key));
+                let date = props.expiration.get(key);
+                if (date == null) {
+                    date = new Date();
+                }
+                exp.push(formatDate(date));
                 qnt.push(1);
             }
         }
@@ -40,9 +39,36 @@ export default function UpdatePantry(props) {
         //     }
         // }
 
-        console.log(ing);
-        console.log(exp);
-        console.log(qnt);
+        let pantry = {
+            ingredients: ing,
+            expirations: exp,
+            quantities: qnt,
+          };
+
+          const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(pantry),
+          };
+      
+          fetch("http://localhost:4567/save-pantry", requestOptions);
+      
+         
+        
+
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+        
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+        
+            return [day, month, year].join('-');
+        }
     }
 
     return (
