@@ -2,9 +2,9 @@ package database;
 
 import org.neo4j.driver.v1.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 import static org.neo4j.driver.v1.Values.parameters;
 
@@ -15,17 +15,50 @@ public class databaseAPI {
 
     private static Ingredient[] allIngredients = null;
     private static HashMap<String, IngredientGroup> namesToGroups = null;
-    private static HashMap<IngredientGroup, String[]> groupsToNames = null;
+    private static HashMap<IngredientGroup, ArrayList<String>> groupsToNames = null;
+
+    public static void init() {
+        try {
+            File file = new File("ingredients2.csv");
+            Scanner scan = new Scanner(file);
+            namesToGroups = new HashMap<>();
+            groupsToNames = new HashMap<>();
+            ArrayList<Ingredient> allIng = new ArrayList<>();
+            while (scan.hasNextLine()) {
+                String line = scan.nextLine();
+                String group = line.substring(0, line.indexOf(","));
+                String name = line.substring(line.indexOf(",") + 1);
+
+                IngredientGroup ingGroup = findIngredientGroupByName(group);
+                allIng.add(new Ingredient(name, ingGroup));
+                namesToGroups.put(name, ingGroup);
+                ArrayList<String> strList = groupsToNames.get(ingGroup);
+                if (strList == null) {
+                    strList = new ArrayList<>();
+                }
+                strList.add(name);
+                groupsToNames.put(ingGroup, strList);
+            }
+            allIngredients = new Ingredient[allIng.size()];
+            for (int i = 0; i < allIng.size(); i++) {
+                allIngredients[i] = allIng.get(i);
+            }
+        } catch (FileNotFoundException e) {
+        }
+
+    }
 
     public static void main(String...args) {
-        UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
-        Ingredient[] ingArr = new Ingredient[2];
-        ingArr[0] = getIngredient("swlt");
-        ingArr[1] = getIngredient("pepper");
-        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{0, 1});
-        System.out.println(placeInDatabase(up, p));
-        Pantry p2 = getPantry(up);
-        updateUser(up);
+//        UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
+//        Ingredient[] ingArr = new Ingredient[2];
+//        ingArr[0] = getIngredient("swlt");
+//        ingArr[1] = getIngredient("pepper");
+//        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{0, 1});
+//        System.out.println(placeInDatabase(up, p));
+//        Pantry p2 = getPantry(up);
+//        updateUser(up);
+        init();
+        System.out.println(Arrays.deepToString(allIngredients));
     }
 
     // @Julia/Alek
@@ -265,6 +298,40 @@ public class databaseAPI {
             }
         }
         return (Ingredient[]) retlist.toArray();
+    }
+
+    public static IngredientGroup findIngredientGroupByName(String ingredientGroupName) {
+        if (ingredientGroupName.toUpperCase().equals("POULTRY")) {
+            return IngredientGroup.POULTRY;
+        } else if (ingredientGroupName.toUpperCase().equals("SEAFOOD")) {
+            return IngredientGroup.SEAFOOD;
+        } else if (ingredientGroupName.toUpperCase().equals("MEAT")) {
+            return IngredientGroup.MEAT;
+        } else if (ingredientGroupName.toUpperCase().equals("VEGETABLES")) {
+            return IngredientGroup.VEGETABLES;
+        } else if (ingredientGroupName.toUpperCase().equals("FRUIT")) {
+            return IngredientGroup.FRUIT;
+        } else if (ingredientGroupName.toUpperCase().equals("DAIRY")) {
+            return IngredientGroup.DAIRY;
+        } else if (ingredientGroupName.toUpperCase().equals("GRAINS")) {
+            return IngredientGroup.GRAINS;
+        } else if (ingredientGroupName.toUpperCase().equals("SPICES")) {
+            return IngredientGroup.SPICES;
+        } else if (ingredientGroupName.toUpperCase().equals("CONDIMENTS")) {
+            return IngredientGroup.CONDIMENTS;
+        } else if (ingredientGroupName.toUpperCase().equals("SWEETENERS")) {
+            return IngredientGroup.SWEETENERS;
+        } else if (ingredientGroupName.toUpperCase().equals("NUTS")) {
+            return IngredientGroup.NUTS;
+        } else if (ingredientGroupName.toUpperCase().equals("BEVERAGES")) {
+            return IngredientGroup.BEVERAGES;
+        } else if (ingredientGroupName.toUpperCase().equals("BAKING")) {
+            return IngredientGroup.BAKING;
+        } else if (ingredientGroupName.toUpperCase().equals("SOUPS")) {
+            return IngredientGroup.SOUPS;
+        } else {
+            return IngredientGroup.ETC;
+        }
     }
 
     // Returns the result of a Cypher query being passed into the database.
