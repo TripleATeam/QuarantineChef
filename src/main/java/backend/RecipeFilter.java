@@ -76,12 +76,14 @@ public class RecipeFilter {
         //Example: "https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
         StringBuilder query = new StringBuilder("https://api.edamam.com/search?q=");
 
-        String priorityIngredientName = getPriorityIngredient().getName();
-        String randomIngredientName = getRandomIngredientNameFromPantry();
+        Ingredient[] sortedExpirationArray = sortIngredientsByDate();
+        String firstPriorityIngredient = sortedExpirationArray[0].getName();
+        String secondPriorityIngredient = "";
+        if (sortedExpirationArray.length > 1) {
+            secondPriorityIngredient = sortedExpirationArray[1].getName();
+        }
 
-        //adds a random ingredient to the search query
-        //TODO: decide on changing from random to priority 2 ingredient later
-        priorityIngredientName = priorityIngredientName + " " + randomIngredientName;
+        String priorityIngredientName = firstPriorityIngredient + " " + secondPriorityIngredient;
 
         // Fix: change space to %20 (url)
         priorityIngredientName = priorityIngredientName.replaceAll("\\s", "%20");
@@ -216,20 +218,20 @@ public class RecipeFilter {
         //set creation
         Set<String> negSet = new HashSet<String>();
         negSet.add("chicken");
-        //negSet.add("salmon");
+        negSet.add("salmon");
         negSet.add("beef");
         negSet.add("lamb");
         negSet.add("pork");
-        //negSet.add("cheese");
-        //negSet.add("milk");
-        //negSet.add("cream");
-        //negSet.add("bread");
-        //negSet.add("rice");
-        //negSet.add("bean");
-        //negSet.add("sausage");
-        //negSet.add("noodle");
-        //negSet.add("pasta");
-        //negSet.add("fish");
+        negSet.add("cheese");
+        negSet.add("milk");
+        negSet.add("cream");
+        negSet.add("bread");
+        negSet.add("rice");
+        negSet.add("bean");
+        negSet.add("sausage");
+        negSet.add("noodle");
+        negSet.add("pasta");
+        negSet.add("fish");
 
         Set<String> excludedIngredientSet = new HashSet<String>();
         excludedIngredientSet.addAll(negSet);
@@ -250,5 +252,56 @@ public class RecipeFilter {
 
         return excludedIngredientSet;
     }
+
+    private class IngredientNode {
+        private Ingredient ingredient;
+        private Date date;
+
+        public IngredientNode(Ingredient ingredient, Date date) {
+            this.ingredient = ingredient;
+            this.date = date;
+        }
+
+        public Ingredient getIngredient() {
+            return ingredient;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+    }
+
+    private class sortByExpirationComparator implements Comparator<IngredientNode> {
+        @Override
+        public int compare(IngredientNode i1, IngredientNode i2) {
+            Date i1Date = i1.getDate();
+            Date i2Date = i2.getDate();
+            return i1Date.compareTo(i2Date);
+        }
+    }
+
+    private Ingredient[] sortIngredientsByDate() {
+        Ingredient[] pantryIngredients = this.currentPantry.getIngredients();
+        Date[] expirationDates = this.currentPantry.getExpirations();
+
+        List<IngredientNode> sortIngredientList = new ArrayList<IngredientNode>();
+        for (int i = 0; i < pantryIngredients.length; i++) {
+            IngredientNode ingredientNode = new IngredientNode(pantryIngredients[i], expirationDates[i]);
+            sortIngredientList.add(ingredientNode);
+        }
+
+        Collections.sort(sortIngredientList, new sortByExpirationComparator());
+
+        Ingredient[] sortedArray = new Ingredient[sortIngredientList.size()];
+
+        for (int i = 0; i < sortedArray.length; i++) {
+            Ingredient ing = sortIngredientList.get(i).getIngredient();
+            sortedArray[i] = ing;
+        }
+
+        return sortedArray;
+    }
+
+
 
 }
