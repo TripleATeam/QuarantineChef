@@ -19,7 +19,7 @@ public class databaseAPI {
     private static HashMap<String, IngredientGroup> namesToGroups = null;
     private static HashMap<IngredientGroup, ArrayList<String>> groupsToNames = null;
 
-    public static void init() {
+    private static void init() {
         try {
             File file = new File("ingredients.csv");
             Scanner scan = new Scanner(file);
@@ -54,12 +54,13 @@ public class databaseAPI {
     public static void main(String...args) {
         UserProfile up = new UserProfile(-1, new int[2], new int[2], new int[2]);
         Ingredient[] ingArr = new Ingredient[2];
-        ingArr[0] = getIngredient("swlt");
-        ingArr[1] = getIngredient("pepper");
-        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{0, 1});
+        ingArr[0] = getIngredient("Kool Aid");
+        ingArr[1] = getIngredient("Quince Jelly");
+        Pantry p = new Pantry(ingArr, new String[]{null, "02-01-2020"}, new int[]{0, 1});
         System.out.println(placeInDatabase(up, p));
         Pantry p2 = getPantry(up);
         updateUser(up);
+        System.out.println(p2);
         //System.out.println(Arrays.deepToString(getAllIngredients()));
     }
 
@@ -73,7 +74,9 @@ public class databaseAPI {
 
     // @Julia
     public static boolean placeInDatabase(UserProfile up, Pantry pantry) {
-
+        if (up == null) {
+            return false;
+        }
         UserProfile otherProf = getUserProfile(up.userID);
         if (otherProf == null) {
             // Create it if it doesn't exist
@@ -94,6 +97,9 @@ public class databaseAPI {
     }
 
     private static void createPantry(UserProfile up, Pantry pantry) {
+        if (pantry == null) {
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:Pantry {userID: ");
         sb.append(up.userID);
@@ -150,6 +156,9 @@ public class databaseAPI {
     }
 
     public static void updatePantry(UserProfile up, Pantry pantry) {
+        if (pantry == null || up == null) {
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("MATCH (n:Pantry) WHERE n.userID = ");
         sb.append(up.userID);
