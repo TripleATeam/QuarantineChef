@@ -18,7 +18,10 @@ public class RecipeParser {
     // Fields
     private List<Recipe> recipeList;
 
-    // constructors
+    /**
+     * constructor
+     * @param httpRequest string of exact http request to be sent to edamam api
+     */
     public RecipeParser(String httpRequest) {
         recipeList = new ArrayList<>();
         try {
@@ -29,14 +32,15 @@ public class RecipeParser {
         }
     }
 
-    // default constructor for testing purposes, should not use this
-    // .. probably something like protected i could do instead of public but i forget
+    /**
+     * default constructor for testing purposes, should not be used in general
+     */
     public RecipeParser() {
         recipeList = new ArrayList<>();
     }
+    // .. probably something like protected i could do instead of public but i forget how
 
     /**
-     * gets recipe list
      * @return the list of recipes found by edamam
      */
     public List<Recipe> getRecipeList() {
@@ -66,7 +70,7 @@ public class RecipeParser {
     }
 
     /**
-     * parses the json formatted string and stores found recipes in recipeList
+     * parses the json and stores found recipes in recipeList
      * @param json json formatted string to parse
      */
     private void parseJson(String json) {
