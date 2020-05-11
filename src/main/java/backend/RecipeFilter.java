@@ -97,6 +97,7 @@ public class RecipeFilter {
         }
 
         String finalQuery = query.toString();
+        System.out.println(finalQuery);
         RecipeParser recipeParser = new RecipeParser(finalQuery);
 
         return recipeParser.getRecipeList();
@@ -223,18 +224,23 @@ public class RecipeFilter {
         //negSet.add("pasta");
         //negSet.add("fish");
 
+        Set<String> excludedIngredientSet = new HashSet<String>();
+        excludedIngredientSet.addAll(negSet);
+
+
         Set<String> pantryIngredients = ingredientsToNameSet(this.currentPantry.getIngredients());
 
         for (String topIngredient : negSet) {
             for (String pantryIngredient : pantryIngredients) {
-                //pantryIngredient = pantryIngredient.toLowerCase();
+                pantryIngredient = pantryIngredient.toLowerCase();
+                System.out.println("Comparing " + topIngredient + ":" + pantryIngredient);
                 if (pantryIngredient.contains(topIngredient)) {
-                    negSet.remove(topIngredient);
+                    excludedIngredientSet.remove(topIngredient);
                 }
             }
         }
 
-        return negSet;
+        return excludedIngredientSet;
     }
 
 }
