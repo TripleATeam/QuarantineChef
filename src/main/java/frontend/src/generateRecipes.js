@@ -22,6 +22,13 @@ class RecipeComponent extends Component {
       recipes: recipes,
     });
     event.preventDefault();
+  } 
+
+  async componentDidMount() {    
+    let response = await fetch("http://localhost:4567/get-pantry?userId=0");
+    let pantry = await response.json();
+    console.log(pantry);
+    //return pantry;
   }
 
   handleChange(event) {
@@ -31,13 +38,14 @@ class RecipeComponent extends Component {
   render() {
     return (
       <Container maxWidth="sm">
-        <FormControl fullWidth variant="outlined">
+        {/* <FormControl fullWidth variant="outlined">
           <TextField label="Enter Key Ingredient" value={this.state.value} onChange={this.handleChange} />
-        </FormControl>
+        </FormControl> */}
         <FormControl>
           <Button variant="contained" onClick={this.handleSearch}>
             Search Recipe
           </Button>
+          
         </FormControl>
         <div>
           <GridList cellHeight={160} cols={2}>
