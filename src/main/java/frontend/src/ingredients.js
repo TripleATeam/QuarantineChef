@@ -24,22 +24,18 @@ function enumerate(list) {
 
 export default function CheckboxList(props) {
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([-1]);
+    const [checked, setChecked] = React.useState([]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
 
-        if (currentIndex === -1) {
+        if (!props.pantry.get(props.ingredients[value])) {
             newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        if (props.pantry.get(props.ingredients[value])) {
-            props.pantry.set(props.ingredients[value], false);
-        } else {
             props.pantry.set(props.ingredients[value], true);
+        } else {
+            newChecked.splice(currentIndex);
+            props.pantry.set(props.ingredients[value], false);
         }
 
         setChecked(newChecked);
@@ -48,6 +44,9 @@ export default function CheckboxList(props) {
     return (
         <List className={classes.root}>
             {enumerate(props.ingredients).map((value) => {
+                if (props.pantry.get(props.ingredients[value])) {
+                    checked.push(value);
+                }
                 const labelId = `checkbox-list-label-${value}`;
                 return (
                     <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
