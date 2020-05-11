@@ -20,6 +20,7 @@ public class Pantry {
         this.quantities = quantities;
     }
 
+    // Made comment
     private static String[] DateArrToStringArr(Date[] dates) {
         String[] retArr = new String[dates.length];
         StringBuilder sb;
