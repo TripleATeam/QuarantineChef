@@ -8,9 +8,20 @@ public class UserProfile {
     public int[] health;
     public int[] diet;
 
-    // Precondition: Username, preferences, health, diet != null
-    // Every element in preferences is <=10 and >=0.
-    // Every element in health and diet is either 0 or 1.
+    /**
+     * Returns a UserProfile with the given userID, cuisine preferences,
+     * health restrictions, and diet types, respective to the passed parameters.
+     *
+     * @param userID        an int representing the ID for a user
+     * @param preferences   a non-null array of integers representing
+     *                      the cuisine preferences of the user
+     *                      (Every element is between 0 and 10).
+     * @param health        a non-null array of integers representing
+     *                      the health requirements of the user
+     *                      (0 = not a requirement, 1 = a requirement).
+     * @param diet          a non-null array of integers representing the
+     *                      diets the user is on (0 = not on diet, 1 = on diet).
+     */
     public UserProfile(int userID, int[] preferences, int[] health, int[] diet) {
         this.userID = userID;
         this.preferences = preferences;
@@ -18,6 +29,12 @@ public class UserProfile {
         this.diet = diet;
     }
 
+    /**
+     * Returns a
+     *
+     * @param other     Another object being tested for equality.
+     * @return          a boolean representing if other is equal to this object.
+     */
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof UserProfile)) {
