@@ -4,10 +4,7 @@ import database.Pantry;
 import database.UserProfile;
 import database.databaseAPI;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RecipeFilter {
 
@@ -130,15 +127,21 @@ public class RecipeFilter {
         if (expirationDate.length > 0 && userIngredients.length > 0) {
             Ingredient priorityIngredient = userIngredients[0];
             Date earliestExpirationDate = expirationDate[0];
+            List<Ingredient> sameExpirationDate = new ArrayList<>();
+            sameExpirationDate.add(priorityIngredient);
             for (int i = 1; i < userIngredients.length; i++) {
                 Date ingredientExpirationDate = expirationDate[i];
                 if (earliestExpirationDate.compareTo(ingredientExpirationDate) > 0) {
                     earliestExpirationDate = ingredientExpirationDate;
                     priorityIngredient = userIngredients[i];
+                    sameExpirationDate = new ArrayList<>();
+                    sameExpirationDate.add(priorityIngredient);
+                } else if (earliestExpirationDate.compareTo(ingredientExpirationDate) == 0) {
+                    sameExpirationDate.add(userIngredients[i]);
                 }
             }
-
-            return priorityIngredient;
+            Random random = new Random();
+            return sameExpirationDate.get(random.nextInt(sameExpirationDate.size()));
 
         } else {
             //TODO: empty pantry... throw exception?
@@ -237,9 +240,10 @@ public class RecipeFilter {
         for (String topIngredient : negSet) {
             for (String pantryIngredient : pantryIngredients) {
                 pantryIngredient = pantryIngredient.toLowerCase();
-                System.out.println("Comparing " + topIngredient + ":" + pantryIngredient);
+//                System.out.println("Comparing " + topIngredient + ":" + pantryIngredient);
                 if (pantryIngredient.contains(topIngredient)) {
                     excludedIngredientSet.remove(topIngredient);
+                    break;
                 }
             }
         }
