@@ -186,15 +186,24 @@ ingredients.set('Soups, Broth & Canned Goods',['Beef Broth', 'Canned Beets', 'Ca
                 'Mushroom Soup', 'Onion Soup', 'Pork Stock', 'Tomato Soup', 'Veal Stock',
                 'Vegetable Bouillon', 'Vegetable Soup', 'Vegetable Stock']);
 
-export default function SimpleExpansionPanel() {
+
+
+export default function SimpleExpansionPanel(props) {
     const classes = useStyles();
+
+    for (let i = 0; i < types.length; i++) {
+        for (let j = 0; j < ingredients.get(types[i]).length; j++) {
+            props.pantry.set(ingredients.get(types[i])[j], false);
+            props.expiration.set(ingredients.get(types[i])[j], null);
+        }
+    }
 
     return (
         <div className={classes.root}>
             {enumerate(types).map((value) => {
                 const labelId = `checkbox-list-label-${value}`;
                 return (
-                    <ExpansionPanel>
+                    <ExpansionPanel key={labelId}>
                         <ExpansionPanelSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls={`${labelId}`}
@@ -204,7 +213,9 @@ export default function SimpleExpansionPanel() {
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <CheckboxList type={types[value]}
-                                          ingredients={ingredients.get(types[value])} />
+                                          ingredients={ingredients.get(types[value])}
+                                          pantry={props.pantry}
+                                          expiration={props.expiration}/>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                 );

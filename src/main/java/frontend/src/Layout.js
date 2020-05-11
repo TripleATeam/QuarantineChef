@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 import SimpleExpansionPanel from './pantry';
 import RecipeButton from "./generateRecipes";
@@ -11,11 +12,10 @@ import Logo from "./logo"
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        // backgroundColor: "aliceblue",
-        backgroundImage: `url(https://thepaintpeople.com/wp-content/uploads/2015/09/prepare-bare-wood-staining.jpg)`,
-        backgroundPosition: 'center',
-        backgroundSize: '100%',
-        backgroundRepeat: 'repeat-y',
+        // backgroundImage: `url(https://thepaintpeople.com/wp-content/uploads/2015/09/prepare-bare-wood-staining.jpg)`,
+        // backgroundPosition: 'center',
+        // backgroundSize: '100%',
+        // backgroundRepeat: 'repeat-y',
     },
 
     header: {
@@ -29,17 +29,12 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.secondary,
-        opacity: '85%',
+        // opacity: '85%',
         height: '100%',
-        // backgroundImage: `url(https://thepaintpeople.com/wp-content/uploads/2015/09/prepare-bare-wood-staining.jpg)`,
-        // backgroundPosition: 'center',
-        // backgroundSize: 'cover',
-        // backgroundRepeat: 'no-repeat',
     },
     recipes: {
         padding: theme.spacing(2),
-        opacity: '85%',
-        // textAlign: 'left',
+        // opacity: '85%',
         color: theme.palette.text.secondary,
         height: '100%',
     },
@@ -53,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const pantry = new Map();
+const expiration = new Map();
+
 export default function Layout() {
     const classes = useStyles();
 
@@ -64,15 +62,19 @@ export default function Layout() {
                         <Logo />
                     </Paper>
                 </Grid>
-                <Grid item xs={5} alignItems="stretch">
+                <Grid item xs={5}>
                     <Paper className={classes.pantry}>
                         <h2>Pantry</h2>
-                        <SimpleExpansionPanel />
+                        <Button variant="contained" color="primary" onClick={console.log(pantry, expiration)}>
+                            Update Pantry
+                        </Button>
+                        <SimpleExpansionPanel pantry={pantry}
+                                              expiration={expiration}/>
                     </Paper>
                 </Grid>
                 <Grid item xs={7}>
                     {/*<Paper className={classes.paper}>Filters</Paper>*/}
-                    <Paper className={classes.recipes} alignItems="stretch">
+                    <Paper className={classes.recipes}>
                         <RecipeButton />
                     </Paper>
                 </Grid>
