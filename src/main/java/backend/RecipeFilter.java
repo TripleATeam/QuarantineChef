@@ -8,19 +8,13 @@ import java.util.*;
 
 public class RecipeFilter {
 
-    /**
-     * currentUser represents the current logged in user, optional and can be null
-     */
+    //currentUser represents the current logged in user, optional and can be null
     private UserProfile currentUser;
 
-    /**
-     * currentPantry is the pantry of the user, whether logged in or not
-     */
+    //currentPantry is the pantry of the user, whether logged in or not
     private Pantry currentPantry;
 
-    /**
-     * User specified key ingredient, optional and can be null
-     */
+    //User specified key ingredient, optional and can be null
     private Ingredient keyIngredient;
 
     //Edamam APP ID and KEY for API usage
@@ -28,7 +22,7 @@ public class RecipeFilter {
     private static final String APP_KEY = "4740dac00a0df8a5f23c6f81ad502e26";
 
     /**
-     *
+     *Prepares a recipe filter to get recipes and pick which to display to the user
      * @param currentUser UserProfile for current user, input null if temporary user
      * @param keyIngredient Ingredient object for a key ingredient, input null if none specified
      * @param tempPantry Pantry object, only input a pantry if no user is specified
@@ -43,17 +37,17 @@ public class RecipeFilter {
         setUserPantry();
     }
 
-    /**
-     *Sets the current user's pantry, either retrieving the custom pantry from
-     * the database or retrieving temporary selections from frontend
-     */
-    public void setUserPantry() {
+
+    //Sets the current user's pantry, either retrieving the custom pantry from
+    //the database or retrieving temporary selections from frontend
+    private void setUserPantry() {
         //only attempt getting the custom user pantry if the user is logged in
         if (this.currentUser != null) {
             Pantry userPantry = databaseAPI.getPantry(this.currentUser);
             this.currentPantry = userPantry;
         }
     }
+
 
     /**
      * Gets recipes to display
@@ -76,6 +70,7 @@ public class RecipeFilter {
         //Example: "https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
         StringBuilder query = new StringBuilder("https://api.edamam.com/search?q=");
 
+        //sorts ingredients into an array by date
         Ingredient[] sortedExpirationArray = sortIngredientsByDate();
         String firstPriorityIngredient = sortedExpirationArray[0].getName();
         String secondPriorityIngredient = "";
@@ -89,10 +84,10 @@ public class RecipeFilter {
         priorityIngredientName = priorityIngredientName.replaceAll("\\s", "%20");
         query.append(priorityIngredientName);
 
-
         String IDandKEY = "&app_id=" + APP_ID + "&app_key=" + APP_KEY;
         query.append(IDandKEY);
 
+        //excludes the top 15 ingredients based on user pantry
         Set<String> excludedIngredientNames = excludeTop15Ingredients();
         for (String exlcudedIngredientName : excludedIngredientNames) {
             String exclusionParameter = "&excluded=" + exlcudedIngredientName;
@@ -106,11 +101,13 @@ public class RecipeFilter {
         return recipeParser.getRecipeList();
     }
 
+
     //Chooses which recipes to display to the user
     private List<Recipe> filterRecipes(List<Recipe> unfilteredRecipes) {
         //method returns 10 randomly selected recipes for the beta
         return unfilteredRecipes;
     }
+
 
     //TODO: what to do if no ingredients have an expiration date?
     public Ingredient getPriorityIngredient() {
@@ -200,6 +197,7 @@ public class RecipeFilter {
         return allIngredients;
     }
 
+    //gets a random ingredient from the pantry
     private String getRandomIngredientNameFromPantry() {
         if (this.currentPantry != null) {
             Ingredient[] pantryIngredients = this.currentPantry.getIngredients();
@@ -214,6 +212,7 @@ public class RecipeFilter {
         }
     }
 
+    //returns a set of ingredients to be excluded from the query to the edamam API
     public Set<String> excludeTop15Ingredients() {
 
         //set creation
@@ -243,7 +242,6 @@ public class RecipeFilter {
         for (String topIngredient : negSet) {
             for (String pantryIngredient : pantryIngredients) {
                 pantryIngredient = pantryIngredient.toLowerCase();
-//                System.out.println("Comparing " + topIngredient + ":" + pantryIngredient);
                 if (pantryIngredient.contains(topIngredient)) {
                     excludedIngredientSet.remove(topIngredient);
                     break;
@@ -254,6 +252,7 @@ public class RecipeFilter {
         return excludedIngredientSet;
     }
 
+    //Ingredient node for sorting purposes
     private class IngredientNode {
         private Ingredient ingredient;
         private Date date;
@@ -272,6 +271,7 @@ public class RecipeFilter {
         }
     }
 
+    //Comparator for sorting ingredients by date
     private class sortByExpirationComparator implements Comparator<IngredientNode> {
         @Override
         public int compare(IngredientNode i1, IngredientNode i2) {
@@ -281,6 +281,8 @@ public class RecipeFilter {
         }
     }
 
+
+    //Returns a sorted array of ingredients by date, where the earliest expiration date is first
     private Ingredient[] sortIngredientsByDate() {
         Ingredient[] pantryIngredients = this.currentPantry.getIngredients();
         Date[] expirationDates = this.currentPantry.getExpirations();
