@@ -76,19 +76,25 @@ public class RecipeFilter {
         StringBuilder query = new StringBuilder("https://api.edamam.com/search?q=");
 
         String priorityIngredientName = getPriorityIngredient().getName();
+        String randomIngredientName = getRandomIngredientNameFromPantry();
+
+        //adds a random ingredient to the search query
+        //TODO: decide on changing from random to priority 2 ingredient later
+        priorityIngredientName = priorityIngredientName + " " + randomIngredientName;
+
         // Fix: change space to %20 (url)
         priorityIngredientName = priorityIngredientName.replaceAll("\\s", "%20");
         query.append(priorityIngredientName);
 
+
         String IDandKEY = "&app_id=" + APP_ID + "&app_key=" + APP_KEY;
         query.append(IDandKEY);
 
-        // TODO: below does not work
-        /*Set<String> excludedIngredientNames = negatePantryIngredients();
+        Set<String> excludedIngredientNames = excludeTop15Ingredients();
         for (String exlcudedIngredientName : excludedIngredientNames) {
             String exclusionParameter = "&excluded=" + exlcudedIngredientName;
             query.append(exclusionParameter);
-        }*/
+        }
 
         String finalQuery = query.toString();
         RecipeParser recipeParser = new RecipeParser(finalQuery);
@@ -181,6 +187,53 @@ public class RecipeFilter {
     private Ingredient[] getAllIngredients() {
         Ingredient[] allIngredients = databaseAPI.getAllIngredients();
         return allIngredients;
+    }
+
+    private String getRandomIngredientNameFromPantry() {
+        if (this.currentPantry != null) {
+            Ingredient[] pantryIngredients = this.currentPantry.getIngredients();
+            if (pantryIngredients.length > 0) {
+                int randomIndex = (int) (Math.random() * pantryIngredients.length);
+                return pantryIngredients[randomIndex].getName();
+            } else {
+                return "";
+            }
+        } else {
+            return "";
+        }
+    }
+
+    private Set<String> excludeTop15Ingredients() {
+
+        //set creation
+        Set<String> negSet = new HashSet<String>();
+        negSet.add("chicken");
+        negSet.add("salmon");
+        negSet.add("beef");
+        negSet.add("lamb");
+        negSet.add("pork");
+        negSet.add("cheese");
+        negSet.add("milk");
+        negSet.add("cream");
+        negSet.add("bread");
+        negSet.add("rice");
+        negSet.add("bean");
+        negSet.add("sausage");
+        negSet.add("noodle");
+        negSet.add("pasta");
+        negSet.add("fish");
+
+        Set<String> pantryIngredients = ingredientsToNameSet(this.currentPantry.getIngredients());
+
+        for (String topIngredient : negSet) {
+            for (String pantryIngredient : pantryIngredients) {
+                if (pantryIngredient.contains(topIngredient)) {
+                    negSet.remove(topIngredient);
+                }
+            }
+        }
+
+        return negSet;
     }
 
 }
