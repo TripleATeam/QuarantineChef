@@ -2,9 +2,11 @@ package database;
 
 import org.neo4j.driver.v1.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import static org.neo4j.driver.v1.Values.parameters;
 
@@ -13,12 +15,46 @@ public class databaseAPI {
     private static final int DIET_SIZE = 2;
     private static final int HEALTH_SIZE = 2;
 
+    private static boolean initialized = false;
+
     private static Ingredient[] allIngredients = null;
     private static HashMap<String, IngredientGroup> namesToGroups = null;
-    private static HashMap<IngredientGroup, String[]> groupsToNames = null;
+    private static HashMap<IngredientGroup, ArrayList<String>> groupsToNames = null;
 
-    public static void main(String...args) {
-        UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
+    private static void init() {
+        try {
+            File file = new File("ingredients.csv");
+            Scanner scan = new Scanner(file);
+            scan.nextLine();
+            namesToGroups = new HashMap<>();
+            groupsToNames = new HashMap<>();
+            ArrayList<Ingredient> allIng = new ArrayList<>();
+            while (scan.hasNextLine()) {
+                String line = scan.nextLine();
+                String group = line.substring(0, line.indexOf(","));
+                String name = line.substring(line.indexOf(",") + 1);
+
+                IngredientGroup ingGroup = findIngredientGroupByName(group);
+                allIng.add(new Ingredient(name, ingGroup));
+                namesToGroups.put(name, ingGroup);
+                ArrayList<String> strList = groupsToNames.get(ingGroup);
+                if (strList == null) {
+                    strList = new ArrayList<>();
+                }
+                strList.add(name);
+                groupsToNames.put(ingGroup, strList);
+            }
+            allIngredients = new Ingredient[allIng.size()];
+            for (int i = 0; i < allIng.size(); i++) {
+                allIngredients[i] = allIng.get(i);
+            }
+        } catch (FileNotFoundException e) {
+        }
+
+    }
+
+    public static void main(String[] args) {
+        UserProfile up = new UserProfile(-1, new int[2], new int[2], new int[2]);
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("Beef Steak");
         ingArr[1] = getIngredient("Chicken Breast");
@@ -26,9 +62,11 @@ public class databaseAPI {
         System.out.println(placeInDatabase(up, p));
         Pantry p2 = getPantry(up);
         updateUser(up);
+        System.out.println(p2);
+//        System.exit(0);
+        //System.out.println(Arrays.deepToString(getAllIngredients()));
     }
 
-    // @Julia/Alek
     public void removeFromDatabase(UserProfile up) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + up.userID + " DETACH DELETE n";
         doQuery(cypherQuery);
@@ -36,9 +74,10 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
-    // @Julia
     public static boolean placeInDatabase(UserProfile up, Pantry pantry) {
-
+        if (up == null) {
+            return false;
+        }
         UserProfile otherProf = getUserProfile(up.userID);
         if (otherProf == null) {
             // Create it if it doesn't exist
@@ -59,6 +98,9 @@ public class databaseAPI {
     }
 
     private static void createPantry(UserProfile up, Pantry pantry) {
+        if (pantry == null) {
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:Pantry {userID: ");
         sb.append(up.userID);
@@ -71,11 +113,11 @@ public class databaseAPI {
             sb.append(pantry.getIngredients()[i].getName());
         }
         sb.append("\"], expirations: [\"");
-        /*sb.append(pantry.getExpirations()[0]);
-        for (int i = 1; i < pantry.getExpirations().length; i++) {
+        sb.append(pantry.getExpirationsAsStrings()[0]);
+        for (int i = 1; i < pantry.getExpirationsAsStrings().length; i++) {
             sb.append( "\", \"");
-            sb.append(pantry.getExpirations()[i]);
-        }*/
+            sb.append(pantry.getExpirationsAsStrings()[i]);
+        }
         sb.append("\"], quantities: [");
         sb.append(pantry.getQuantities()[0]);
         for (int i = 1; i < pantry.getQuantities().length; i++) {
@@ -115,6 +157,9 @@ public class databaseAPI {
     }
 
     public static void updatePantry(UserProfile up, Pantry pantry) {
+        if (pantry == null || up == null) {
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("MATCH (n:Pantry) WHERE n.userID = ");
         sb.append(up.userID);
@@ -127,10 +172,10 @@ public class databaseAPI {
             sb.append(pantry.getIngredients()[i].getName());
         }
         sb.append("\"], n.expirations = [\"");
-        sb.append(pantry.getExpirations()[0]);
-        for (int i = 1; i < pantry.getExpirations().length; i++) {
+        sb.append(pantry.getExpirationsAsStrings()[0]);
+        for (int i = 1; i < pantry.getExpirationsAsStrings().length; i++) {
             sb.append( "\", \"");
-            sb.append(pantry.getExpirations()[i]);
+            sb.append(pantry.getExpirationsAsStrings()[i]);
         }
         sb.append("\"], n.quantities = [");
         sb.append(pantry.getQuantities()[0]);
@@ -143,7 +188,6 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
-    // @Alek
     public static void updateUser(UserProfile up) {
         if (up.preferences.length < 1) {
             return;
@@ -209,7 +253,6 @@ public class databaseAPI {
         return ret;
     }
 
-    // @Alek
     public static Pantry getPantry(UserProfile up) {
         Pantry ret = null;
         String cypherQuery = "MATCH (a:User),(b:Pantry) WHERE a.userID = " +
@@ -243,29 +286,71 @@ public class databaseAPI {
     }
 
     public static Ingredient getIngredient(String ingName) {
+        if (!initialized) {
+            init();
+        }
         return new Ingredient(ingName, getIngredientGroup(ingName));
     }
 
-    // TODO: allIngredients is always null
     public static Ingredient[] getAllIngredients() {
+        if (!initialized) {
+            init();
+        }
         return allIngredients.clone();
     }
 
     private static IngredientGroup getIngredientGroup(String ing) {
-        // TODO: Use the hashmap
-        return IngredientGroup.ETC;
+        if (!initialized) {
+            init();
+        }
+        return namesToGroups.get(ing);
     }
 
     // @Julia
     public static Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
-        // TODO: Use the hashmap
-        ArrayList<Ingredient> retlist = new ArrayList<>();
-        for (Ingredient i : getAllIngredients()) {
-            if (i.getGroup() == ingGroup) {
-                retlist.add(i);
-            }
+        if (!initialized) {
+            init();
         }
-        return (Ingredient[]) retlist.toArray();
+        ArrayList<String> list = groupsToNames.get(ingGroup);
+        Ingredient[] retlist = new Ingredient[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            retlist[i] = new Ingredient(list.get(i), ingGroup);
+        }
+        return retlist;
+    }
+
+    public static IngredientGroup findIngredientGroupByName(String ingredientGroupName) {
+        if (ingredientGroupName.toUpperCase().equals("POULTRY")) {
+            return IngredientGroup.POULTRY;
+        } else if (ingredientGroupName.toUpperCase().equals("SEAFOOD")) {
+            return IngredientGroup.SEAFOOD;
+        } else if (ingredientGroupName.toUpperCase().equals("MEAT")) {
+            return IngredientGroup.MEAT;
+        } else if (ingredientGroupName.toUpperCase().equals("VEGETABLES")) {
+            return IngredientGroup.VEGETABLES;
+        } else if (ingredientGroupName.toUpperCase().equals("FRUIT")) {
+            return IngredientGroup.FRUIT;
+        } else if (ingredientGroupName.toUpperCase().equals("DAIRY")) {
+            return IngredientGroup.DAIRY;
+        } else if (ingredientGroupName.toUpperCase().equals("GRAINS")) {
+            return IngredientGroup.GRAINS;
+        } else if (ingredientGroupName.toUpperCase().equals("SPICES")) {
+            return IngredientGroup.SPICES;
+        } else if (ingredientGroupName.toUpperCase().equals("CONDIMENTS")) {
+            return IngredientGroup.CONDIMENTS;
+        } else if (ingredientGroupName.toUpperCase().equals("SWEETENERS")) {
+            return IngredientGroup.SWEETENERS;
+        } else if (ingredientGroupName.toUpperCase().equals("NUTS")) {
+            return IngredientGroup.NUTS;
+        } else if (ingredientGroupName.toUpperCase().equals("BEVERAGES")) {
+            return IngredientGroup.BEVERAGES;
+        } else if (ingredientGroupName.toUpperCase().equals("BAKING")) {
+            return IngredientGroup.BAKING;
+        } else if (ingredientGroupName.toUpperCase().equals("SOUPS")) {
+            return IngredientGroup.SOUPS;
+        } else {
+            return IngredientGroup.ETC;
+        }
     }
 
     // Returns the result of a Cypher query being passed into the database.
