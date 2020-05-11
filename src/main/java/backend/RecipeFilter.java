@@ -127,7 +127,7 @@ public class RecipeFilter {
             Date earliestExpirationDate = expirationDate[0];
             for (int i = 1; i < userIngredients.length; i++) {
                 Date ingredientExpirationDate = expirationDate[i];
-                if (earliestExpirationDate.compareTo(ingredientExpirationDate) < 0) {
+                if (earliestExpirationDate.compareTo(ingredientExpirationDate) > 0) {
                     earliestExpirationDate = ingredientExpirationDate;
                     priorityIngredient = userIngredients[i];
                 }
@@ -208,25 +208,26 @@ public class RecipeFilter {
         //set creation
         Set<String> negSet = new HashSet<String>();
         negSet.add("chicken");
-        negSet.add("salmon");
+        //negSet.add("salmon");
         negSet.add("beef");
         negSet.add("lamb");
         negSet.add("pork");
-        negSet.add("cheese");
-        negSet.add("milk");
-        negSet.add("cream");
-        negSet.add("bread");
-        negSet.add("rice");
-        negSet.add("bean");
-        negSet.add("sausage");
-        negSet.add("noodle");
-        negSet.add("pasta");
-        negSet.add("fish");
+        //negSet.add("cheese");
+        //negSet.add("milk");
+        //negSet.add("cream");
+        //negSet.add("bread");
+        //negSet.add("rice");
+        //negSet.add("bean");
+        //negSet.add("sausage");
+        //negSet.add("noodle");
+        //negSet.add("pasta");
+        //negSet.add("fish");
 
         Set<String> pantryIngredients = ingredientsToNameSet(this.currentPantry.getIngredients());
 
         for (String topIngredient : negSet) {
             for (String pantryIngredient : pantryIngredients) {
+                //pantryIngredient = pantryIngredient.toLowerCase();
                 if (pantryIngredient.contains(topIngredient)) {
                     negSet.remove(topIngredient);
                 }

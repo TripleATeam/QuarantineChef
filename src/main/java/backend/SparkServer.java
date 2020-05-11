@@ -52,14 +52,18 @@ public class SparkServer {
             return gson.toJson(pantry);
         });
 
-        // TODO: change to POST method
-        get("/create-user", (req, res) -> {
+        post("/save-pantry",  (req, res) -> {
+            String body = req.body();
+            Gson gson = new Gson();
+            PantryView pantryView = gson.fromJson(body, PantryView.class);
             UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
-            Ingredient[] ingArr = new Ingredient[2];
-            ingArr[0] = new Ingredient("salt", IngredientGroup.ETC);
-            ingArr[1] = new Ingredient("pepper", IngredientGroup.ETC);
-            Pantry p = new Pantry(ingArr, new String[]{"01-01-2020", "02-01-2020", "03-01-2020"}, new int[]{0, 1, 2});
-            databaseAPI.placeInDatabase(up, p);
+            
+            Ingredient[] ingArr = new Ingredient[pantryView.ingredients.length];
+            for (int i = 0; i < pantryView.ingredients.length; i++) {
+                ingArr[i] = databaseAPI.getIngredient(pantryView.ingredients[i]);
+            }
+            Pantry p = new Pantry(ingArr, pantryView.expirations, pantryView.quantities);
+            databaseAPI.updatePantry(up, p);
             return "OK";
         });
     }
@@ -85,13 +89,19 @@ public class SparkServer {
 
     private static class RecipeView {
         public String Name;
-        public String Url = "https://cafedelites.com/easy-honey-garlic-chicken/";
-        public String Img = "https://app.slickstream.com/p/pageimg/JA1YSFU7/478";
+        public String Url;
+        public String Img;
 
         public RecipeView(String name, String url, String img) {
             Name = name;
             Url = url;
             Img = img;
         }
+    }
+
+    private class PantryView {
+        public String[] ingredients;
+        public String[] expirations;
+        public int[] quantities;
     }
 }

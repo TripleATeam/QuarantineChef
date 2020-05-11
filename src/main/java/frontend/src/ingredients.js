@@ -36,6 +36,12 @@ export default function CheckboxList(props) {
             newChecked.splice(currentIndex, 1);
         }
 
+        if (props.pantry.get(props.ingredients[value])) {
+            props.pantry.set(props.ingredients[value], false);
+        } else {
+            props.pantry.set(props.ingredients[value], true);
+        }
+
         setChecked(newChecked);
     };
 
@@ -56,7 +62,8 @@ export default function CheckboxList(props) {
                         </ListItemIcon>
                         <ListItemText id={labelId} primary={props.ingredients[value]} />
                         <ListItemSecondaryAction>
-                            <MaterialUIPickers ingredient={props.ingredients[value]}/>
+                            <MaterialUIPickers ingredient={props.ingredients[value]}
+                                               expiration={props.expiration}/>
                         </ListItemSecondaryAction>
                     </ListItem>
                 );

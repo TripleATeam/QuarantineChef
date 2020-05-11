@@ -59,7 +59,7 @@ public class Pantry {
 
         int day = Integer.parseInt(date.substring(0, firstDash));
         int month = Integer.parseInt(date.substring(firstDash + 1, secondDash));
-        int year = Integer.parseInt(date.substring(secondDash + 1));
+        int year = Integer.parseInt(date.substring(secondDash + 1)) - 1900;
         return new Date(year, month - 1, day);
     }
 
