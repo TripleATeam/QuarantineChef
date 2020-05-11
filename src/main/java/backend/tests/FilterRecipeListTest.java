@@ -90,4 +90,38 @@ class FilterRecipeListTest {
             System.out.println(i.getLabel());
         }
     }
+
+    // 200 too large for string probably
+    @Test
+    void testPork100SufficientFilter() {
+        // set up test pantry
+        Ingredient[] ingredients = new Ingredient[9];
+        ingredients[0] = new Ingredient("pork", IngredientGroup.ETC);
+        ingredients[1] = new Ingredient("pepper", IngredientGroup.ETC);
+        ingredients[2] = new Ingredient("thyme", IngredientGroup.ETC);
+        ingredients[3] = new Ingredient("olive oil", IngredientGroup.ETC);
+        ingredients[4] = new Ingredient("onion", IngredientGroup.ETC);
+        ingredients[5] = new Ingredient("pasta", IngredientGroup.ETC);
+        ingredients[6] = new Ingredient("garlic", IngredientGroup.ETC);
+        ingredients[7] = new Ingredient("wine", IngredientGroup.ETC);
+        ingredients[8] = new Ingredient("bacon", IngredientGroup.ETC);
+
+        String[] expiration = new String[9];
+        int[] quantities = new int[9];
+        Pantry pantry = new Pantry(ingredients, expiration, quantities);
+
+        String httpRequest =
+                "https://api.edamam.com/search?q=pork&app_id=56d7887a&app_key=4740dac00a0df8a5f23c6f81ad502e26&to=100";
+        RecipeParser rp = new RecipeParser(httpRequest);
+        List<Recipe> recipeList = rp.getRecipeList();
+
+        FilterRecipeList filterRecipeList = new FilterRecipeList(recipeList, pantry);
+        List<Recipe> resultList = filterRecipeList.pantrySufficientFilter();
+
+        System.out.println("Expected: Unknown, filtering 100 recipes");
+        System.out.println("Actual:");
+        for (Recipe i : resultList) {
+            System.out.println(i.getLabel());
+        }
+    }
 }
