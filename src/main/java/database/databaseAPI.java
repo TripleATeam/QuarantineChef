@@ -160,6 +160,12 @@ public class databaseAPI {
         if (pantry == null || up == null) {
             return;
         }
+        if (pantry.getIngredients.length == 0) {
+            String cypherQuery = "MATCH (n:Pantry) WHERE n.userID = "\
+                + up.userID + " SET n.numIngredients = 0, n.ingredients = [], n.expirations = [], n.quantities = []";
+            doQuery(cypherQuery);
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("MATCH (n:Pantry) WHERE n.userID = ");
         sb.append(up.userID);
