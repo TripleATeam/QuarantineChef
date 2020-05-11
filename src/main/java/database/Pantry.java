@@ -51,6 +51,10 @@ public class Pantry {
 
     private static Date stringToDate(String date) {
         int firstDash = date.indexOf("-");
+        // Fix to parse date in format Tue Jun 01 00:00:00 PDT 3920
+        if (firstDash == -1) {
+            return new Date(date);
+        }
         int secondDash = date.indexOf("-", firstDash + 1);
 
         int day = Integer.parseInt(date.substring(0, firstDash));

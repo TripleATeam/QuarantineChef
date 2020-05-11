@@ -20,9 +20,9 @@ public class databaseAPI {
     public static void main(String...args) {
         UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
         Ingredient[] ingArr = new Ingredient[2];
-        ingArr[0] = getIngredient("swlt");
-        ingArr[1] = getIngredient("pepper");
-        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{0, 1});
+        ingArr[0] = getIngredient("Beef Steak");
+        ingArr[1] = getIngredient("Chicken Breast");
+        Pantry p = new Pantry(ingArr, new String[]{"03-06-2020", "02-01-2020"}, new int[]{1, 1});
         System.out.println(placeInDatabase(up, p));
         Pantry p2 = getPantry(up);
         updateUser(up);
