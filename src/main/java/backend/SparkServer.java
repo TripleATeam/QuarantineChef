@@ -20,7 +20,7 @@ public class SparkServer {
             String keyIngredient = req.queryParams("key-ingredient");
             List<RecipeView> recipes = new ArrayList<>();
 
-            int userID = -1 //should be received from frontend
+            int userID = -1; //should be received from frontend
 
             //create a userKeyIngredient, with unknown ingredient group
             Ingredient userKeyIngredient = new Ingredient(keyIngredient, null);

@@ -3,6 +3,7 @@ import java.util.*;
 import database.Ingredient;
 import database.UserProfile;
 import database.Pantry;
+import database.databaseAPI;
 
 public class RecipeFilter {
 
@@ -21,6 +22,7 @@ public class RecipeFilter {
      */
     private Ingredient keyIngredient;
 
+    //Edamam APP ID and KEY for API usage
     private static final String APP_ID = "56d7887a";
     private static final String APP_KEY = "4740dac00a0df8a5f23c6f81ad502e26";
 
