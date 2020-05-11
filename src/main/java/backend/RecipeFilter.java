@@ -1,9 +1,13 @@
 package backend;
-import java.util.*;
 import database.Ingredient;
-import database.UserProfile;
 import database.Pantry;
+import database.UserProfile;
 import database.databaseAPI;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class RecipeFilter {
 
@@ -204,7 +208,7 @@ public class RecipeFilter {
         }
     }
 
-    private Set<String> excludeTop15Ingredients() {
+    public Set<String> excludeTop15Ingredients() {
 
         //set creation
         Set<String> negSet = new HashSet<String>();
