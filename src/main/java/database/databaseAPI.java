@@ -20,9 +20,9 @@ public class databaseAPI {
     public static void main(String...args) {
         UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
         Ingredient[] ingArr = new Ingredient[2];
-        ingArr[0] = getIngredient("swlt");
-        ingArr[1] = getIngredient("pepper");
-        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{0, 1});
+        ingArr[0] = getIngredient("Beef Steak");
+        ingArr[1] = getIngredient("Chicken Breast");
+        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{1, 1});
         System.out.println(placeInDatabase(up, p));
         Pantry p2 = getPantry(up);
         updateUser(up);
@@ -71,11 +71,11 @@ public class databaseAPI {
             sb.append(pantry.getIngredients()[i].getName());
         }
         sb.append("\"], expirations: [\"");
-        sb.append(pantry.getExpirations()[0]);
+        /*sb.append(pantry.getExpirations()[0]);
         for (int i = 1; i < pantry.getExpirations().length; i++) {
             sb.append( "\", \"");
             sb.append(pantry.getExpirations()[i]);
-        }
+        }*/
         sb.append("\"], quantities: [");
         sb.append(pantry.getQuantities()[0]);
         for (int i = 1; i < pantry.getQuantities().length; i++) {
@@ -246,6 +246,7 @@ public class databaseAPI {
         return new Ingredient(ingName, getIngredientGroup(ingName));
     }
 
+    // TODO: allIngredients is always null
     public static Ingredient[] getAllIngredients() {
         return allIngredients.clone();
     }
