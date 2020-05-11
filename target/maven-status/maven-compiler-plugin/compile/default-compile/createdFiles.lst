@@ -1,0 +1,5 @@
+database\Pantry.class
+database\UserProfile.class
+database\IngredientGroup.class
+database\Ingredient.class
+database\databaseAPI.class
