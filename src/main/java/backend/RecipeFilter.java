@@ -111,7 +111,7 @@ public class RecipeFilter {
     }
 
     //TODO: what to do if no ingredients have an expiration date?
-    private Ingredient getPriorityIngredient() {
+    public Ingredient getPriorityIngredient() {
         if (this.keyIngredient != null) {
             return this.keyIngredient;
         }

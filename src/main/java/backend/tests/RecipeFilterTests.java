@@ -8,6 +8,7 @@ import database.Pantry;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Set;
 
 public class RecipeFilterTests {
@@ -30,6 +31,28 @@ public class RecipeFilterTests {
     @Test
     public void testGetAllIngredients() {
 
+    }
+
+    @Test
+    public void testGetPriorityIngredient() {
+        // set up test pantry
+        Ingredient[] ingredients = new Ingredient[5];
+        ingredients[0] = new Ingredient("aaa", IngredientGroup.ETC);
+        ingredients[1] = new Ingredient("1of3", IngredientGroup.ETC);
+        ingredients[2] = new Ingredient("2of3", IngredientGroup.ETC);
+        ingredients[3] = new Ingredient("ddd", IngredientGroup.ETC);
+        ingredients[4] = new Ingredient("3of3", IngredientGroup.ETC);
+        Date[] expiration = new Date[5];
+        expiration[0] = new Date(3,3,3);
+        expiration[1] = new Date(1,1,1);
+        expiration[2] = new Date(1,1,1);
+        expiration[3] = new Date(2,2,2);
+        expiration[4] = new Date(1,1,1);
+        int[] quantities = new int[5];
+        Pantry pantry = new Pantry(ingredients, expiration, quantities);
+        RecipeFilter rf = new RecipeFilter(null, null, pantry);
+        Ingredient chosenKeyIngredient = rf.getPriorityIngredient();
+        System.out.println(chosenKeyIngredient.getName());
     }
 
     @Test
@@ -58,7 +81,7 @@ public class RecipeFilterTests {
         Ingredient[] ingredients = new Ingredient[5];
         ingredients[0] = new Ingredient("chicken breast", IngredientGroup.ETC);
         ingredients[1] = new Ingredient("beef", IngredientGroup.ETC);
-        ingredients[2] = new Ingredient("ccc", IngredientGroup.ETC);
+        ingredients[2] = new Ingredient("chicken 2", IngredientGroup.ETC);
         ingredients[3] = new Ingredient("ddd", IngredientGroup.ETC);
         ingredients[4] = new Ingredient("eee", IngredientGroup.ETC);
         String[] expiration = new String[5];
