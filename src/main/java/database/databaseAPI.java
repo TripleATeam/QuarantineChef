@@ -246,6 +246,7 @@ public class databaseAPI {
         return new Ingredient(ingName, getIngredientGroup(ingName));
     }
 
+    // TODO: allIngredients is always null
     public static Ingredient[] getAllIngredients() {
         return allIngredients.clone();
     }
