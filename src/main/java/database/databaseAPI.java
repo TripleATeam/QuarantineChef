@@ -22,7 +22,7 @@ public class databaseAPI {
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("Beef Steak");
         ingArr[1] = getIngredient("Chicken Breast");
-        Pantry p = new Pantry(ingArr, new String[]{"03-06-2020", "02-01-2020"}, new int[]{1, 1});
+        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{1, 1});
         System.out.println(placeInDatabase(up, p));
         Pantry p2 = getPantry(up);
         updateUser(up);
@@ -71,11 +71,11 @@ public class databaseAPI {
             sb.append(pantry.getIngredients()[i].getName());
         }
         sb.append("\"], expirations: [\"");
-        sb.append(pantry.getExpirations()[0]);
+        /*sb.append(pantry.getExpirations()[0]);
         for (int i = 1; i < pantry.getExpirations().length; i++) {
             sb.append( "\", \"");
             sb.append(pantry.getExpirations()[i]);
-        }
+        }*/
         sb.append("\"], quantities: [");
         sb.append(pantry.getQuantities()[0]);
         for (int i = 1; i < pantry.getQuantities().length; i++) {
