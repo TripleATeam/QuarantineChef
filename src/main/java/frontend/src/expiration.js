@@ -5,12 +5,11 @@ import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardDatePicker,} from '@material-ui/pickers';
 
 export default function MaterialUIPickers(props) {
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const [selectedDate, setSelectedDate] = React.useState(props.expiration.get(props.ingredient));
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
         props.expiration.set(props.ingredient, date);
-        console.log(date);
     };
 
     return (
