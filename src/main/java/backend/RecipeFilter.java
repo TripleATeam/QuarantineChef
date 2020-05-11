@@ -275,6 +275,15 @@ public class RecipeFilter {
     private class sortByExpirationComparator implements Comparator<IngredientNode> {
         @Override
         public int compare(IngredientNode i1, IngredientNode i2) {
+            // null will be considered far future
+            if (i1.getDate() == null && i2.getDate() == null) {
+                return 0;
+            } else if (i1.getDate() == null) {
+                return -1;
+            } else if (i2.getDate() == null) {
+                return 1;
+            }
+
             Date i1Date = i1.getDate();
             Date i2Date = i2.getDate();
             return i1Date.compareTo(i2Date);
