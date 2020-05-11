@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="QuarantineChef" target="1.5" />
+      <module name="QuarantineChef" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import SimpleExpansionPanel from './pantry';
-import RecipeButton from "./generateRecipes";
+import RecipeComponent from "./generateRecipes";
 import Logo from "./logo"
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +73,7 @@ export default function Layout() {
                 <Grid item xs={7}>
                     {/*<Paper className={classes.paper}>Filters</Paper>*/}
                     <Paper className={classes.recipes} alignItems="stretch">
-                        <RecipeButton />
+                        <RecipeComponent />
                     </Paper>
                 </Grid>
                 <Grid item xs={12}> </Grid>

@@ -76,16 +76,19 @@ public class RecipeFilter {
         StringBuilder query = new StringBuilder("https://api.edamam.com/search?q=");
 
         String priorityIngredientName = getPriorityIngredient().getName();
+        // Fix: change space to %20 (url)
+        priorityIngredientName = priorityIngredientName.replaceAll("\\s", "%20");
         query.append(priorityIngredientName);
 
-        String IDandKEY = "&app_id=${" + APP_ID + "&app_key=${" + APP_KEY + "}";
+        String IDandKEY = "&app_id=" + APP_ID + "&app_key=" + APP_KEY;
         query.append(IDandKEY);
 
-        Set<String> excludedIngredientNames = negatePantryIngredients();
+        // TODO: below does not work
+        /*Set<String> excludedIngredientNames = negatePantryIngredients();
         for (String exlcudedIngredientName : excludedIngredientNames) {
             String exclusionParameter = "&excluded=" + exlcudedIngredientName;
             query.append(exclusionParameter);
-        }
+        }*/
 
         String finalQuery = query.toString();
         RecipeParser recipeParser = new RecipeParser(finalQuery);

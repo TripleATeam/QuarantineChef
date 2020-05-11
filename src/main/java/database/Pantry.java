@@ -20,6 +20,7 @@ public class Pantry {
         this.quantities = quantities;
     }
 
+    // Made comment
     private static String[] DateArrToStringArr(Date[] dates) {
         String[] retArr = new String[dates.length];
         StringBuilder sb;
@@ -50,13 +51,16 @@ public class Pantry {
 
     private static Date stringToDate(String date) {
         int firstDash = date.indexOf("-");
+        // Fix to parse date in format Tue Jun 01 00:00:00 PDT 3920
+        if (firstDash == -1) {
+            return new Date(date);
+        }
         int secondDash = date.indexOf("-", firstDash + 1);
 
         int day = Integer.parseInt(date.substring(0, firstDash));
         int month = Integer.parseInt(date.substring(firstDash + 1, secondDash));
         int year = Integer.parseInt(date.substring(secondDash + 1));
-        System.out.println(day + " " + month + " " + year);
-        return null;
+        return new Date(year, month - 1, day);
     }
 
     public int[] getQuantities() {

@@ -13,7 +13,7 @@ public class RecipeParserTests {
     @Test
     public void testChickenFull() {
         String httpRequest =
-                "https://api.edamam.com/search?q=chicken&app_id=56d7887a&app_key=4740dac00a0df8a5f23c6f81ad502e26";
+                "https://api.edamam.com/search?q=Beef%20Stake&app_id=56d7887a&app_key=4740dac00a0df8a5f23c6f81ad502e26";
         RecipeParser rp = new RecipeParser(httpRequest);
         List<Recipe> recipeList = rp.getRecipeList();
         for (Recipe i : recipeList) {
