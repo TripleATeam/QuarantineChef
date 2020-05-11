@@ -299,14 +299,13 @@ public class databaseAPI {
         return allIngredients.clone();
     }
 
-    private static IngredientGroup getIngredientGroup(String ing) {
+    public static IngredientGroup getIngredientGroup(String ingName) {
         if (!initialized) {
             init();
         }
-        return namesToGroups.get(ing);
+        return namesToGroups.get(ingName);
     }
 
-    // @Julia
     public static Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
         if (!initialized) {
             init();
