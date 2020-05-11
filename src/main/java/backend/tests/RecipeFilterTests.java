@@ -1,9 +1,14 @@
 package backend.tests;
 
+import backend.RecipeFilter;
 import backend.RecipeParser;
+import database.Ingredient;
+import database.IngredientGroup;
+import database.Pantry;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Set;
 
 public class RecipeFilterTests {
 
@@ -25,6 +30,46 @@ public class RecipeFilterTests {
     @Test
     public void testGetAllIngredients() {
 
+    }
+
+    @Test
+    public void testExclusionsWithUselessPantry() {
+        // set up test pantry
+        Ingredient[] ingredients = new Ingredient[5];
+        ingredients[0] = new Ingredient("aaa", IngredientGroup.ETC);
+        ingredients[1] = new Ingredient("bbb", IngredientGroup.ETC);
+        ingredients[2] = new Ingredient("ccc", IngredientGroup.ETC);
+        ingredients[3] = new Ingredient("ddd", IngredientGroup.ETC);
+        ingredients[4] = new Ingredient("eee", IngredientGroup.ETC);
+        String[] expiration = new String[5];
+        int[] quantities = new int[5];
+        Pantry pantry = new Pantry(ingredients, expiration, quantities);
+        RecipeFilter rf = new RecipeFilter(null, null, pantry);
+        Set<String> excludeSet = rf.excludeTop15Ingredients();
+        System.out.println("Should show all exclusions");
+        for (String i : excludeSet) {
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    public void testExclusionsWithChickenPantry() {
+        // set up test pantry
+        Ingredient[] ingredients = new Ingredient[5];
+        ingredients[0] = new Ingredient("chicken breast", IngredientGroup.ETC);
+        ingredients[1] = new Ingredient("beef", IngredientGroup.ETC);
+        ingredients[2] = new Ingredient("ccc", IngredientGroup.ETC);
+        ingredients[3] = new Ingredient("ddd", IngredientGroup.ETC);
+        ingredients[4] = new Ingredient("eee", IngredientGroup.ETC);
+        String[] expiration = new String[5];
+        int[] quantities = new int[5];
+        Pantry pantry = new Pantry(ingredients, expiration, quantities);
+        RecipeFilter rf = new RecipeFilter(null, null, pantry);
+        Set<String> excludeSet = rf.excludeTop15Ingredients();
+        System.out.println("Should show all exclusions except chicken and beef");
+        for (String i : excludeSet) {
+            System.out.println(i);
+        }
     }
 
     // too many exclusions and the api cannot handle it...
