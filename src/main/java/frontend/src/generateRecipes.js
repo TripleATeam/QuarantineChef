@@ -24,6 +24,13 @@ class RecipeComponent extends Component {
     event.preventDefault();
   } 
 
+  async componentDidMount() {    
+    let response = await fetch("http://localhost:4567/get-pantry?userId=0");
+    let pantry = await response.json();
+    console.log(pantry);
+    //return pantry;
+  }
+
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
