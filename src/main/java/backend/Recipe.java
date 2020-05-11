@@ -12,7 +12,7 @@ public class Recipe {
     private String imageUrl;
     private String recipeUrl;
 
-    Recipe(String label, List<EdamamIngredient> ingredientList, String imageUrl, String recipeUrl) {
+    public Recipe(String label, List<EdamamIngredient> ingredientList, String imageUrl, String recipeUrl) {
         this.label = label;
         this.ingredientList = ingredientList;
         this.imageUrl = imageUrl;
