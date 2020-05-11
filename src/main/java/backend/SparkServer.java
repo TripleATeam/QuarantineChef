@@ -56,7 +56,7 @@ public class SparkServer {
             Ingredient[] ingArr = new Ingredient[2];
             ingArr[0] = new Ingredient("salt", IngredientGroup.ETC);
             ingArr[1] = new Ingredient("pepper", IngredientGroup.ETC);
-            Pantry p = new Pantry(ingArr, new String[]{"01-01-2020", "02-01-2020", "03-01-2020"}, new long[]{0, 1, 2});
+            Pantry p = new Pantry(ingArr, new String[]{"01-01-2020", "02-01-2020", "03-01-2020"}, new int[]{0, 1, 2});
             databaseAPI.placeInDatabase(up, p);
             return "OK";
         });
