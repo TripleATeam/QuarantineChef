@@ -13,6 +13,8 @@ public class databaseAPI {
     private static final int DIET_SIZE = 2;
     private static final int HEALTH_SIZE = 2;
 
+    private static boolean initialized = false;
+
     private static Ingredient[] allIngredients = null;
     private static HashMap<String, IngredientGroup> namesToGroups = null;
     private static HashMap<IngredientGroup, ArrayList<String>> groupsToNames = null;
@@ -50,16 +52,15 @@ public class databaseAPI {
     }
 
     public static void main(String...args) {
-//        UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
-//        Ingredient[] ingArr = new Ingredient[2];
-//        ingArr[0] = getIngredient("swlt");
-//        ingArr[1] = getIngredient("pepper");
-//        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{0, 1});
-//        System.out.println(placeInDatabase(up, p));
-//        Pantry p2 = getPantry(up);
-//        updateUser(up);
-        init();
-        System.out.println(Arrays.deepToString(allIngredients));
+        UserProfile up = new UserProfile(-1, new int[2], new int[2], new int[2]);
+        Ingredient[] ingArr = new Ingredient[2];
+        ingArr[0] = getIngredient("swlt");
+        ingArr[1] = getIngredient("pepper");
+        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{0, 1});
+        System.out.println(placeInDatabase(up, p));
+        Pantry p2 = getPantry(up);
+        updateUser(up);
+        //System.out.println(Arrays.deepToString(getAllIngredients()));
     }
 
     // @Julia/Alek
@@ -105,10 +106,10 @@ public class databaseAPI {
             sb.append(pantry.getIngredients()[i].getName());
         }
         sb.append("\"], expirations: [\"");
-        sb.append(pantry.getExpirations()[0]);
-        for (int i = 1; i < pantry.getExpirations().length; i++) {
+        sb.append(pantry.getExpirationsAsStrings()[0]);
+        for (int i = 1; i < pantry.getExpirationsAsStrings().length; i++) {
             sb.append( "\", \"");
-            sb.append(pantry.getExpirations()[i]);
+            sb.append(pantry.getExpirationsAsStrings()[i]);
         }
         sb.append("\"], quantities: [");
         sb.append(pantry.getQuantities()[0]);
@@ -161,10 +162,10 @@ public class databaseAPI {
             sb.append(pantry.getIngredients()[i].getName());
         }
         sb.append("\"], n.expirations = [\"");
-        sb.append(pantry.getExpirations()[0]);
-        for (int i = 1; i < pantry.getExpirations().length; i++) {
+        sb.append(pantry.getExpirationsAsStrings()[0]);
+        for (int i = 1; i < pantry.getExpirationsAsStrings().length; i++) {
             sb.append( "\", \"");
-            sb.append(pantry.getExpirations()[i]);
+            sb.append(pantry.getExpirationsAsStrings()[i]);
         }
         sb.append("\"], n.quantities = [");
         sb.append(pantry.getQuantities()[0]);
@@ -277,28 +278,37 @@ public class databaseAPI {
     }
 
     public static Ingredient getIngredient(String ingName) {
+        if (!initialized) {
+            init();
+        }
         return new Ingredient(ingName, getIngredientGroup(ingName));
     }
 
     public static Ingredient[] getAllIngredients() {
+        if (!initialized) {
+            init();
+        }
         return allIngredients.clone();
     }
 
     private static IngredientGroup getIngredientGroup(String ing) {
-        // TODO: Use the hashmap
-        return IngredientGroup.ETC;
+        if (!initialized) {
+            init();
+        }
+        return namesToGroups.get(ing);
     }
 
     // @Julia
     public static Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
-        // TODO: Use the hashmap
-        ArrayList<Ingredient> retlist = new ArrayList<>();
-        for (Ingredient i : getAllIngredients()) {
-            if (i.getGroup() == ingGroup) {
-                retlist.add(i);
-            }
+        if (!initialized) {
+            init();
         }
-        return (Ingredient[]) retlist.toArray();
+        ArrayList<String> list = groupsToNames.get(ingGroup);
+        Ingredient[] retlist = new Ingredient[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            retlist[i] = new Ingredient(list.get(i), ingGroup);
+        }
+        return retlist;
     }
 
     public static IngredientGroup findIngredientGroupByName(String ingredientGroupName) {

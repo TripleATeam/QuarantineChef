@@ -49,6 +49,10 @@ public class Pantry {
         return dateArr;
     }
 
+    public String[] getExpirationsAsStrings() {
+        return expirations;
+    }
+
     private static Date stringToDate(String date) {
         int firstDash = date.indexOf("-");
         int secondDash = date.indexOf("-", firstDash + 1);
