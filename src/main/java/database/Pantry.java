@@ -49,6 +49,10 @@ public class Pantry {
         return dateArr;
     }
 
+    public String[] getExpirationsAsStrings() {
+        return expirations;
+    }
+
     private static Date stringToDate(String date) {
         int firstDash = date.indexOf("-");
         // Fix to parse date in format Tue Jun 01 00:00:00 PDT 3920
