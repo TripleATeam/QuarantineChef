@@ -129,6 +129,7 @@ public class RecipeFilter {
         if (expirationDate.length > 0 && userIngredients.length > 0) {
             Ingredient priorityIngredient = userIngredients[0];
             Date earliestExpirationDate = expirationDate[0];
+            // same expiration date stores all ingredients with the nearest expiration date
             List<Ingredient> sameExpirationDate = new ArrayList<>();
             sameExpirationDate.add(priorityIngredient);
             for (int i = 1; i < userIngredients.length; i++) {
