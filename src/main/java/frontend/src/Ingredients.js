@@ -6,14 +6,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import MaterialUIPickers from './expiration.js';
+import ExpirationDatePicker from './Expiration.js';
 
-const useStyles = makeStyles((theme) => ({
+// styles for this functional component
+const useStyles = makeStyles({
     root: {
         width: '100%',
     },
-}));
+});
 
+// helper function to create a 0-based index array with the number
+// of ingredients in each ingredient type
 function enumerate(list) {
   let nums = [];
   for (let i = 0; i < list.length; i++) {
@@ -22,7 +25,7 @@ function enumerate(list) {
   return nums;
 }
 
-export default function CheckboxList(props) {
+export default function IngredientCheckboxList(props) {
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
 
@@ -54,15 +57,14 @@ export default function CheckboxList(props) {
                             <Checkbox
                                 edge="start"
                                 checked={checked.indexOf(value) !== -1}
-                                // tabIndex={-1}
                                 disableRipple
                                 inputProps={{ 'aria-labelledby': props.ingredients[value] }}
                             />
                         </ListItemIcon>
                         <ListItemText id={labelId} primary={props.ingredients[value]} />
                         <ListItemSecondaryAction>
-                            <MaterialUIPickers ingredient={props.ingredients[value]}
-                                               expiration={props.expiration}/>
+                            <ExpirationDatePicker ingredient={props.ingredients[value]}
+                                                  expiration={props.expiration}/>
                         </ListItemSecondaryAction>
                     </ListItem>
                 );

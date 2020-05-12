@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -7,11 +6,13 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 
+// this component handles recipe search/generation by communicating with
+// the backend recipe search methods
 class RecipeComponent extends Component {
   constructor(props) {
     super(props);
     this.state = { value: "", recipes: [] };
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
@@ -24,23 +25,18 @@ class RecipeComponent extends Component {
     event.preventDefault();
   } 
 
-  async componentDidMount() {    
-    let response = await fetch("http://localhost:4567/get-pantry?userId=0");
-    let pantry = await response.json();
-    console.log(pantry);
-    //return pantry;
-  }
+  // async componentDidMount() {
+  //   let response = await fetch("http://localhost:4567/get-pantry?userId=0");
+  //   let pantry = await response.json();
+  // }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
+  // handleChange(event) {
+  //   this.setState({ value: event.target.value });
+  // }
 
   render() {
     return (
       <Container maxWidth="sm">
-        {/* <FormControl fullWidth variant="outlined">
-          <TextField label="Enter Key Ingredient" value={this.state.value} onChange={this.handleChange} />
-        </FormControl> */}
         <FormControl>
           <Button variant="contained" onClick={this.handleSearch}>
             Search Recipe

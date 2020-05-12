@@ -4,9 +4,11 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardDatePicker,} from '@material-ui/pickers';
 
-export default function MaterialUIPickers(props) {
+// this function supplies a datepicker object for each ingredient
+export default function ExpirationDatePicker(props) {
     const [selectedDate, setSelectedDate] = React.useState(props.expiration.get(props.ingredient));
 
+    // update the date view and the expiration map for database update
     const handleDateChange = (date) => {
         setSelectedDate(date);
         props.expiration.set(props.ingredient, date);
@@ -19,8 +21,6 @@ export default function MaterialUIPickers(props) {
                     disableToolbar
                     variant="inline"
                     format="MM/dd/yyyy"
-                    // margin="normal"
-                    // id="date-picker-inline"
                     label="Expiration Date (optional)"
                     value={selectedDate}
                     onChange={handleDateChange}

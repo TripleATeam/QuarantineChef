@@ -2,8 +2,8 @@ import React from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-// import logo from './logo.svg';
 
+// styles for this functional component
 const useStyles = makeStyles({
     root: {
         textAlign: 'left',
@@ -12,13 +12,15 @@ const useStyles = makeStyles({
     },
 });
 
+// this function returns our web app logo
+// for the time being, it is simply text
+// TODO: create and display web app logo
 export default function Logo() {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
             <Typography variant="h3" gutterBottom>
-                {/*<img src={logo} width="75" height="75" alt={'logo'} />*/}
                 Quarantine Chef
             </Typography>
         </div>
