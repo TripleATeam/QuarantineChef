@@ -30,7 +30,10 @@ public class UserProfile {
     }
 
     /**
-     * Returns a
+     * Returns a boolean denoting if another Object is equal to this one.
+     * If the other Object is anything other than a Pantry with the exact
+     * same values in the same fields, this will be false. If it is such a
+     * Pantry, then this method will return true.
      *
      * @param other     Another object being tested for equality.
      * @return          a boolean representing if other is equal to this object.

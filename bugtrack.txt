@@ -1,0 +1,4 @@
+
+Not a bug but needed change:
+    Make list of ingredients on the front end more general, instead of chicken breast, chicken tenders
+    replace with just chicken
