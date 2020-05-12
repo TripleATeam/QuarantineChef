@@ -21,6 +21,10 @@ public class databaseAPI {
     private static HashMap<String, IngredientGroup> namesToGroups = null;
     private static HashMap<IngredientGroup, ArrayList<String>> groupsToNames = null;
 
+    /**
+     * Initializes allIngredients, namesToGroups, and groupsToNames, then sets
+     * the initialized flag to true.
+     */
     private static void init() {
         try {
             File file = new File("ingredients.csv");
@@ -48,13 +52,19 @@ public class databaseAPI {
             for (int i = 0; i < allIng.size(); i++) {
                 allIngredients[i] = allIng.get(i);
             }
+            initialized = true;
         } catch (FileNotFoundException e) {
         }
-
     }
 
+
+    /**
+     * Tests the functionality of the other methods.
+     *
+     * @param args The arguments
+     */
     public static void main(String[] args) {
-        UserProfile up = new UserProfile(-1, new int[2], new int[2], new int[2]);
+        UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("Beef Steak");
         ingArr[1] = getIngredient("Chicken Breast");
@@ -67,6 +77,13 @@ public class databaseAPI {
         //System.out.println(Arrays.deepToString(getAllIngredients()));
     }
 
+    /**
+     * This method will remove any UserProfile in the database with the
+     * same UserID as the passed UserProfile. It will also remove any Pantry
+     * objects associated with those UserProfiles.
+     *
+     * @param up    The UserProfile to be removed from the database
+     */
     public void removeFromDatabase(UserProfile up) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + up.userID + " DETACH DELETE n";
         doQuery(cypherQuery);
@@ -74,6 +91,22 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
+    /**
+     * This method will place a specified UserProfile into the database
+     * and the Pantry associated with it. A null UserProfile will result
+     * in no addition to the database. A null Pantry and a non-null
+     * UserProfile will result in only the UserProfile being added to the
+     * database. If a UserProfile with the same UserID was already added
+     * to the database, this will overwrite the previous UserProfile with
+     * the new one, and replace the associated Pantry of the previous one
+     * with the one passed into the method. Returns true if the values were
+     * able to be placed in the database, false otherwise.
+     *
+     * @param up        The UserProfile to be placed in the database
+     * @param pantry    The Pantry to be placed in the database
+     * @return          a boolean that represents if these were placed into
+     *                  the database successfully.
+     */
     public static boolean placeInDatabase(UserProfile up, Pantry pantry) {
         if (up == null) {
             return false;
@@ -97,6 +130,12 @@ public class databaseAPI {
         return true;
     }
 
+    /**
+     *
+     *
+     * @param up
+     * @param pantry
+     */
     private static void createPantry(UserProfile up, Pantry pantry) {
         if (pantry == null) {
             return;
@@ -129,6 +168,11 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
+    /**
+     *
+     *
+     * @param up
+     */
     private static void createUserProfile(UserProfile up) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:User {userID: ");
