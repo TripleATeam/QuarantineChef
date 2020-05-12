@@ -97,6 +97,13 @@ public class databaseAPI {
         return true;
     }
 
+    /**
+     * Places the passed Pantry into the database, associated
+     * with the passed UserProfile.
+     * 
+     * @param up
+     * @param pantry
+     */
     private static void createPantry(UserProfile up, Pantry pantry) {
         if (pantry == null) {
             return;
@@ -129,6 +136,11 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
+    /**
+     * Places the passed UserProfile into the database.
+     * 
+     * @param up
+     */
     private static void createUserProfile(UserProfile up) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:User {userID: ");
@@ -156,6 +168,15 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
+    /**
+     * If another Pantry with the same userID as the passed 
+     * UserProfile exists in the database (UP2), this method 
+     * will set any Pantry associated with UP2 to be equivalent 
+     * to the passed Pantry.
+     * 
+     * @param up
+     * @param pantry
+     */
     public static void updatePantry(UserProfile up, Pantry pantry) {
         if (pantry == null || up == null) {
             return;
@@ -188,6 +209,13 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
+    /**
+     * If another UserProfile with the same userID as the passed 
+     * UserProfile exists in the database (UP2), this method will 
+     * set UP2 to be equivalent to the passed UserProfile.
+     * 
+     * @param up
+     */
     public static void updateUser(UserProfile up) {
         if (up.preferences.length < 1) {
             return;
@@ -218,6 +246,14 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
+    /**
+     * If a UserProfile with the given userID exists in 
+     * the database, this will return that UserProfile. 
+     * If none exist, this will return null.
+     * 
+     * @param userID
+     * @return
+     */
     public static UserProfile getUserProfile(int userID) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + userID + " RETURN" +
                 " n.cuisinePreferences as preferences, n.dietTypes as diet, n.healthRestrictions as health";
@@ -253,6 +289,15 @@ public class databaseAPI {
         return ret;
     }
 
+    /**
+     * If a Pantry exists in the database that is associated with 
+     * a UserProfile with the same userID as the UserProfile that 
+     * is passed into this function, this function returns that Pantry. 
+     * If no such pantry exists, returns null.
+     *
+     * @param up
+     * @return
+     */
     public static Pantry getPantry(UserProfile up) {
         Pantry ret = null;
         String cypherQuery = "MATCH (a:User),(b:Pantry) WHERE a.userID = " +
@@ -285,6 +330,14 @@ public class databaseAPI {
         return ret;
     }
 
+    /**
+     * Returns an Ingredient that has the same name as 
+     * the String that was passed into the function, as 
+     * well as its associated IngredientGroup.
+     *
+     * @param ingName
+     * @return
+     */
     public static Ingredient getIngredient(String ingName) {
         if (!initialized) {
             init();
@@ -292,6 +345,11 @@ public class databaseAPI {
         return new Ingredient(ingName, getIngredientGroup(ingName));
     }
 
+    /**
+     * Returns an array of all Ingredients.
+     *
+     * @return
+     */
     public static Ingredient[] getAllIngredients() {
         if (!initialized) {
             init();
@@ -299,6 +357,14 @@ public class databaseAPI {
         return allIngredients.clone();
     }
 
+    /**
+     * Returns an IngredientGroup that corresponds to the 
+     * passed String, the name of the ingredient. If no such 
+     * ingredient name exists, returns null.
+     *
+     * @param ingName
+     * @return
+     */
     public static IngredientGroup getIngredientGroup(String ingName) {
         if (!initialized) {
             init();
@@ -306,6 +372,13 @@ public class databaseAPI {
         return namesToGroups.get(ingName);
     }
 
+    /**
+     * Returns an array of all the Ingredients that fall into 
+     * the passed IngredientGroup. 
+     *
+     * @param ingGroup
+     * @return
+     */
     public static Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
         if (!initialized) {
             init();
@@ -317,7 +390,14 @@ public class databaseAPI {
         }
         return retlist;
     }
-
+    /**
+     * Returns an IngredientGroup that corresponds to the passed String. 
+     * If an IngredientGroup with that name exists, returns that 
+     * IngredientGroup. Otherwise, returns IngredientGroup.ETC.
+     * 
+     * @param ingredientGroupName
+     * @return
+     */
     public static IngredientGroup findIngredientGroupByName(String ingredientGroupName) {
         if (ingredientGroupName.toUpperCase().equals("POULTRY")) {
             return IngredientGroup.POULTRY;
@@ -352,7 +432,12 @@ public class databaseAPI {
         }
     }
 
-    // Returns the result of a Cypher query being passed into the database.
+    /**
+     * Returns the result of a Cypher query being passed into the database.
+     * 
+     * @param cypherQuery
+     * @return
+     */
     private static StatementResult doQuery(String cypherQuery) {
         Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
         Driver driver = GraphDatabase.driver("bolt://34.224.17.173:33236", AuthTokens.basic("neo4j","radiator-sink-heights"),noSSL); // <password>
