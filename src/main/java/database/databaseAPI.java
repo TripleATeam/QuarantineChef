@@ -405,7 +405,7 @@ public class databaseAPI {
     // Returns the result of a Cypher query being passed into the database.
     private static StatementResult doQuery(String cypherQuery) {
         Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
-        Driver driver = GraphDatabase.driver("bolt://100.25.153.235:33482", AuthTokens.basic("neo4j","radiator-sink-heights"),noSSL); // <password>
+        Driver driver = GraphDatabase.driver("bolt://100.25.153.235:33482", AuthTokens.basic("neo4j","temper-attempt-observers"),noSSL); // <password>
         try (Session session = driver.session()) {
             return session.run(cypherQuery, parameters());
         }
