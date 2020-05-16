@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import IngredientTypeExpansionPanel from './Pantry';
 import RecipeButton from "./GenerateRecipes";
-import Logo from "./Logo"
+// import Logo from "./Logo"
 import UpdateDBPantry from "./UpdateDBPantry";
 import MenuBar from "./MenuBar";
 
