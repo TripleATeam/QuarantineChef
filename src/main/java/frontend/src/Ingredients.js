@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ExpirationDatePicker from './Expiration.js';
@@ -12,6 +12,9 @@ import ExpirationDatePicker from './Expiration.js';
 const useStyles = makeStyles({
     root: {
         width: '100%',
+    },
+    ingredient: {
+        height: 'auto !important',
     },
 });
 
@@ -52,7 +55,10 @@ export default function IngredientCheckboxList(props) {
                 }
                 const labelId = `checkbox-list-label-${value}`;
                 return (
-                    <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
+                    <ListItem className={classes.ingredient}
+                              key={value}
+                              role={undefined}
+                              dense button onClick={handleToggle(value)}>
                         <ListItemIcon>
                             <Checkbox
                                 edge="start"
@@ -62,10 +68,12 @@ export default function IngredientCheckboxList(props) {
                             />
                         </ListItemIcon>
                         <ListItemText id={labelId} primary={props.ingredients[value]} />
-                        <ListItemSecondaryAction>
-                            <ExpirationDatePicker ingredient={props.ingredients[value]}
-                                                  expiration={props.expiration}/>
-                        </ListItemSecondaryAction>
+                        <ExpirationDatePicker ingredient={props.ingredients[value]}
+                                              expiration={props.expiration}/>
+                        {/*<ListItemSecondaryAction>*/}
+                        {/*    <ExpirationDatePicker ingredient={props.ingredients[value]}*/}
+                        {/*                          expiration={props.expiration}/>*/}
+                        {/*</ListItemSecondaryAction>*/}
                     </ListItem>
                 );
             })}

@@ -38,7 +38,9 @@ class RecipeComponent extends Component {
     return (
       <Container maxWidth="sm">
         <FormControl>
-          <Button variant="contained" onClick={this.handleSearch}>
+          <Button variant="contained"
+                  color="primary"
+                  onClick={this.handleSearch}>
             Search Recipe
           </Button>
           

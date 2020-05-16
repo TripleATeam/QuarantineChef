@@ -9,6 +9,7 @@ import IngredientTypeExpansionPanel from './Pantry';
 import RecipeButton from "./GenerateRecipes";
 import Logo from "./Logo"
 import UpdateDBPantry from "./UpdateDBPantry";
+import MenuBar from "./MenuBar";
 
 // Ingredients & Ingredient Types
 // TODO: use csv parser to populate map from 'ingredients.csv'
@@ -188,9 +189,10 @@ for (let i = 0; i < types.length; i++) {
 // styles for this functional component
 const useStyles = makeStyles((theme) => ({
     root: {
-        font: 'Serif',
         flexGrow: 1,
-        backgroundImage: `url(https://thepaintpeople.com/wp-content/uploads/2015/09/prepare-bare-wood-staining.jpg)`,
+        // backgroundImage: `url(https://thepaintpeople.com/wp-content/uploads/2015/09/prepare-bare-wood-staining.jpg)`,
+        // backgroundImage: `url(https://www.larchwoodcanada.com/wp-content/uploads/larchwood-classic-cutting-board-large_7652.jpg)`,
+        backgroundImage: `url(https://www.hillwoodproducts.com/wp-content/uploads/2015/03/wood1.jpg)`,
         backgroundPosition: 'center',
         backgroundSize: '100%',
         backgroundRepeat: 'repeat-y',
@@ -200,17 +202,24 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
+    body: {
+        padding: theme.spacing(2),
+    },
     pantryHeader: {
-        flexDirection: "row",
+        display: 'flex',
         justifyContent: "space-between",
-        minWidth: 500,
+        alignItems: "flex-start",
     },
     pantry: {
         padding: theme.spacing(2),
-        textAlign: 'center',
+        // textAlign: 'center',
         color: theme.palette.text.secondary,
         opacity: '85%',
         height: '100%',
+        // display: 'flex',
+        // direction: 'column',
+        // justify: 'flex-start',
+        // alignItems: "center",
     },
     recipes: {
         padding: theme.spacing(2),
@@ -243,13 +252,9 @@ export default function Layout() {
     // return page elements
     return (
         <div className={classes.root}>
-            <Grid container spacing={3} justify="flex-end">
-                <Grid item xs={12}>
-                    <Paper className={classes.header}>
-                        <Logo />
-                    </Paper>
-                </Grid>
-                <Grid item xs={5}>
+            <MenuBar />
+            <Grid className={classes.body} container spacing={3} justify="flex-end">
+                <Grid item xs={12} md={5}>
                     <Paper className={classes.pantry}>
                         <div className={classes.pantryHeader}>
                             <Typography variant="h5" gutterBottom>
@@ -266,7 +271,7 @@ export default function Layout() {
                                                       expiration={expiration}/>
                     </Paper>
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs md>
                     {/*<Paper className={classes.paper}>Filters</Paper>*/}
                     <Paper className={classes.recipes}>
                         <RecipeButton />
