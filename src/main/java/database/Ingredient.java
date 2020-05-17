@@ -43,4 +43,27 @@ public class Ingredient {
     public String toString() {
         return "(" + name + ", " + group + ")";
     }
+
+    /**
+     * Returns a boolean denoting if another Object is equal to this one.
+     * If the other Object is anything other than a Ingredient with the exact
+     * same values in the same fields, this will be false. If it is such
+     * an Ingredient, then this method will return true.
+     *
+     * @param other Another Object that this will be compared to
+     * @return      A boolean that signifies if other is equal to this.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Ingredient)) {
+            return false;
+        }
+        if (other == this) {
+            return true;
+        }
+        Ingredient otherIng = (Ingredient) other;
+        boolean bool1 = name.equals(otherIng.name);
+        boolean bool2 = group.equals(otherIng.group);
+        return bool1 && bool2;
+    }
 }
