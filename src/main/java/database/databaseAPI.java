@@ -21,6 +21,10 @@ public class databaseAPI {
     private static HashMap<String, IngredientGroup> namesToGroups = null;
     private static HashMap<IngredientGroup, ArrayList<String>> groupsToNames = null;
 
+    /**
+     * Initializes allIngredients, namesToGroups, and groupsToNames, then sets
+     * the initialized flag to true.
+     */
     private static void init() {
         try {
             File file = new File("ingredients.csv");
@@ -48,13 +52,19 @@ public class databaseAPI {
             for (int i = 0; i < allIng.size(); i++) {
                 allIngredients[i] = allIng.get(i);
             }
+            initialized = true;
         } catch (FileNotFoundException e) {
         }
-
     }
 
+
+    /**
+     * Tests the functionality of the other methods.
+     *
+     * @param args The arguments
+     */
     public static void main(String[] args) {
-        UserProfile up = new UserProfile(-1, new int[2], new int[2], new int[2]);
+        UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("Beef Steak");
         ingArr[1] = getIngredient("Chicken Breast");
@@ -67,6 +77,13 @@ public class databaseAPI {
         //System.out.println(Arrays.deepToString(getAllIngredients()));
     }
 
+    /**
+     * This method will remove any UserProfile in the database with the
+     * same UserID as the passed UserProfile. It will also remove any Pantry
+     * objects associated with those UserProfiles.
+     *
+     * @param up    The UserProfile to be removed from the database
+     */
     public void removeFromDatabase(UserProfile up) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + up.userID + " DETACH DELETE n";
         doQuery(cypherQuery);
@@ -74,6 +91,22 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
+    /**
+     * This method will place a specified UserProfile into the database
+     * and the Pantry associated with it. A null UserProfile will result
+     * in no addition to the database. A null Pantry and a non-null
+     * UserProfile will result in only the UserProfile being added to the
+     * database. If a UserProfile with the same UserID was already added
+     * to the database, this will overwrite the previous UserProfile with
+     * the new one, and replace the associated Pantry of the previous one
+     * with the one passed into the method. Returns true if the values were
+     * able to be placed in the database, false otherwise.
+     *
+     * @param up        The UserProfile to be placed in the database
+     * @param pantry    The Pantry to be placed in the database
+     * @return          a boolean that represents if these were placed into
+     *                  the database successfully.
+     */
     public static boolean placeInDatabase(UserProfile up, Pantry pantry) {
         if (up == null) {
             return false;
@@ -98,9 +131,8 @@ public class databaseAPI {
     }
 
     /**
-     * Places the passed Pantry into the database, associated
-     * with the passed UserProfile.
-     * 
+     *
+     *
      * @param up
      * @param pantry
      */
@@ -137,8 +169,8 @@ public class databaseAPI {
     }
 
     /**
-     * Places the passed UserProfile into the database.
-     * 
+     *
+     *
      * @param up
      */
     private static void createUserProfile(UserProfile up) {
@@ -168,17 +200,14 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
-    /**
-     * If another Pantry with the same userID as the passed 
-     * UserProfile exists in the database (UP2), this method 
-     * will set any Pantry associated with UP2 to be equivalent 
-     * to the passed Pantry.
-     * 
-     * @param up
-     * @param pantry
-     */
     public static void updatePantry(UserProfile up, Pantry pantry) {
         if (pantry == null || up == null) {
+            return;
+        }
+        if (pantry.getIngredients().length == 0) {
+            String cypherQuery = "MATCH (n:Pantry) WHERE n.userID = "
+                + up.userID + " SET n.numIngredients = 0, n.ingredients = [], n.expirations = [], n.quantities = []";
+            doQuery(cypherQuery);
             return;
         }
         StringBuilder sb = new StringBuilder();
@@ -209,13 +238,6 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
-    /**
-     * If another UserProfile with the same userID as the passed 
-     * UserProfile exists in the database (UP2), this method will 
-     * set UP2 to be equivalent to the passed UserProfile.
-     * 
-     * @param up
-     */
     public static void updateUser(UserProfile up) {
         if (up.preferences.length < 1) {
             return;
@@ -246,14 +268,6 @@ public class databaseAPI {
         doQuery(cypherQuery);
     }
 
-    /**
-     * If a UserProfile with the given userID exists in 
-     * the database, this will return that UserProfile. 
-     * If none exist, this will return null.
-     * 
-     * @param userID
-     * @return
-     */
     public static UserProfile getUserProfile(int userID) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + userID + " RETURN" +
                 " n.cuisinePreferences as preferences, n.dietTypes as diet, n.healthRestrictions as health";
@@ -289,15 +303,6 @@ public class databaseAPI {
         return ret;
     }
 
-    /**
-     * If a Pantry exists in the database that is associated with 
-     * a UserProfile with the same userID as the UserProfile that 
-     * is passed into this function, this function returns that Pantry. 
-     * If no such pantry exists, returns null.
-     *
-     * @param up
-     * @return
-     */
     public static Pantry getPantry(UserProfile up) {
         Pantry ret = null;
         String cypherQuery = "MATCH (a:User),(b:Pantry) WHERE a.userID = " +
@@ -330,14 +335,6 @@ public class databaseAPI {
         return ret;
     }
 
-    /**
-     * Returns an Ingredient that has the same name as 
-     * the String that was passed into the function, as 
-     * well as its associated IngredientGroup.
-     *
-     * @param ingName
-     * @return
-     */
     public static Ingredient getIngredient(String ingName) {
         if (!initialized) {
             init();
@@ -345,11 +342,6 @@ public class databaseAPI {
         return new Ingredient(ingName, getIngredientGroup(ingName));
     }
 
-    /**
-     * Returns an array of all Ingredients.
-     *
-     * @return
-     */
     public static Ingredient[] getAllIngredients() {
         if (!initialized) {
             init();
@@ -357,14 +349,6 @@ public class databaseAPI {
         return allIngredients.clone();
     }
 
-    /**
-     * Returns an IngredientGroup that corresponds to the 
-     * passed String, the name of the ingredient. If no such 
-     * ingredient name exists, returns null.
-     *
-     * @param ingName
-     * @return
-     */
     public static IngredientGroup getIngredientGroup(String ingName) {
         if (!initialized) {
             init();
@@ -372,13 +356,6 @@ public class databaseAPI {
         return namesToGroups.get(ingName);
     }
 
-    /**
-     * Returns an array of all the Ingredients that fall into 
-     * the passed IngredientGroup. 
-     *
-     * @param ingGroup
-     * @return
-     */
     public static Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
         if (!initialized) {
             init();
@@ -390,14 +367,7 @@ public class databaseAPI {
         }
         return retlist;
     }
-    /**
-     * Returns an IngredientGroup that corresponds to the passed String. 
-     * If an IngredientGroup with that name exists, returns that 
-     * IngredientGroup. Otherwise, returns IngredientGroup.ETC.
-     * 
-     * @param ingredientGroupName
-     * @return
-     */
+
     public static IngredientGroup findIngredientGroupByName(String ingredientGroupName) {
         if (ingredientGroupName.toUpperCase().equals("POULTRY")) {
             return IngredientGroup.POULTRY;
@@ -432,15 +402,10 @@ public class databaseAPI {
         }
     }
 
-    /**
-     * Returns the result of a Cypher query being passed into the database.
-     * 
-     * @param cypherQuery
-     * @return
-     */
+    // Returns the result of a Cypher query being passed into the database.
     private static StatementResult doQuery(String cypherQuery) {
         Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
-        Driver driver = GraphDatabase.driver("bolt://34.224.17.173:33236", AuthTokens.basic("neo4j","radiator-sink-heights"),noSSL); // <password>
+        Driver driver = GraphDatabase.driver("bolt://100.25.153.235:33482", AuthTokens.basic("neo4j","temper-attempt-observers"),noSSL); // <password>
         try (Session session = driver.session()) {
             return session.run(cypherQuery, parameters());
         }
