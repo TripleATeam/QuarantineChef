@@ -279,9 +279,9 @@ public class RecipeFilter {
             if (i1.getDate() == null && i2.getDate() == null) {
                 return 0;
             } else if (i1.getDate() == null) {
-                return -1;
-            } else if (i2.getDate() == null) {
                 return 1;
+            } else if (i2.getDate() == null) {
+                return -1;
             }
 
             Date i1Date = i1.getDate();
