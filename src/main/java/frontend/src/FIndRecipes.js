@@ -41,9 +41,8 @@ class RecipeComponent extends Component {
           <Button variant="contained"
                   color="primary"
                   onClick={this.handleSearch}>
-            Search Recipe
+            Find Recipes
           </Button>
-          
         </FormControl>
         <div>
           <GridList cellHeight={160} cols={2}>

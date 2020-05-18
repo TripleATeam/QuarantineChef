@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import IngredientTypeExpansionPanel from './Pantry';
-import RecipeButton from "./GenerateRecipes";
+import RecipeButton from "./FIndRecipes";
 // import Logo from "./Logo"
 import UpdateDBPantry from "./UpdateDBPantry";
 import MenuBar from "./MenuBar";
@@ -193,6 +193,8 @@ const useStyles = makeStyles((theme) => ({
         // backgroundImage: `url(https://thepaintpeople.com/wp-content/uploads/2015/09/prepare-bare-wood-staining.jpg)`,
         // backgroundImage: `url(https://www.larchwoodcanada.com/wp-content/uploads/larchwood-classic-cutting-board-large_7652.jpg)`,
         backgroundImage: `url(https://www.hillwoodproducts.com/wp-content/uploads/2015/03/wood1.jpg)`,
+        // backgroundColor: '#bae0f7',
+        // backgroundColor: 'blue',
         backgroundPosition: 'center',
         backgroundSize: '100%',
         backgroundRepeat: 'repeat-y',
@@ -214,7 +216,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         // textAlign: 'center',
         color: theme.palette.text.secondary,
-        opacity: '85%',
+        // opacity: '85%',
         height: '100%',
         // display: 'flex',
         // direction: 'column',
@@ -223,7 +225,7 @@ const useStyles = makeStyles((theme) => ({
     },
     recipes: {
         padding: theme.spacing(2),
-        opacity: '85%',
+        // opacity: '85%',
         color: theme.palette.text.secondary,
         height: '100%',
     },
