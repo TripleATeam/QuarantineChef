@@ -1,4 +1,4 @@
-package database.tests;
+package database;
 
 import database.Ingredient;
 import database.IngredientGroup;
