@@ -14,6 +14,8 @@ public class databaseAPI {
     private static final int CUISINE_SIZE = 2;
     private static final int DIET_SIZE = 2;
     private static final int HEALTH_SIZE = 2;
+    private static final String SANDBOX_URL = "bolt://100.25.153.235:33482";
+    private static final String SANDBOX_PASSWORD = "temper-attempt-observers";
 
     private static boolean initialized = false;
 
@@ -480,7 +482,7 @@ public class databaseAPI {
      */
     private static StatementResult doQuery(String cypherQuery) {
         Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
-        Driver driver = GraphDatabase.driver("bolt://100.25.153.235:33482", AuthTokens.basic("neo4j","temper-attempt-observers"),noSSL); // <password>
+        Driver driver = GraphDatabase.driver(SANDBOX_URL, AuthTokens.basic("neo4j",SANDBOX_PASSWORD),noSSL); // <password>
         try (Session session = driver.session()) {
             return session.run(cypherQuery, parameters());
         }
