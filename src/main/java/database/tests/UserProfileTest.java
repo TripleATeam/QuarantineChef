@@ -11,6 +11,9 @@ import static org.junit.Assert.*;
 public class UserProfileTest {
     UserProfile up;
 
+    /**
+     * Initializes the UserProfile
+     */
     @Before
     public void initialize() {
         int userID = 0;

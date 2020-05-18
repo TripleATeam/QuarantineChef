@@ -40,7 +40,7 @@ public class databaseAPI {
 
                 IngredientGroup ingGroup = findIngredientGroupByName(group);
                 allIng.add(new Ingredient(name, ingGroup));
-                namesToGroups.put(name, ingGroup);
+                namesToGroups.put(name.toLowerCase(), ingGroup);
                 ArrayList<String> strList = groupsToNames.get(ingGroup);
                 if (strList == null) {
                     strList = new ArrayList<>();
@@ -56,7 +56,6 @@ public class databaseAPI {
         } catch (FileNotFoundException e) {
         }
     }
-
 
     /**
      * Tests the functionality of the other methods.
@@ -84,7 +83,7 @@ public class databaseAPI {
      *
      * @param up    The UserProfile to be removed from the database
      */
-    public void removeFromDatabase(UserProfile up) {
+    public static void removeFromDatabase(UserProfile up) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + up.userID + " DETACH DELETE n";
         doQuery(cypherQuery);
         cypherQuery = "MATCH (n:Pantry) WHERE n.userID = " + up.userID + " DETACH DELETE n";
@@ -131,10 +130,10 @@ public class databaseAPI {
     }
 
     /**
+     * Creates a Pantry to put into the database, associated with given UserProfile.
      *
-     *
-     * @param up
-     * @param pantry
+     * @param up        UserProfile associated with pantry
+     * @param pantry    Pantry to be placed into database
      */
     private static void createPantry(UserProfile up, Pantry pantry) {
         if (pantry == null) {
@@ -169,9 +168,9 @@ public class databaseAPI {
     }
 
     /**
+     * Creates a UserProfile to put into the database.
      *
-     *
-     * @param up
+     * @param up    Pantry to be placed into database
      */
     private static void createUserProfile(UserProfile up) {
         StringBuilder sb = new StringBuilder();
@@ -298,7 +297,7 @@ public class databaseAPI {
                 Long l = (Long) objArr3[i];
                 health[i] = l.intValue();
             }
-            ret = new UserProfile(userID, preferences, diet, health);
+            ret = new UserProfile(userID, preferences, health, diet);
         }
         return ret;
     }
@@ -353,7 +352,7 @@ public class databaseAPI {
         if (!initialized) {
             init();
         }
-        return namesToGroups.get(ingName);
+        return namesToGroups.get(ingName.toLowerCase());
     }
 
     public static Ingredient[] getIngredientsByGroup(IngredientGroup ingGroup) {
