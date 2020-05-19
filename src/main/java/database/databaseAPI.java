@@ -11,9 +11,10 @@ import java.util.Scanner;
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class databaseAPI {
-    private static final int CUISINE_SIZE = 2;
-    private static final int DIET_SIZE = 2;
-    private static final int HEALTH_SIZE = 2;
+    private static final int CUISINE_SIZE = 2;  //Kyle: 11
+    private static final int DIET_SIZE = 2;  //Kyle: 5
+    private static final int HEALTH_SIZE = 2;  // Kyle: 9
+    // MEAL_SIZE = 3;
     private static final String SANDBOX_URL = "bolt://100.25.153.235:33482";
     private static final String SANDBOX_PASSWORD = "temper-attempt-observers";
 
