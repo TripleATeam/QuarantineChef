@@ -54,7 +54,7 @@ public class Pantry {
             sb = new StringBuilder();
             sb.append(d.getDate());
             sb.append("-");
-            sb.append(d.getMonth());
+            sb.append(d.getMonth() + 1);
             sb.append("-");
             sb.append(d.getYear() + 1900);
             retArr[i] = sb.toString();
