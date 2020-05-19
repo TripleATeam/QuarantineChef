@@ -4,12 +4,48 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+// import * as d3 from 'd3';
 
 import IngredientTypeExpansionPanel from './Pantry';
-import RecipeButton from "./FIndRecipes";
-// import Logo from "./Logo"
+import RecipeButton from "./FindRecipes";
+import FilterPanel from "./Filters";
 import UpdateDBPantry from "./UpdateDBPantry";
 import MenuBar from "./MenuBar";
+import Button from "@material-ui/core/Button";
+
+// const ingredients = new Map();
+//
+// const typeMap = new Map();
+// typeMap.set("Poultry", "Poultry & Eggs");
+// typeMap.set("Seafood", "Fish & Seafood");
+// typeMap.set("Meat", "Red Meat");
+// typeMap.set("Vegetables", "Vegetables & Herbs");
+// typeMap.set("Fruit", "Fruits & Berries");
+// typeMap.set("Dairy", "Dairy & Dairy Alternatives");
+// typeMap.set("Grains", "Grains, Breads, Pasta & Cereal");
+// typeMap.set("Spices", "Spices & Seasonings");
+// typeMap.set("Condiments", "Condiments, Oils & Sauces");
+// typeMap.set("Sweeteners", "Sweeteners");
+// typeMap.set("Nuts", "Nuts, Seeds & Legumes");
+// typeMap.set("Beverages", "Beverages & Alcohol");
+// typeMap.set("Baking", "Baking, Sweets & Snacks");
+// typeMap.set("Soups", "Soups, Broth & Canned Goods");
+//
+// const types = Array.from(typeMap.values());
+//
+// for (let i in types) {
+//     ingredients.set(types[i], []);
+// }
+//
+// let ingredients_csv = require("./ingredients.csv");
+//
+// function extractIngredients() {
+//     d3.csv(ingredients_csv).then(function(data) {
+//         for (let i = 0; i < data.length; i++) {
+//             ingredients.get(typeMap.get(data[i].Type)).push(data[i].Ingredient);
+//         }
+//     });
+// }
 
 // Ingredients & Ingredient Types
 // TODO: use csv parser to populate map from 'ingredients.csv'
@@ -102,9 +138,9 @@ ingredients.set('Spices & Seasonings',['Adobo Seasoning', 'Allspice', 'Aniseed',
     'Italian Seasoning', 'Italian Spice', 'Jamaican Jerk Spice', 'Kasuri Methi',
     'Lavender', 'Lemon Balm', 'Liquid Smoke', 'Mango Powder', 'Marjoram',
     'Matcha Powder', 'Miso', 'Mustard Powder', 'Mustard Seed', 'Nutmeg',
-    'Old Bay Seasoning', 'Onion Powder', 'Oregano', 'Paprika', 'Peppercorn',
+    'Old Bay Seasoning', 'Onion Powder', 'Oregano', 'Paprika', 'Pepper', 'Peppercorn',
     'Pickling Salt', 'Pickling Spice', 'Poppy Seed', 'Poultry Seasoning',
-    'Red Pepper Flake', 'Rice Wine', 'Rose Water', 'Saffron', 'Sage', 'Savory',
+    'Red Pepper Flake', 'Rice Wine', 'Rose Water', 'Saffron', 'Sage', 'Salt', 'Savory',
     'Sesame Seed', 'Soy Sauce', 'Star Anise', 'Steak Seasoning', 'Taco Seasoning',
     'Tamarind', 'Tarragon', 'Thyme', 'Turmeric', 'Wasabi']);
 ingredients.set('Condiments, Oils & Sauces',['Adobo Sauce', 'Alfredo Sauce', 'Almond Oil',
@@ -176,9 +212,9 @@ ingredients.set('Soups, Broth & Canned Goods',['Beef Broth', 'Canned Beets', 'Ca
 const pantry = new Map();
 const expiration = new Map();
 
-// initialize pantry & expiration dates with false/null values
-// i.e. user does not have any ingredients and has not set
-// any expiration dates for those ingredients
+// // initialize pantry & expiration dates with false/null values
+// // i.e. user does not have any ingredients and has not set
+// // any expiration dates for those ingredients
 for (let i = 0; i < types.length; i++) {
     for (let j = 0; j < ingredients.get(types[i]).length; j++) {
         pantry.set(ingredients.get(types[i])[j], false);
@@ -190,19 +226,18 @@ for (let i = 0; i < types.length; i++) {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        // backgroundImage: `url(https://thepaintpeople.com/wp-content/uploads/2015/09/prepare-bare-wood-staining.jpg)`,
         // backgroundImage: `url(https://www.larchwoodcanada.com/wp-content/uploads/larchwood-classic-cutting-board-large_7652.jpg)`,
         backgroundImage: `url(https://www.hillwoodproducts.com/wp-content/uploads/2015/03/wood1.jpg)`,
         // backgroundColor: '#bae0f7',
-        // backgroundColor: 'blue',
         backgroundPosition: 'center',
         backgroundSize: '100%',
         backgroundRepeat: 'repeat-y',
     },
     header: {
         padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
+        // color: theme.palette.text.secondary,
+        color: 'black',
+        opacity: '85%',
     },
     body: {
         padding: theme.spacing(2),
@@ -210,26 +245,33 @@ const useStyles = makeStyles((theme) => ({
     pantryHeader: {
         display: 'flex',
         justifyContent: "space-between",
-        alignItems: "flex-start",
+        alignItems: "center",
     },
     pantry: {
         padding: theme.spacing(2),
-        // textAlign: 'center',
         color: theme.palette.text.secondary,
-        // opacity: '85%',
+        opacity: '85%',
         height: '100%',
-        // display: 'flex',
-        // direction: 'column',
-        // justify: 'flex-start',
-        // alignItems: "center",
     },
     recipes: {
         padding: theme.spacing(2),
-        // opacity: '85%',
+        opacity: '85%',
         color: theme.palette.text.secondary,
         height: '100%',
     },
+    instructions: {
+        color: theme.palette.text.secondary,
+        textAlign: "left",
+    },
+    btn: {
+        marginLeft: 5,
+        "&:hover": {
+            backgroundColor: '#3f51b5',
+            cursor: 'default',
+        }
+    }
 }));
+// let cont = false;
 
 // function to get user ingredients and expiration dates from database to populate virtual pantry
 // const getPantryFromDatabase = async () => {
@@ -239,14 +281,40 @@ async function getPantryFromDatabase() {
 
     for (let i = 0; i < databasePantry.ingredients.length; i++) {
         pantry.set(databasePantry.ingredients[i].name, true);
-        pantry.set(databasePantry.ingredients[i].name, databasePantry.expirations[i])
+        expiration.set(databasePantry.ingredients[i].name, databasePantry.expirations[i])
     }
+    // cont = true;
 }
 
 // This function returns the overall layout for the web app
 export default function Layout() {
     // use styles for this functional component
     const classes = useStyles();
+
+    // fetch('http://localhost:4567/get-pantry?userId=0')
+    //     .then(response => response.json())
+    //     .then(data => () => {
+    //         for (let i = 0; i < data.ingredients.length; i++) {
+    //             pantry.set(data.ingredients[i].name, true);
+    //             expiration.set(data.ingredients[i].name, data.expirations[i])
+    //         }
+    //         console.log(pantry);
+    //         console.log(expiration);
+    //     });
+
+    // extractIngredients();
+
+    // initialize pantry & expiration dates with false/null values
+    // i.e. user does not have any ingredients and has not set
+    // any expiration dates for those ingredients
+    // for (let i = 0; i < types.length; i++) {
+    //     for (let j = 0; j < ingredients.get(types[i]).length; j++) {
+    //         pantry.set(ingredients.get(types[i])[j], false);
+    //         expiration.set(ingredients.get(types[i])[j], null);
+    //     }
+    // }
+
+    // console.log(ingredients);
 
     // call database to update user pantry
     getPantryFromDatabase();
@@ -256,11 +324,50 @@ export default function Layout() {
         <div className={classes.root}>
             <MenuBar />
             <Grid className={classes.body} container spacing={3} justify="flex-end">
+                <Grid item xs={12}>
+                    <Paper className={classes.header}>
+                        <Typography className={classes.instructions}
+                                    variant={"h5"}>
+                            Welcome to QuarantineChef, where finding a recipe is as easy as 1, 2, 3!
+                        </Typography>
+                        <Typography className={classes.instructions}
+                                    variant={"body1"}>
+                            1) Add ingredients to your virtual pantry & click
+                            <Button className={classes.btn}
+                                    variant="contained"
+                                    color="primary"
+                                    disableElevation
+                                    size="small">
+                                Update Pantry
+                            </Button>
+                        </Typography>
+                        <Typography className={classes.instructions}
+                                    variant={"body1"}>
+                            2) Select from our recipe filtering options!
+                        </Typography>
+                        <Typography className={classes.instructions}
+                                    variant={"body1"}>
+                            3) Click
+                            <Button className={classes.btn}
+                                    variant="contained"
+                                    color="primary"
+                                    disableElevation
+                                    size="small">
+                                Find Recipes
+                            </Button>
+                            , and your customized recipe recommendations will appear!
+                        </Typography>
+                        <Typography className={classes.instructions}
+                                    variant={"h6"}>
+                            It's as easy as that. Give it a try!
+                        </Typography>
+                    </Paper>
+                </Grid>
                 <Grid item xs={12} md={5}>
                     <Paper className={classes.pantry}>
                         <div className={classes.pantryHeader}>
                             <Typography variant="h5" gutterBottom>
-                                Pantry
+                                PANTRY
                             </Typography>
                             <UpdateDBPantry types={types}
                                             ingredients={ingredients}
@@ -274,8 +381,8 @@ export default function Layout() {
                     </Paper>
                 </Grid>
                 <Grid item xs md>
-                    {/*<Paper className={classes.paper}>Filters</Paper>*/}
                     <Paper className={classes.recipes}>
+                        <FilterPanel />
                         <RecipeButton />
                     </Paper>
                 </Grid>

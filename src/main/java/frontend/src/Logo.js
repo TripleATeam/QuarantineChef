@@ -18,7 +18,6 @@ const useStyles = makeStyles({
 
 // this function returns our web app logo
 // for the time being, it is simply text
-// TODO: create and display web app logo
 export default function Logo() {
     const classes = useStyles();
 
