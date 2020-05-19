@@ -11,11 +11,16 @@ import IngredientCheckboxList from './Ingredients';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        maxWidth: 500,
+        justifyContent: "center",
+        justifyItems: "center",
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
+    },
+    type: {
+        width: '100%',
+        maxWidth: 500,
     },
 }));
 
@@ -38,7 +43,8 @@ export default function IngredientTypeExpansionPanel(props) {
             {enumerate(props.types).map((value) => {
                 const labelId = `checkbox-list-label-${value}`;
                 return (
-                    <ExpansionPanel key={labelId}>
+                    <ExpansionPanel className={classes.type}
+                                    key={labelId}>
                         <ExpansionPanelSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls={`${labelId}`}

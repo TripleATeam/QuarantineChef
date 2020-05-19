@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ExpirationDatePicker from './Expiration.js';
@@ -12,6 +11,9 @@ import ExpirationDatePicker from './Expiration.js';
 const useStyles = makeStyles({
     root: {
         width: '100%',
+    },
+    ingredient: {
+        height: 'auto !important',
     },
 });
 
@@ -33,39 +35,40 @@ export default function IngredientCheckboxList(props) {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
 
-        if (!props.pantry.get(props.ingredients[value])) {
+        if (currentIndex === -1) {
             newChecked.push(value);
-            props.pantry.set(props.ingredients[value], true);
         } else {
             newChecked.splice(currentIndex);
-            props.pantry.set(props.ingredients[value], false);
         }
-
         setChecked(newChecked);
+
+        props.pantry.set(value, !props.pantry.get(value));
     };
 
     return (
         <List className={classes.root}>
             {enumerate(props.ingredients).map((value) => {
                 if (props.pantry.get(props.ingredients[value])) {
-                    checked.push(value);
+                    checked.push(props.ingredients[value]);
                 }
-                const labelId = `checkbox-list-label-${value}`;
+                const labelId = `checkbox-list-label-${props.ingredients[value]}`;
                 return (
-                    <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
+                    <ListItem className={classes.ingredient}
+                              key={props.ingredients[value]}
+                              role={undefined}
+                              dense button onClick={handleToggle(props.ingredients[value])}>
                         <ListItemIcon>
                             <Checkbox
                                 edge="start"
-                                checked={checked.indexOf(value) !== -1}
+                                checked={checked.indexOf(props.ingredients[value]) !== -1}
+                                color={'primary'}
                                 disableRipple
-                                inputProps={{ 'aria-labelledby': props.ingredients[value] }}
+                                inputProps={{ 'aria-labelledby': labelId }}
                             />
                         </ListItemIcon>
                         <ListItemText id={labelId} primary={props.ingredients[value]} />
-                        <ListItemSecondaryAction>
-                            <ExpirationDatePicker ingredient={props.ingredients[value]}
-                                                  expiration={props.expiration}/>
-                        </ListItemSecondaryAction>
+                        <ExpirationDatePicker ingredient={props.ingredients[value]}
+                                              expiration={props.expiration}/>
                     </ListItem>
                 );
             })}

@@ -38,10 +38,11 @@ class RecipeComponent extends Component {
     return (
       <Container maxWidth="sm">
         <FormControl>
-          <Button variant="contained" onClick={this.handleSearch}>
-            Search Recipe
+          <Button variant="contained"
+                  color="primary"
+                  onClick={this.handleSearch}>
+            Find Recipes
           </Button>
-          
         </FormControl>
         <div>
           <GridList cellHeight={160} cols={2}>
