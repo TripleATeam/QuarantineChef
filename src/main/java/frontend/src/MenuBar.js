@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Logo from "./Logo";
+import SignIn from './SignIn.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,7 +20,7 @@ export default function MenuBar() {
             <AppBar position="static">
                 <Toolbar>
                     <Logo />
-                    <Button color="inherit">Login</Button>
+                    < SignIn />
                 </Toolbar>
             </AppBar>
         </div>

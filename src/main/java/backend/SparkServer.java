@@ -45,6 +45,7 @@ public class SparkServer {
         });
 
         get("/get-pantry", (req, res) -> {
+            String user = req.cookie("userId");
             int userId = Integer.parseInt(req.queryParams("userId"));
             UserProfile userProfile = new UserProfile(userId, null, null, null);
             Pantry pantry = databaseAPI.getPantry(userProfile);
