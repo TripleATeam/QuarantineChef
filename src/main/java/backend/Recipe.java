@@ -1,5 +1,6 @@
 package backend;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -11,6 +12,8 @@ public class Recipe {
     private List<EdamamIngredient> ingredientList;
     private String imageUrl;
     private String recipeUrl;
+    // for filtering
+    private int missing;
 
     /**
      * constructor
@@ -24,6 +27,7 @@ public class Recipe {
         this.ingredientList = ingredientList;
         this.imageUrl = imageUrl;
         this.recipeUrl = recipeUrl;
+        this.missing = Integer.MAX_VALUE;
     }
 
     /**
@@ -52,5 +56,26 @@ public class Recipe {
      */
     public String getRecipeUrl() {
         return recipeUrl;
+    }
+
+    /**
+     * @param n sets the number of missing ingredients in this recipe
+     */
+    public void setMissing(int n) {
+        this.missing = n;
+    }
+    /**
+     * @return number of missing ingredients needed to make this recipe
+     */
+    public int getMissing() {
+        return missing;
+    }
+
+    public static class CompareMissing implements Comparator<Recipe> {
+
+        @Override
+        public int compare(Recipe o1, Recipe o2) {
+            return Integer.compare(o1.getMissing(), o2.getMissing());
+        }
     }
 }
