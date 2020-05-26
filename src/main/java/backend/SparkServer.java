@@ -7,6 +7,7 @@ import backend.RecipeParser;
 import backend.RecipeFilter;
 import com.google.gson.Gson;
 import database.*;
+import spark.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class SparkServer {
             String keyIngredient = req.queryParams("key-ingredient");
             List<RecipeView> recipes = new ArrayList<>();
 
-            int userID = 0; //should be received from frontend
+            int userID = getUserId(req); //should be received from frontend
 
             //create a userKeyIngredient, with unknown ingredient group
             Ingredient userKeyIngredient = keyIngredient != null && !keyIngredient.equals("")
@@ -45,8 +46,8 @@ public class SparkServer {
         });
 
         get("/get-pantry", (req, res) -> {
-            String user = req.cookie("userId");
-            int userId = Integer.parseInt(req.queryParams("userId"));
+
+            int userId = getUserId(req);
             UserProfile userProfile = new UserProfile(userId, null, null, null);
             Pantry pantry = databaseAPI.getPantry(userProfile);
             Gson gson = new Gson();
@@ -57,7 +58,7 @@ public class SparkServer {
             String body = req.body();
             Gson gson = new Gson();
             PantryView pantryView = gson.fromJson(body, PantryView.class);
-            UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
+            UserProfile up = new UserProfile(getUserId(req), new int[2], new int[2], new int[2]);
             
             Ingredient[] ingArr = new Ingredient[pantryView.ingredients.length];
             for (int i = 0; i < pantryView.ingredients.length; i++) {
@@ -68,7 +69,14 @@ public class SparkServer {
             return "OK";
         });
     }
+    private static int getUserId(Request req){
+        String googleUserId = req.cookie("googleUserId");
+        if (googleUserId == null) {
+            return 0;
+        }
+        return databaseAPI.getUserIdFromGoogle(googleUserId);
 
+    }
     private static void enableCors() {
         // Enable CORS in Spark Java: https://gist.github.com/saeidzebardast/e375b7d17be3e0f4dddf
         options("/*",(request, response) -> {
@@ -82,9 +90,17 @@ public class SparkServer {
                 response.header("Access-Control-Allow-Methods",
                         accessControlRequestMethod);
             }
+            String accessControlRequestCredentials = request.headers("Access-Control-Allow-Credentials");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Credentials",
+                        accessControlRequestCredentials);
+            }
             return "OK";
         });
-        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.header("Access-Control-Allow-Credentials", "true");
+        });
         //
     }
 

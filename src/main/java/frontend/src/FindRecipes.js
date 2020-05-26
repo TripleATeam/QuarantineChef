@@ -17,7 +17,7 @@ class RecipeComponent extends Component {
   }
 
   async handleSearch(event) {
-    let response = await fetch("http://localhost:4567/find-recipe?key-ingredient=" + this.state.value);
+    let response = await fetch("http://localhost:4567/find-recipe?key-ingredient=" + this.state.value, {credentials: 'include'});
     let recipes = await response.json();
     this.setState({
       recipes: recipes,

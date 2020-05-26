@@ -50,6 +50,7 @@ export default function UpdateDBPantry(props) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(pantry),
+            credentials: 'include'
         };
 
         // send pantry to database
