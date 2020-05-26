@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public class UserProfile {
     public int userID;
+    public String googleUserID;
     public int[] preferences;
     public int[] health;
     public int[] diet;
@@ -27,6 +28,11 @@ public class UserProfile {
         this.preferences = preferences;
         this.health = health;
         this.diet = diet;
+    }
+    public UserProfile(int userID, int[] preferences, int[] health, int[] diet, String googleUserID) {
+        this(userID, preferences, health, diet);
+        this.googleUserID = googleUserID;
+
     }
 
     /**

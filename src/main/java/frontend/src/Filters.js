@@ -19,6 +19,12 @@ const health = ["dairy-free", "gluten-free", "keto-friendly", "kosher", "low-sug
     "peanut-free", "vegan", "vegetarian"];
 
 const filterTypes = [mealType, cuisineType, diet, health];
+const filterData = {
+    mealType: [],
+    cuisineType: [],
+    diet: [],
+    health: []
+};
 
 const hasFilter = new Map();
 for (let type in filterTypes) {
@@ -63,9 +69,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function FilterPanel() {
+export default function FilterPanel(props) {
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
+    props.handleFilterData(filterData);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -77,7 +84,39 @@ export default function FilterPanel() {
         }
         setChecked(newChecked);
 
-        hasFilter.set(value, !hasFilter.get(value));
+        const isChecked = !hasFilter.get(value);
+        hasFilter.set(value, isChecked);
+
+        // update filterData object
+        if (mealType.includes(value)) {
+            if (isChecked) {
+                filterData.mealType.push(value);
+            } else {
+                filterData.mealType = filterData.mealType.filter(x => x !== value);
+            }
+        }
+        if (cuisineType.includes(value)) {
+            if (isChecked) {
+                filterData.cuisineType.push(value);
+            } else {
+                filterData.cuisineType = filterData.cuisineType.filter(x => x !== value);
+            }
+        }
+        if (diet.includes(value)) {
+            if (isChecked) {
+                filterData.diet.push(value);
+            } else {
+                filterData.diet = filterData.diet.filter(x => x !== value);
+            }
+        }
+        if (health.includes(value)) {
+            if (isChecked) {
+                filterData.health.push(value);
+            } else {
+                filterData.health = filterData.health.filter(x => x !== value);
+            }
+        }
+        props.handleFilterData(filterData);
     };
 
     return (

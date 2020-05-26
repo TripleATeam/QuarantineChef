@@ -177,7 +177,9 @@ public class databaseAPI {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:User {userID: ");
         sb.append(up.userID);
-        sb.append(", cuisinePreferences: [");
+        sb.append(", googleUserID: '");
+        sb.append(up.googleUserID);
+        sb.append("', cuisinePreferences: [");
         sb.append(up.preferences[0]);
         for (int i = 1; i < up.preferences.length; i++) {
             sb.append( ", ");
@@ -428,6 +430,33 @@ public class databaseAPI {
         }
         return retlist;
     }
+    public static int getUserIdFromGoogle(String googleUserId) {
+        String cypherQuery = "MATCH (n:User) WHERE n.googleUserID = '" + googleUserId + "' RETURN" +
+                " n.userID as userID";
+        StatementResult result = doQuery(cypherQuery);
+        int userId = -1;
+        while (result.hasNext()) {
+            Record curr = result.next();
+            userId = curr.get("userID").asInt();
+        }
+        if (userId == -1){
+            // Find the "latest" userID
+            String cypherQuery2 = "MATCH (n:User) RETURN n.userID as userID ORDER BY n.userID DESC LIMIT 1";
+            StatementResult result2 = doQuery(cypherQuery2);
+
+            while (result2.hasNext()) {
+                Record curr = result2.next();
+                userId = curr.get("userID").asInt();
+            }
+            userId ++;
+            UserProfile up = new UserProfile(userId , new int[2], new int[2], new int[2], googleUserId);
+            createUserProfile(up);
+            createPantry(up, new Pantry(new Ingredient[]{ getIngredient("Salt")}, new String[]{"01-01-2050"}, new int[]{1} ));
+        }
+        return userId;
+
+    }
+
 
     /**
      * Returns an IngredientGroup that corresponds to the passed String.

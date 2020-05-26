@@ -276,7 +276,7 @@ const useStyles = makeStyles((theme) => ({
 // function to get user ingredients and expiration dates from database to populate virtual pantry
 // const getPantryFromDatabase = async () => {
 async function getPantryFromDatabase() {
-    let response = await fetch("http://localhost:4567/get-pantry?userId=0")
+    let response = await fetch("http://localhost:4567/get-pantry", {credentials: 'include'});
     let databasePantry = await response.json();
 
     for (let i = 0; i < databasePantry.ingredients.length; i++) {
@@ -290,6 +290,19 @@ async function getPantryFromDatabase() {
 export default function Layout() {
     // use styles for this functional component
     const classes = useStyles();
+    let filterData = {};
+
+    const handleFilterData = (data) => {
+        filterData = data;
+    }
+
+    const getFilterData = (data) => {
+        return filterData;
+    }
+
+    const handleUserUpdate = () => {
+        getPantryFromDatabase();
+    }
 
     // fetch('http://localhost:4567/get-pantry?userId=0')
     //     .then(response => response.json())
@@ -317,12 +330,12 @@ export default function Layout() {
     // console.log(ingredients);
 
     // call database to update user pantry
-    getPantryFromDatabase();
+    // getPantryFromDatabase();
 
     // return page elements
     return (
         <div className={classes.root}>
-            <MenuBar />
+            <MenuBar handleUserUpdate={handleUserUpdate} />
             <Grid className={classes.body} container spacing={3} justify="flex-end">
                 <Grid item xs={12}>
                     <Paper className={classes.header}>
@@ -382,8 +395,8 @@ export default function Layout() {
                 </Grid>
                 <Grid item xs md>
                     <Paper className={classes.recipes}>
-                        <FilterPanel />
-                        <RecipeButton />
+                        <FilterPanel handleFilterData={handleFilterData} />
+                        <RecipeButton getFilterData={getFilterData}/>
                     </Paper>
                 </Grid>
                 <Grid item xs={12}> </Grid>
