@@ -319,7 +319,7 @@ public class databaseAPI {
         int[] health;
         int[] meal;
         while (sr.hasNext()) {
-            Record curr = sr.next();
+            org.neo4j.driver.v1.Record curr = sr.next();
 
             preferences =  new int[CUISINE_SIZE];
             diet = new int[DIET_SIZE];
@@ -370,7 +370,7 @@ public class databaseAPI {
         Ingredient[] ingredients;
         int[] quantities;
         while (result.hasNext()) {
-            Record curr = result.next();
+            org.neo4j.driver.v1.Record curr = result.next();
 
             int size = curr.get("numIngredients").asInt();
             expirations =  new String[size];

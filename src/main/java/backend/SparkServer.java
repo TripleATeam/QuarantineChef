@@ -45,7 +45,7 @@ public class SparkServer {
         get("/get-pantry", (req, res) -> {
 
             int userId = getUserId(req);
-            UserProfile userProfile = new UserProfile(userId, null, null, null);
+            UserProfile userProfile = new UserProfile(userId, null, null, null, (int[]) null);
             Pantry pantry = databaseAPI.getPantry(userProfile);
             Gson gson = new Gson();
             return gson.toJson(pantry);
@@ -55,7 +55,7 @@ public class SparkServer {
             String body = req.body();
             Gson gson = new Gson();
             PantryView pantryView = gson.fromJson(body, PantryView.class);
-            UserProfile up = new UserProfile(getUserId(req), new int[2], new int[2], new int[2]);
+            UserProfile up = new UserProfile(getUserId(req), new int[2], new int[2], new int[2], new int[2]);
             
             Ingredient[] ingArr = new Ingredient[pantryView.ingredients.length];
             for (int i = 0; i < pantryView.ingredients.length; i++) {
@@ -71,7 +71,8 @@ public class SparkServer {
         if (googleUserId == null) {
             return 0;
         }
-        return databaseAPI.getUserIdFromGoogle(googleUserId);
+        //return databaseAPI.getUserIdFromGoogle(googleUserId);
+        return 0;
 
     }
     private static void enableCors() {

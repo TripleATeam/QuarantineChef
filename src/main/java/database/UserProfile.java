@@ -5,10 +5,10 @@ import java.util.Arrays;
 public class UserProfile {
     public int userID;
     public String googleUserID;
-    public int[] preferences;
-    public int[] health;
-    public int[] diet;
-    public int[] meal;
+    public int[] preferences;  // American, Asian, Caribbean, Chinese, French, Indian, Italian, Japanese, Mediterranean, Mexican, Middle Eastern
+    public int[] health;  // Dairy-free, Gluten-free, Keto, Kosher, Low Sugar, Paleo, Peanut-free, Vegan, Vegetarian
+    public int[] diet;  // High Fiber, High Protein, Low Carb, Low Fat, Low Sodium
+    public int[] meal;  // Breakfast, Lunch, Dinner
 
     /**
      * Returns a UserProfile with the given userID, cuisine preferences,
@@ -31,8 +31,8 @@ public class UserProfile {
         this.diet = diet;
         this.meal = meal;
     }
-    public UserProfile(int userID, int[] preferences, int[] health, int[] diet, String googleUserID) {
-        this(userID, preferences, health, diet);
+    public UserProfile(int userID, int[] preferences, int[] health, int[] diet, int[] meal, String googleUserID) {
+        this(userID, preferences, health, diet, meal);
         this.googleUserID = googleUserID;
 
     }
