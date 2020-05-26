@@ -67,6 +67,13 @@ public class RecipeFilter {
 
     //Gathers data from the Edamam API using the current pantry
     private List<Recipe> getRecipes() {
+
+        //if the user has no ingredients, return an empty list of recipes
+        if (this.currentPantry.getIngredients().length == 0) {
+            return new ArrayList<Recipe>();
+        }
+
+
         //Example: "https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
         StringBuilder query = new StringBuilder("https://api.edamam.com/search?q=");
 
@@ -93,6 +100,10 @@ public class RecipeFilter {
             String exclusionParameter = "&excluded=" + exlcudedIngredientName;
             query.append(exclusionParameter);
         }
+
+        //add taste profile and user recipe preferences
+        //query = addTasteProfile(query, map goes here);
+        //query = query.replaceAll("\\s", "%20");
 
         String finalQuery = query.toString();
         System.out.println(finalQuery);
@@ -314,6 +325,29 @@ public class RecipeFilter {
         return sortedArray;
     }
 
+
+    private String addTasteProfile(String query, Map<String, String> tasteProfile) {
+        /*tasteProfile: keys = mealType, cuisineType, diet, health
+         */
+        List<String> possibleTasteOptions = new ArrayList<String>();
+        possibleTasteOptions.add("diet");
+        possibleTasteOptions.add("health");
+        possibleTasteOptions.add("cuisineType");
+        possibleTasteOptions.add("mealType");
+
+        StringBuilder queryBuilder = new StringBuilder(query);
+        for (String tasteOption : possibleTasteOptions) {
+            if (tasteProfile.containsKey(tasteOption)) {
+                queryBuilder.append("&");
+                queryBuilder.append(tasteOption);
+                queryBuilder.append("=");
+                queryBuilder.append(tasteProfile.get(tasteOption));
+            }
+        }
+
+        query = queryBuilder.toString();
+        return query;
+    }
 
 
 }
