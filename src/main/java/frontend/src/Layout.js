@@ -290,6 +290,15 @@ async function getPantryFromDatabase() {
 export default function Layout() {
     // use styles for this functional component
     const classes = useStyles();
+    let filterData = {};
+
+    const handleFilterData = (data) => {
+        filterData = data;
+    }
+
+    const getFilterData = (data) => {
+        return filterData;
+    }
 
     // fetch('http://localhost:4567/get-pantry?userId=0')
     //     .then(response => response.json())
@@ -382,8 +391,8 @@ export default function Layout() {
                 </Grid>
                 <Grid item xs md>
                     <Paper className={classes.recipes}>
-                        <FilterPanel />
-                        <RecipeButton />
+                        <FilterPanel handleFilterData={handleFilterData} />
+                        <RecipeButton getFilterData={getFilterData}/>
                     </Paper>
                 </Grid>
                 <Grid item xs={12}> </Grid>

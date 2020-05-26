@@ -17,31 +17,28 @@ public class SparkServer {
     public static void main(String[] args) {
         enableCors();
 
+
         get("/find-recipe", (req, res) -> {
-            String keyIngredient = req.queryParams("key-ingredient");
-            List<RecipeView> recipes = new ArrayList<>();
+            String filterData = req.queryParams("filter");
+            Gson gson = new Gson();
+            FilterView filterView = gson.fromJson(filterData, FilterView.class);
 
             int userID = getUserId(req); //should be received from frontend
-
-            //create a userKeyIngredient, with unknown ingredient group
-            Ingredient userKeyIngredient = keyIngredient != null && !keyIngredient.equals("")
-                    ? new Ingredient(keyIngredient, null)
-                    : null;
-
             //Creation of a UserProfile retrieved from frontend
             UserProfile currentLoggedInUser = databaseAPI.getUserProfile(userID);
 
             //Creation of a Pantry for RecipeFilter
             Pantry currentPantry = null;
 
-            RecipeFilter recipeFilter = new RecipeFilter(currentLoggedInUser, userKeyIngredient, currentPantry);
+            // TODO: add filterView to recipe filter
+            RecipeFilter recipeFilter = new RecipeFilter(currentLoggedInUser, null, currentPantry);
             List<Recipe> recipeList = recipeFilter.getNewRecipes();
-
+            List<RecipeView> recipes = new ArrayList<>();
             for (Recipe i : recipeList) {
                 recipes.add(new RecipeView(i.getLabel(),i.getRecipeUrl(), i.getImageUrl()));
             }
 
-            Gson gson = new Gson();
+
             return gson.toJson(recipes);
         });
 
@@ -120,5 +117,12 @@ public class SparkServer {
         public String[] ingredients;
         public String[] expirations;
         public int[] quantities;
+    }
+    private class FilterView{
+        public String[] mealType;
+        public String[] cuisineType;
+        public String[] diet;
+        public String[] health;
+
     }
 }
