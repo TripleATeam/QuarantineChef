@@ -31,6 +31,7 @@ public class UserProfile {
         this.diet = diet;
         this.meal = meal;
     }
+
     public UserProfile(int userID, int[] preferences, int[] health, int[] diet, int[] meal, String googleUserID) {
         this(userID, preferences, health, diet, meal);
         this.googleUserID = googleUserID;
