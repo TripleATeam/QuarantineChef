@@ -18,10 +18,11 @@ public class databaseAPITest {
     @Before
     public void initialize() {
         int userID = 0;
-        int[] pref = {1, 2};
-        int[] health = {3, 4};
-        int[] diet = {5, 6};
-        up = new UserProfile(userID, pref, health, diet);
+        int[] pref = new int[11];
+        int[] health = new int[9];
+        int[] diet = new int[5];
+        int[] meal = new int[3];
+        up = new UserProfile(userID, pref, health, diet, meal);
 
         Ingredient ing1 = new Ingredient("Salt", IngredientGroup.SPICES);
         Ingredient ing2 = new Ingredient("Pepper", IngredientGroup.SPICES);
@@ -67,10 +68,11 @@ public class databaseAPITest {
     public void testUpdateUser() {
         placeInDatabase(up, pantry);
         int userID = 0;
-        int[] pref = {-1, -2};
-        int[] health = {-3, -4};
-        int[] diet = {-5, -6};
-        UserProfile up2 = new UserProfile(userID, pref, health, diet);
+        int[] pref = {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int[] health = {-2, 0, 0, 0, 0, 0, 0, 0, 0};
+        int[] diet = {-3, 0, 0, 0, 0};
+        int[] meal = {-4, 0, 0};
+        UserProfile up2 = new UserProfile(userID, pref, health, diet, meal);
         assertEquals(up, getUserProfile(up2.userID));
         updateUser(up2);
         assertEquals(up2, getUserProfile(up2.userID));

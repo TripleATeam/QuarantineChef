@@ -8,6 +8,7 @@ public class UserProfile {
     public int[] preferences;
     public int[] health;
     public int[] diet;
+    public int[] meal;
 
     /**
      * Returns a UserProfile with the given userID, cuisine preferences,
@@ -23,11 +24,12 @@ public class UserProfile {
      * @param diet          a non-null array of integers representing the
      *                      diets the user is on (0 = not on diet, 1 = on diet).
      */
-    public UserProfile(int userID, int[] preferences, int[] health, int[] diet) {
+    public UserProfile(int userID, int[] preferences, int[] health, int[] diet, int[] meal) {
         this.userID = userID;
         this.preferences = preferences;
         this.health = health;
         this.diet = diet;
+        this.meal = meal;
     }
     public UserProfile(int userID, int[] preferences, int[] health, int[] diet, String googleUserID) {
         this(userID, preferences, health, diet);
@@ -53,6 +55,7 @@ public class UserProfile {
         boolean bool1 = Arrays.equals(preferences, otherPan.preferences);
         boolean bool2 = Arrays.equals(health, otherPan.health);
         boolean bool3 = Arrays.equals(diet, otherPan.diet);
-        return bool1 && bool2 && bool3;
+        boolean bool4 = Arrays.equals(meal, otherPan.meal);
+        return bool1 && bool2 && bool3 && bool4;
     }
 }
