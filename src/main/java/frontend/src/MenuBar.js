@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MenuBar() {
+export default function MenuBar(props) {
     const classes = useStyles();
 
     return (
@@ -20,7 +20,7 @@ export default function MenuBar() {
             <AppBar position="static">
                 <Toolbar>
                     <Logo />
-                    < SignIn />
+                    < SignIn handleUserUpdate={props.handleUserUpdate} />
                 </Toolbar>
             </AppBar>
         </div>

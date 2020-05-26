@@ -440,6 +440,7 @@ public class databaseAPI {
             userId = curr.get("userID").asInt();
         }
         if (userId == -1){
+            // Find the "latest" userID
             String cypherQuery2 = "MATCH (n:User) RETURN n.userID as userID ORDER BY n.userID DESC LIMIT 1";
             StatementResult result2 = doQuery(cypherQuery2);
 
@@ -453,7 +454,7 @@ public class databaseAPI {
             createPantry(up, new Pantry(new Ingredient[]{ getIngredient("Salt")}, new String[]{"01-01-2050"}, new int[]{1} ));
         }
         return userId;
-        //MATCH (n:User) RETURN n.userID ORDER BY n.userID DESC LIMIT 1
+
     }
 
 

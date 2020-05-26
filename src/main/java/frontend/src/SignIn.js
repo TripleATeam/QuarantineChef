@@ -17,6 +17,7 @@ class SignInComponent extends Component {
             googleUserId: profile.getId()
         });
         this.setCookie('googleUserId', this.state.googleUserId, 30);
+        this.props.handleUserUpdate();
     }
 
     setCookie(name, value, days) {

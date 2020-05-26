@@ -300,6 +300,10 @@ export default function Layout() {
         return filterData;
     }
 
+    const handleUserUpdate = () => {
+        getPantryFromDatabase();
+    }
+
     // fetch('http://localhost:4567/get-pantry?userId=0')
     //     .then(response => response.json())
     //     .then(data => () => {
@@ -326,12 +330,12 @@ export default function Layout() {
     // console.log(ingredients);
 
     // call database to update user pantry
-    getPantryFromDatabase();
+    // getPantryFromDatabase();
 
     // return page elements
     return (
         <div className={classes.root}>
-            <MenuBar />
+            <MenuBar handleUserUpdate={handleUserUpdate} />
             <Grid className={classes.body} container spacing={3} justify="flex-end">
                 <Grid item xs={12}>
                     <Paper className={classes.header}>
