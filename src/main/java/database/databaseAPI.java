@@ -27,7 +27,7 @@ public class databaseAPI {
      */
     private static void init() {
         try {
-            File file = new File("ingredients.csv");
+            File file = new File("src/main/java/frontend/src/ingredients.csv");
             Scanner scan = new Scanner(file);
             scan.nextLine();
             namesToGroups = new HashMap<>();
@@ -480,7 +480,7 @@ public class databaseAPI {
      */
     private static StatementResult doQuery(String cypherQuery) {
         Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
-        Driver driver = GraphDatabase.driver("bolt://100.25.153.235:33482", AuthTokens.basic("neo4j","temper-attempt-observers"),noSSL); // <password>
+        Driver driver = GraphDatabase.driver("bolt://34.224.17.116:47989", AuthTokens.basic("neo4j","military-disassemblies-bases"),noSSL); // <password>
         try (Session session = driver.session()) {
             return session.run(cypherQuery, parameters());
         }
