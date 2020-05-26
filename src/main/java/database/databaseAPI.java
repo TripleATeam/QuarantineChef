@@ -11,10 +11,11 @@ import java.util.Scanner;
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class databaseAPI {
-    private static final int CUISINE_SIZE = 2;  //Kyle: 11
-    private static final int DIET_SIZE = 2;  //Kyle: 5
-    private static final int HEALTH_SIZE = 2;  // Kyle: 9
-    // MEAL_SIZE = 3;
+    private static final int CUISINE_SIZE = 11;  //Kyle: 11
+    private static final int DIET_SIZE = 5;  //Kyle: 5
+    private static final int HEALTH_SIZE = 9;  // Kyle: 9
+    private static final int MEAL_SIZE = 3;
+
     private static final String SANDBOX_URL = "bolt://100.25.153.235:33482";
     private static final String SANDBOX_PASSWORD = "temper-attempt-observers";
 
@@ -66,7 +67,7 @@ public class databaseAPI {
      * @param args The arguments
      */
     public static void main(String[] args) {
-        UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
+        UserProfile up = new UserProfile(-1, new int[CUISINE_SIZE], new int[DIET_SIZE], new int[HEALTH_SIZE], new int[MEAL_SIZE]);
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("Beef Steak");
         ingArr[1] = getIngredient("Chicken Breast");
@@ -198,6 +199,12 @@ public class databaseAPI {
             sb.append( ", ");
             sb.append(up.health[i]);
         }
+        sb.append("], mealTypes: [");
+        sb.append(up.meal[0]);
+        for (int i = 1; i < up.diet.length; i++) {
+            sb.append( ", ");
+            sb.append(up.diet[i]);
+        }
         sb.append("]})");
         String cypherQuery = sb.toString();
         doQuery(cypherQuery);
@@ -282,6 +289,12 @@ public class databaseAPI {
             sb.append( ", ");
             sb.append(up.health[i]);
         }
+        sb.append("], n.mealTypes = [");
+        sb.append(up.meal[0]);
+        for (int i = 1; i < up.meal.length; i++) {
+            sb.append( ", ");
+            sb.append(up.meal[i]);
+        }
         sb.append("] RETURN n");
         String cypherQuery = sb.toString();
         doQuery(cypherQuery);
@@ -297,22 +310,26 @@ public class databaseAPI {
      */
     public static UserProfile getUserProfile(int userID) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + userID + " RETURN" +
-                " n.cuisinePreferences as preferences, n.dietTypes as diet, n.healthRestrictions as health";
+                " n.cuisinePreferences as preferences, n.dietTypes as diet, " +
+                "n.healthRestrictions as health, n.mealTypes as meal";
         StatementResult sr = doQuery(cypherQuery);
         UserProfile ret = null;
         int[] preferences;
         int[] diet;
         int[] health;
+        int[] meal;
         while (sr.hasNext()) {
             Record curr = sr.next();
 
             preferences =  new int[CUISINE_SIZE];
             diet = new int[DIET_SIZE];
             health = new int[HEALTH_SIZE];
+            meal = new int[MEAL_SIZE];
 
             Object[] objArr1 = curr.get("preferences").asList().toArray();
             Object[] objArr2 = curr.get("diet").asList().toArray();
             Object[] objArr3 = curr.get("health").asList().toArray();
+            Object[] objArr4 = curr.get("meal").asList().toArray();
             for (int i = 0; i < CUISINE_SIZE; i++) {
                 Long l = (Long) objArr1[i];
                 preferences[i] = l.intValue();
@@ -325,7 +342,11 @@ public class databaseAPI {
                 Long l = (Long) objArr3[i];
                 health[i] = l.intValue();
             }
-            ret = new UserProfile(userID, preferences, health, diet);
+            for (int i = 0; i < MEAL_SIZE; i++) {
+                Long l = (Long) objArr4[i];
+                meal[i] = l.intValue();
+            }
+            ret = new UserProfile(userID, preferences, health, diet, meal);
         }
         return ret;
     }
