@@ -16,8 +16,8 @@ public class databaseAPI {
     private static final int HEALTH_SIZE = 9;  // Kyle: 9
     private static final int MEAL_SIZE = 3;
 
-    private static final String SANDBOX_URL = "bolt://100.25.153.235:33482";
-    private static final String SANDBOX_PASSWORD = "temper-attempt-observers";
+    private static final String SANDBOX_URL = "bolt://34.224.17.116:47989";
+    private static final String SANDBOX_PASSWORD = "military-disassemblies-bases";
 
     private static boolean initialized = false;
 
@@ -71,7 +71,7 @@ public class databaseAPI {
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("Beef Steak");
         ingArr[1] = getIngredient("Chicken Breast");
-        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{1, 1});
+        Pantry p = new Pantry(ingArr, new String[]{null, "02-01-2020"}, new int[]{1, 1});
         System.out.println(placeInDatabase(up, p));
         Pantry p2 = getPantry(up);
         updateUser(up);

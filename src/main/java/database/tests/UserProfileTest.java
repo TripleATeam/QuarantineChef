@@ -20,7 +20,7 @@ public class UserProfileTest {
         int[] pref = {1, 2};
         int[] health = {3, 4};
         int[] diet = {5, 6};
-        up = new UserProfile(userID, pref, health, diet);
+        up = new UserProfile(userID, pref, health, diet, diet);
     }
 
     /**
@@ -42,7 +42,7 @@ public class UserProfileTest {
         int[] pref = {1, 2};
         int[] health = {3, 4};
         int[] diet = {5, 6};
-        UserProfile up2 = new UserProfile(userID, pref, health, diet);
+        UserProfile up2 = new UserProfile(userID, pref, health, diet, diet);
         assertEquals(up, up2);
     }
 
@@ -56,13 +56,13 @@ public class UserProfileTest {
         int[] pref = {5, 4};
         int[] health = {3, 4};
         int[] diet = {5, 6};
-        UserProfile up2 = new UserProfile(userID, pref, health, diet);
+        UserProfile up2 = new UserProfile(userID, pref, health, diet, diet);
         assertNotEquals(up, up2);
         int[] health2 = {4, 3};
-        up2 = new UserProfile(userID, pref, health2, diet);
+        up2 = new UserProfile(userID, pref, health2, diet, diet);
         assertNotEquals(up, up2);
         int[] diet2 = {3, 2};
-        up2 = new UserProfile(userID, pref, health2, diet2);
+        up2 = new UserProfile(userID, pref, health2, diet2, diet);
         assertNotEquals(up, up2);
     }
 }
