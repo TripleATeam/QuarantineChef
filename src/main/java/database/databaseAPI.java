@@ -480,7 +480,7 @@ public class databaseAPI {
      */
     private static StatementResult doQuery(String cypherQuery) {
         Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
-        Driver driver = GraphDatabase.driver("bolt://100.25.153.235:33482", AuthTokens.basic("neo4j","temper-attempt-observers"),noSSL); // <password>
+        Driver driver = GraphDatabase.driver("bolt://34.224.17.116:47989", AuthTokens.basic("neo4j","military-disassemblies-bases"),noSSL); // <password>
         try (Session session = driver.session()) {
             return session.run(cypherQuery, parameters());
         }
