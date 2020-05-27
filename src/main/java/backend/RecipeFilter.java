@@ -105,7 +105,8 @@ public class RecipeFilter {
     //Chooses which recipes to display to the user
     private List<Recipe> filterRecipes(List<Recipe> unfilteredRecipes) {
         //method returns 10 randomly selected recipes for the beta
-        return unfilteredRecipes;
+        FilterRecipeList filterRecipeList = new FilterRecipeList(unfilteredRecipes, currentPantry);
+        return filterRecipeList.sortByMissing();
     }
 
 
