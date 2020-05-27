@@ -8,3 +8,8 @@ Database:
     GetUserProfile: UserProfile created in wrong order, diet and health switched.
     Several equals() methods required for proper checking if two objects were equal were not implemented.
     Date and String conversion in Pantry wasn't 100%, some issues with months and years.
+    "Cannot read property 'ingredients' of null" error when running frontend with a newly spun up database
+    
+Frontend:
+    Opening/closing the date picker and interacting with it causes the ingredient to be checked/unchecked
+    No recipes found no matter how many ingredients added to pantry
