@@ -62,6 +62,9 @@ public class UserProfileTest {
         UserProfile up2 = new UserProfile(userID, pref, health, diet, meal);
         assertEquals(up, up2);
 
+        up2 = new UserProfile(userID, pref, health, diet, meal, "01203");
+        assertNotEquals(up, up2);
+
         int[] pref2 = {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         up2 = new UserProfile(userID, pref2, health, diet, meal);
         assertNotEquals(up, up2);

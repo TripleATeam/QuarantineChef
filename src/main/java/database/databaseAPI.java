@@ -31,7 +31,7 @@ public class databaseAPI {
      */
     private static void init() {
         try {
-            File file = new File("ingredients.csv");
+            File file = new File("src/main/java/frontend/src/ingredients.csv");
             Scanner scan = new Scanner(file);
             scan.nextLine();
             namesToGroups = new HashMap<>();
@@ -67,7 +67,7 @@ public class databaseAPI {
      * @param args The arguments
      */
     public static void main(String[] args) {
-        UserProfile up = new UserProfile(-1, new int[CUISINE_SIZE], new int[DIET_SIZE], new int[HEALTH_SIZE], new int[MEAL_SIZE]);
+        UserProfile up = new UserProfile(20, new int[CUISINE_SIZE], new int[DIET_SIZE], new int[HEALTH_SIZE], new int[MEAL_SIZE]);
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("Beef Steak");
         ingArr[1] = getIngredient("Chicken Breast");
@@ -181,7 +181,9 @@ public class databaseAPI {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:User {userID: ");
         sb.append(up.userID);
-        sb.append(", cuisinePreferences: [");
+        sb.append(", googleUserID: \"");
+        sb.append(up.googleUserID);
+        sb.append("\", cuisinePreferences: [");
         sb.append(up.preferences[0]);
         for (int i = 1; i < up.preferences.length; i++) {
             sb.append( ", ");
@@ -277,7 +279,9 @@ public class databaseAPI {
             sb.append( ", ");
             sb.append(up.preferences[i]);
         }
-        sb.append("], n.dietTypes = [");
+        sb.append("], n.googleUserID = \"");
+        sb.append(up.googleUserID);
+        sb.append("\", n.dietTypes = [");
         sb.append(up.diet[0]);
         for (int i = 1; i < up.diet.length; i++) {
             sb.append( ", ");
@@ -311,7 +315,8 @@ public class databaseAPI {
     public static UserProfile getUserProfile(int userID) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + userID + " RETURN" +
                 " n.cuisinePreferences as preferences, n.dietTypes as diet, " +
-                "n.healthRestrictions as health, n.mealTypes as meal";
+                "n.healthRestrictions as health, n.mealTypes as meal" +
+                ", n.googleUserID as googleUserID";
         StatementResult sr = doQuery(cypherQuery);
         UserProfile ret = null;
         int[] preferences;
@@ -346,7 +351,8 @@ public class databaseAPI {
                 Long l = (Long) objArr4[i];
                 meal[i] = l.intValue();
             }
-            ret = new UserProfile(userID, preferences, health, diet, meal);
+            String googleUserID = curr.get("googleUserID").asString();
+            ret = new UserProfile(userID, preferences, health, diet, meal, googleUserID);
         }
         return ret;
     }
@@ -451,6 +457,36 @@ public class databaseAPI {
             retlist[i] = new Ingredient(list.get(i), ingGroup);
         }
         return retlist;
+    }
+
+    public static int getUserIdFromGoogle(String googleUserId) {
+        String cypherQuery = "MATCH (n:User) WHERE n.googleUserID = \"" + googleUserId + "\" RETURN" +
+                " n.userID as userID";
+        StatementResult result = doQuery(cypherQuery);
+        int userId = -1;
+        while (result.hasNext()) {
+            Record curr = result.next();
+            userId = curr.get("userID").asInt();
+        }
+        return userId;
+    }
+
+    public static int generateUserID(String googleUserId) {
+        int userID = getUserIdFromGoogle(googleUserId);
+        while (userID == -1) {
+            userID = (int) (Math.random() * Integer.MAX_VALUE);
+            if (isTaken(userID)) {
+                userID = -1;
+            }
+        }
+        return userID;
+    }
+
+    private static boolean isTaken(int userID) {
+        String cypherQuery = "MATCH (n:User) WHERE n.userID = " + userID + " RETURN" +
+                " n.userID as userID";
+        StatementResult result = doQuery(cypherQuery);
+        return result.hasNext();
     }
 
     /**
