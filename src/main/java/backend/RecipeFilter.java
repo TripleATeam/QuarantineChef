@@ -68,6 +68,11 @@ public class RecipeFilter {
 
     //Gathers data from the Edamam API using the current pantry
     private List<Recipe> getRecipes() {
+        if (this.currentPantry.getIngredients().length == 0) {
+            return new ArrayList<Recipe>();
+        }
+
+
         //Example: "https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
         StringBuilder query = new StringBuilder("https://api.edamam.com/search?q=");
 
