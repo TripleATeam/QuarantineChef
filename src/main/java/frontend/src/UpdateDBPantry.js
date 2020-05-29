@@ -30,7 +30,7 @@ export default function UpdateDBPantry(props) {
             if (props.pantry.get(key)) {
                 ing.push(key);
                 let date = props.expiration.get(key);
-                if (date == null) {
+                if (date == null || date == "NaN-NaN-NaN") {
                     date = new Date();
                 }
                 exp.push(formatDate(date));

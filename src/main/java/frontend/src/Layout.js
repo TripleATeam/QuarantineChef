@@ -50,16 +50,16 @@ import Button from "@material-ui/core/Button";
 // Ingredients & Ingredient Types
 // TODO: use csv parser to populate map from 'ingredients.csv'
 const ingredients = new Map();
-const types = ['Poultry & Eggs','Fish & Seafood','Red Meat','Vegetables & Herbs','Fruits & Berries',
+const types = ['Poultry & Eggs'/*,'Fish & Seafood','Red Meat','Vegetables & Herbs','Fruits & Berries',
     'Dairy & Dairy Alternatives','Grains, Breads, Pasta & Cereal','Spices & Seasonings',
     'Condiments, Oils & Sauces','Sweeteners','Nuts, Seeds & Legumes','Beverages & Alcohol',
-    'Baking, Sweets & Snacks','Soups, Broth & Canned Goods'];
+    'Baking, Sweets & Snacks','Soups, Broth & Canned Goods'*/];
 ingredients.set('Poultry & Eggs',['Chicken Breast', 'Chicken Giblets', 'Chicken Leg',
     'Chicken Roast', 'Chicken Tenders', 'Chicken Thighs', 'Chicken Wings',
     'Cooked Chicken', 'Cornish Hen', 'Duck', 'Duck Liver', 'Eggs', 'Foie Gras',
     'Goose', 'Goose Liver', 'Grouse', 'Ostrich', 'Ostrich Eggs', 'Pheasant',
     'Pigeon', 'Quail', 'Quail Eggs', 'Turkey', 'Turkey Liver', 'Whole Chicken']);
-ingredients.set('Fish & Seafood',['Amberjack', 'Anchovy', 'Arctic Char', 'Barramundi',
+/*ingredients.set('Fish & Seafood',['Amberjack', 'Anchovy', 'Arctic Char', 'Barramundi',
     'Bluefish', 'Calamari', 'Canned Salmon', 'Canned Tuna', 'Carp', 'Catfish',
     'Caviar', 'Clam', 'Cockle', 'Cod', 'Conch', 'Crab', 'Crawfish', 'Cuttlefish',
     'Eel', 'Fish Fillets', 'Flounder', 'Grouper', 'Haddock', 'Halibut', 'Herring',
@@ -206,7 +206,7 @@ ingredients.set('Soups, Broth & Canned Goods',['Beef Broth', 'Canned Beets', 'Ca
     'Canned Green Beans', 'Canned Peas', 'Canned Tomato', 'Canned Vegetables',
     'Celery Soup', 'Chicken Broth', 'Chicken Soup', 'Dashi', 'Lamb Stock',
     'Mushroom Soup', 'Onion Soup', 'Pork Stock', 'Tomato Soup', 'Veal Stock',
-    'Vegetable Bouillon', 'Vegetable Soup', 'Vegetable Stock']);
+    'Vegetable Bouillon', 'Vegetable Soup', 'Vegetable Stock']);*/
 
 // maps for pantry & expiration to push data to database
 const pantry = new Map();
@@ -225,13 +225,7 @@ for (let i = 0; i < types.length; i++) {
 // styles for this functional component
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
-        // backgroundImage: `url(https://www.larchwoodcanada.com/wp-content/uploads/larchwood-classic-cutting-board-large_7652.jpg)`,
-        backgroundImage: `url(https://www.hillwoodproducts.com/wp-content/uploads/2015/03/wood1.jpg)`,
-        // backgroundColor: '#bae0f7',
-        backgroundPosition: 'center',
-        backgroundSize: '100%',
-        backgroundRepeat: 'repeat-y',
+        flexGrow: 1
     },
     header: {
         padding: theme.spacing(2),
@@ -291,6 +285,7 @@ export default function Layout() {
     // use styles for this functional component
     const classes = useStyles();
     let filterData = {};
+    const [loaded, setLoaded] = React.useState(false);
 
     const handleFilterData = (data) => {
         filterData = data;
@@ -300,8 +295,10 @@ export default function Layout() {
         return filterData;
     }
 
-    const handleUserUpdate = () => {
-        getPantryFromDatabase();
+    const handleUserUpdate = async () => {
+
+        await getPantryFromDatabase();
+        setLoaded(true);
     }
 
     // fetch('http://localhost:4567/get-pantry?userId=0')
