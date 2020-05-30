@@ -56,7 +56,8 @@ export default function IngredientCheckboxList(props) {
                     <ListItem className={classes.ingredient}
                               key={props.ingredients[value]}
                               role={undefined}
-                              dense button onClick={handleToggle(props.ingredients[value])}>
+                              dense
+                              >
                         <ListItemIcon>
                             <Checkbox
                                 edge="start"
@@ -64,9 +65,10 @@ export default function IngredientCheckboxList(props) {
                                 color={'primary'}
                                 disableRipple
                                 inputProps={{ 'aria-labelledby': labelId }}
+                                button onClick={handleToggle(props.ingredients[value])}
                             />
                         </ListItemIcon>
-                        <ListItemText id={labelId} primary={props.ingredients[value]} />
+                        <ListItemText id={labelId} primary={props.ingredients[value]} button onClick={handleToggle(props.ingredients[value])}/>
                         <ExpirationDatePicker ingredient={props.ingredients[value]}
                                               expiration={props.expiration}/>
                     </ListItem>
