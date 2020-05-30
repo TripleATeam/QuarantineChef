@@ -106,7 +106,7 @@ public class Pantry {
      *              the passed String.
      */
     private static Date stringToDate(String date) {
-        if (date == null) {
+        if (date == null || date.equals("null")) {
             return null;
         }
         int firstDash = date.indexOf("-");

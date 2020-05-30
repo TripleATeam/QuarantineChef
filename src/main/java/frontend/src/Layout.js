@@ -227,11 +227,11 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         // backgroundImage: `url(https://www.larchwoodcanada.com/wp-content/uploads/larchwood-classic-cutting-board-large_7652.jpg)`,
-        backgroundImage: `url(https://www.hillwoodproducts.com/wp-content/uploads/2015/03/wood1.jpg)`,
+        /*backgroundImage: `url(https://www.hillwoodproducts.com/wp-content/uploads/2015/03/wood1.jpg)`,
         // backgroundColor: '#bae0f7',
         backgroundPosition: 'center',
         backgroundSize: '100%',
-        backgroundRepeat: 'repeat-y',
+        backgroundRepeat: 'repeat-y',*/
     },
     header: {
         padding: theme.spacing(2),
@@ -281,7 +281,11 @@ async function getPantryFromDatabase() {
 
     for (let i = 0; i < databasePantry.ingredients.length; i++) {
         pantry.set(databasePantry.ingredients[i].name, true);
-        expiration.set(databasePantry.ingredients[i].name, databasePantry.expirations[i])
+        if (databasePantry.expirations[i] != "null") {
+            const parts = databasePantry.expirations[i].split("-");
+            const date = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+            expiration.set(databasePantry.ingredients[i].name, date);
+        }
     }
     // cont = true;
 }
@@ -291,6 +295,8 @@ export default function Layout() {
     // use styles for this functional component
     const classes = useStyles();
     let filterData = {};
+    //let isLoggedIn = false;
+    const [isLoggedIn, logIn] = React.useState(false);
 
     const handleFilterData = (data) => {
         filterData = data;
@@ -300,8 +306,9 @@ export default function Layout() {
         return filterData;
     }
 
-    const handleUserUpdate = () => {
-        getPantryFromDatabase();
+    const handleUserUpdate = async () => {
+        await getPantryFromDatabase();
+        logIn(true);
     }
 
     // fetch('http://localhost:4567/get-pantry?userId=0')
@@ -341,11 +348,15 @@ export default function Layout() {
                     <Paper className={classes.header}>
                         <Typography className={classes.instructions}
                                     variant={"h5"}>
-                            Welcome to QuarantineChef, where finding a recipe is as easy as 1, 2, 3!
+                            Welcome to QuarantineChef, where finding a recipe is easy:
                         </Typography>
                         <Typography className={classes.instructions}
                                     variant={"body1"}>
-                            1) Add ingredients to your virtual pantry & click
+                            1) Please Sign In using Google account
+                        </Typography>
+                        <Typography className={classes.instructions}
+                                    variant={"body1"}>
+                            2) Add ingredients to your virtual pantry & click
                             <Button className={classes.btn}
                                     variant="contained"
                                     color="primary"
@@ -356,11 +367,11 @@ export default function Layout() {
                         </Typography>
                         <Typography className={classes.instructions}
                                     variant={"body1"}>
-                            2) Select from our recipe filtering options!
+                            3) Select from our recipe filtering options!
                         </Typography>
                         <Typography className={classes.instructions}
                                     variant={"body1"}>
-                            3) Click
+                            4) Click
                             <Button className={classes.btn}
                                     variant="contained"
                                     color="primary"
@@ -376,6 +387,8 @@ export default function Layout() {
                         </Typography>
                     </Paper>
                 </Grid>
+
+                { isLoggedIn ?
                 <Grid item xs={12} md={5}>
                     <Paper className={classes.pantry}>
                         <div className={classes.pantryHeader}>
@@ -393,13 +406,17 @@ export default function Layout() {
                                                       expiration={expiration}/>
                     </Paper>
                 </Grid>
+                    : null}
+                { isLoggedIn ?
                 <Grid item xs md>
                     <Paper className={classes.recipes}>
                         <FilterPanel handleFilterData={handleFilterData} />
                         <RecipeButton getFilterData={getFilterData}/>
                     </Paper>
                 </Grid>
+                    : null}
                 <Grid item xs={12}> </Grid>
+
             </Grid>
         </div>
     );
