@@ -18,7 +18,7 @@ import Button from "@material-ui/core/Button";
 // const typeMap = new Map();
 // typeMap.set("Poultry", "Poultry & Eggs");
 // typeMap.set("Seafood", "Fish & Seafood");
-// typeMap.set("Meat", "Red Meat");F
+// typeMap.set("Meat", "Red Meat");
 // typeMap.set("Vegetables", "Vegetables & Herbs");
 // typeMap.set("Fruit", "Fruits & Berries");
 // typeMap.set("Dairy", "Dairy & Dairy Alternatives");
@@ -348,7 +348,7 @@ export default function Layout() {
                     <Paper className={classes.header}>
                         <Typography className={classes.instructions}
                                     variant={"h5"}>
-                            Welcome to QuarantineChef, where finding a recipe is as easy as 1, 2, 3!
+                            Welcome to QuarantineChef, where finding a recipe is easy:
                         </Typography>
                         <Typography className={classes.instructions}
                                     variant={"body1"}>
