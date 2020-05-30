@@ -30,9 +30,6 @@ export default function UpdateDBPantry(props) {
             if (props.pantry.get(key)) {
                 ing.push(key);
                 let date = props.expiration.get(key);
-                if (date == null || date == "NaN-NaN-NaN") {
-                    date = new Date();
-                }
                 exp.push(formatDate(date));
                 qnt.push(1);
             }
@@ -58,6 +55,9 @@ export default function UpdateDBPantry(props) {
 
         // helper function to change date format to align with database
         function formatDate(date) {
+            if (date == null) {
+                return null;
+            }
             let d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
