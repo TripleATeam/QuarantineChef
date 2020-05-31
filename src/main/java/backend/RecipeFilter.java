@@ -20,6 +20,7 @@ public class RecipeFilter {
     //Edamam APP ID and KEY for API usage
     private static final String APP_ID = "56d7887a";
     private static final String APP_KEY = "4740dac00a0df8a5f23c6f81ad502e26";
+    private static final String NUM_RECIPES = "50";
 
     /**
      *Prepares a recipe filter to get recipes and pick which to display to the user
@@ -67,6 +68,11 @@ public class RecipeFilter {
 
     //Gathers data from the Edamam API using the current pantry
     private List<Recipe> getRecipes() {
+        if (this.currentPantry.getIngredients().length == 0) {
+            return new ArrayList<Recipe>();
+        }
+
+
         //Example: "https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
         StringBuilder query = new StringBuilder("https://api.edamam.com/search?q=");
 
@@ -87,6 +93,9 @@ public class RecipeFilter {
         String IDandKEY = "&app_id=" + APP_ID + "&app_key=" + APP_KEY;
         query.append(IDandKEY);
 
+        // include first NUM_RECIPES results, default would be 10
+        query.append("&to=" + NUM_RECIPES);
+
         //excludes the top 15 ingredients based on user pantry
         Set<String> excludedIngredientNames = excludeTop15Ingredients();
         for (String exlcudedIngredientName : excludedIngredientNames) {
@@ -105,7 +114,8 @@ public class RecipeFilter {
     //Chooses which recipes to display to the user
     private List<Recipe> filterRecipes(List<Recipe> unfilteredRecipes) {
         //method returns 10 randomly selected recipes for the beta
-        return unfilteredRecipes;
+        FilterRecipeList filterRecipeList = new FilterRecipeList(unfilteredRecipes, currentPantry);
+        return filterRecipeList.sortByMissing();
     }
 
 

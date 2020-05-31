@@ -58,4 +58,32 @@ public class FilterRecipeList {
     // TODO filter that is allows for some things not in pantry
     // wanted feature for the case of a mostly empty pantry
     // this seems way harder
+    /**
+     * sorts the recipes by missing ingredients
+     * @return returns a list of recipes that is sorted by least missing ingredients first
+     */
+    public List<Recipe> sortByMissing() {
+        // super slow but works
+        List<Recipe> retList = new ArrayList<>();
+        for (Recipe i : rawList) {
+            int missing = 0;
+            for (EdamamIngredient j : i.getIngredientList()) {
+                boolean hasIngredient = false;
+                for (Ingredient k : storedIngredients) {
+                    if (j.getText().toLowerCase().replaceAll("\\s","")
+                            .contains(k.getName().toLowerCase().replaceAll("\\s",""))) {
+                        hasIngredient = true;
+                        break;
+                    }
+                }
+                if (!hasIngredient) {
+                    missing++;
+                }
+            }
+            i.setMissing(missing);
+            retList.add(i);
+        }
+        retList.sort(new Recipe.CompareMissing());
+        return retList;
+    }
 }

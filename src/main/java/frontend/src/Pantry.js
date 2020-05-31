@@ -44,7 +44,7 @@ export default function IngredientTypeExpansionPanel(props) {
                 const labelId = `checkbox-list-label-${value}`;
                 return (
                     <ExpansionPanel className={classes.type}
-                                    key={labelId}>
+                                    key={labelId} TransitionProps={{ mountOnEnter: true }}>
                         <ExpansionPanelSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls={`${labelId}`}
