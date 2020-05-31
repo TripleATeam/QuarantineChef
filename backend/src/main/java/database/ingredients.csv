@@ -1,0 +1,793 @@
+Type,Ingredient
+Poultry,Chicken Breast
+Poultry,Chicken Giblets
+Poultry,Chicken Leg
+Poultry,Chicken Roast
+Poultry,Chicken Tenders
+Poultry,Chicken Thighs
+Poultry,Chicken Wings
+Poultry,Cooked Chicken
+Poultry,Cornish Hen
+Poultry,Duck
+Poultry,Duck Liver
+Poultry,Eggs
+Poultry,Foie Gras
+Poultry,Goose
+Poultry,Goose Liver
+Poultry,Grouse
+Poultry,Ostrich
+Poultry,Ostrich Eggs
+Poultry,Pheasant
+Poultry,Pigeon
+Poultry,Quail
+Poultry,Quail Eggs
+Poultry,Turkey
+Poultry,Turkey Liver
+Poultry,Whole Chicken
+Seafood,Amberjack
+Seafood,Anchovy
+Seafood,Arctic Char
+Seafood,Barramundi
+Seafood,Bluefish
+Seafood,Calamari
+Seafood,Canned Salmon
+Seafood,Canned Tuna
+Seafood,Carp
+Seafood,Catfish
+Seafood,Caviar
+Seafood,Clam
+Seafood,Cockle
+Seafood,Cod
+Seafood,Conch
+Seafood,Crab
+Seafood,Crawfish
+Seafood,Cuttlefish
+Seafood,Eel
+Seafood,Fish Fillets
+Seafood,Flounder
+Seafood,Grouper
+Seafood,Haddock
+Seafood,Halibut
+Seafood,Herring
+Seafood,John Dory
+Seafood,Lemon Sole
+Seafood,Lobster
+Seafood,Mackerel
+Seafood,Mahi Mahi
+Seafood,Marlin
+Seafood,Monkfish
+Seafood,Mussel
+Seafood,Octopus
+Seafood,Oyster
+Seafood,Perch
+Seafood,Pike
+Seafood,Pollock
+Seafood,Pompano
+Seafood,Prawns
+Seafood,Red Snapper
+Seafood,Rockfish
+Seafood,Salmon
+Seafood,Sardines
+Seafood,Scallop
+Seafood,Sea Bass
+Seafood,Sea Urchin
+Seafood,Shrimp
+Seafood,Smoked Salmon
+Seafood,Sole
+Seafood,Squid
+Seafood,Sturgeon
+Seafood,Swordfish
+Seafood,Tilapia
+Seafood,Trout
+Seafood,Tuna Steak
+Seafood,Whitefish
+Meat,Alligator
+Meat,Bacon
+Meat,Beef Liver
+Meat,Beef Ribs
+Meat,Beef Roast
+Meat,Beef Shank
+Meat,Beef Sirloin
+Meat,Beef Steak
+Meat,Beef Suet
+Meat,Bologna
+Meat,Bratwurst
+Meat,Canadian Bacon
+Meat,Chorizo
+Meat,Corned Beef
+Meat,Deer
+Meat,Elk
+Meat,Ground Beef
+Meat,Ground Lamb
+Meat,Ground Pork
+Meat,Ground Veal
+Meat,Ham
+Meat,Hot Dog
+Meat,Lamb
+Meat,Lamb Chops
+Meat,Lamb Liver
+Meat,Lamb Loin
+Meat,Lamb Shank
+Meat,Lamb Shoulder
+Meat,Leg of Lamb
+Meat,Liver Sausage
+Meat,Marrow Bones
+Meat,Moose
+Meat,Oxtail
+Meat,Pancetta
+Meat,Pastrami
+Meat,Pepperoni
+Meat,Polish Sausage
+Meat,Pork
+Meat,Pork Belly
+Meat,Pork Chops
+Meat,Pork Liver
+Meat,Pork Loin
+Meat,Pork Ribs
+Meat,Pork Roast
+Meat,Pork Shoulder
+Meat,Prosciutto
+Meat,Rabbit
+Meat,Salami
+Meat,Sausage
+Meat,Soppressata
+Meat,Spam
+Meat,Sweetbread
+Meat,Veal
+Meat,Veal Chops
+Meat,Veal Cutlet
+Meat,Veal Shank
+Meat,Venison
+Meat,Wild Boar
+Vegetables,Artichoke
+Vegetables,Artichoke Heart
+Vegetables,Arugula
+Vegetables,Asparagus
+Vegetables,Bamboo Shoot
+Vegetables,Basil
+Vegetables,Bean Sprouts
+Vegetables,Beet
+Vegetables,Bell Pepper
+Vegetables,Bok Choy
+Vegetables,Broccoli
+Vegetables,Broccoli Rabe
+Vegetables,Brussels Sprout
+Vegetables,Burdock
+Vegetables,Butternut
+Vegetables,Butternut Squash
+Vegetables,Cabbage
+Vegetables,Caper
+Vegetables,Capsicum
+Vegetables,Carrot
+Vegetables,Cauliflower
+Vegetables,Celery
+Vegetables,Celery Root
+Vegetables,Chard
+Vegetables,Chayote
+Vegetables,Chili Pepper
+Vegetables,Chinese Broccoli
+Vegetables,Chive
+Vegetables,Cilantro
+Vegetables,Collard
+Vegetables,Corn
+Vegetables,Cress
+Vegetables,Cucumber
+Vegetables,Daikon
+Vegetables,Dill
+Vegetables,Dulse
+Vegetables,Eggplant
+Vegetables,Endive
+Vegetables,Fennel
+Vegetables,Frozen Vegetables
+Vegetables,Garlic
+Vegetables,Ginger
+Vegetables,Green Beans
+Vegetables,Hearts Of Palm
+Vegetables,Horseradish
+Vegetables,Jerusalem Artichoke
+Vegetables,Jicama
+Vegetables,Kale
+Vegetables,Kohlrabi
+Vegetables,Leek
+Vegetables,Micro Greens
+Vegetables,Mint
+Vegetables,Mixed Vegetable
+Vegetables,Mushroom
+Vegetables,Mustard Greens
+Vegetables,Okra
+Vegetables,Olive
+Vegetables,Onion
+Vegetables,Parsley
+Vegetables,Parsnip
+Vegetables,Pickle
+Vegetables,Pimiento
+Vegetables,Porcini
+Vegetables,Portobello Mushroom
+Vegetables,Potato
+Vegetables,Pumpkin
+Vegetables,Radicchio
+Vegetables,Radish
+Vegetables,Red Onion
+Vegetables,Rocket
+Vegetables,Rosemary
+Vegetables,Rutabaga
+Vegetables,Salad Greens
+Vegetables,Sauerkraut
+Vegetables,Scallion
+Vegetables,Seaweed
+Vegetables,Shallot
+Vegetables,Snow Peas
+Vegetables,Spaghetti Squash
+Vegetables,Spinach
+Vegetables,Squash
+Vegetables,Sweet Pepper
+Vegetables,Sweet Potato
+Vegetables,Thyme
+Vegetables,Turnip
+Vegetables,Water Chestnut
+Vegetables,Watercress
+Vegetables,Yam
+Vegetables,Zucchini
+Fruit,Apple
+Fruit,Apricot
+Fruit,Avocado
+Fruit,Banana
+Fruit,Berries
+Fruit,Blackberry
+Fruit,Blueberry
+Fruit,Boysenberry
+Fruit,Cantaloupe
+Fruit,Cherry
+Fruit,Clementine
+Fruit,Coconut
+Fruit,Crabapples
+Fruit,Craisins
+Fruit,Cranberry
+Fruit,Currant
+Fruit,Date
+Fruit,Fig
+Fruit,Grape
+Fruit,Grapefruit
+Fruit,Guava
+Fruit,Honeydew
+Fruit,Kiwi
+Fruit,Kumquat
+Fruit,Lemon
+Fruit,Lime
+Fruit,Lingonberry
+Fruit,Lychee
+Fruit,Mandarin
+Fruit,Mango
+Fruit,Nectarine
+Fruit,Orange
+Fruit,Papaya
+Fruit,Passion Fruit
+Fruit,Peach
+Fruit,Pear
+Fruit,Persimmons
+Fruit,Pineapple
+Fruit,Plantain
+Fruit,Plum
+Fruit,Pomegranate
+Fruit,Prunes
+Fruit,Quince
+Fruit,Raisin
+Fruit,Raspberry
+Fruit,Rhubarb
+Fruit,Star Fruit
+Fruit,Strawberry
+Fruit,Sultanas
+Fruit,Sun Dried Tomato
+Fruit,Tangelos
+Fruit,Tangerine
+Fruit,Tomatillo
+Fruit,Tomato
+Fruit,Watermelon
+Dairy,Almond Milk
+Dairy,American Cheese
+Dairy,Asiago
+Dairy,Blue Cheese
+Dairy,Bocconcini Cheese
+Dairy,Brick Cheese
+Dairy,Brie
+Dairy,Butter
+Dairy,Buttermilk
+Dairy,Camembert Cheese
+Dairy,Cheddar
+Dairy,Cheese Soup
+Dairy,Cheshire Cheese
+Dairy,Coconut Milk
+Dairy,Colby Cheese
+Dairy,Condensed Milk
+Dairy,Cottage Cheese
+Dairy,Cream
+Dairy,Cream Cheese
+Dairy,Creme De Cassis
+Dairy,Creme Fraiche
+Dairy,Custard
+Dairy,Double Gloucester Cheese
+Dairy,Edam Cheese
+Dairy,Egg
+Dairy,Emmenthaler Cheese
+Dairy,Evaporated Milk
+Dairy,Farmer Cheese
+Dairy,Feta
+Dairy,Fontina
+Dairy,Frosting
+Dairy,Garlic Herb Cheese
+Dairy,Ghee
+Dairy,Goat Cheese
+Dairy,Goat Milk
+Dairy,Gouda
+Dairy,Gruyere
+Dairy,Half And Half
+Dairy,Halloumi
+Dairy,Hard Cheese
+Dairy,Havarti Cheese
+Dairy,Hemp Milk
+Dairy,Ice Cream
+Dairy,Italian Cheese
+Dairy,Jarlsberg Cheese
+Dairy,Lancashire Cheese
+Dairy,Longhorn Cheese
+Dairy,Manchego
+Dairy,Margarine
+Dairy,Mascarpone
+Dairy,Milk
+Dairy,Monterey Jack Cheese
+Dairy,Mozzarella
+Dairy,Muenster
+Dairy,Neufchatel
+Dairy,Non Dairy Creamer
+Dairy,Paneer
+Dairy,Parmesan
+Dairy,Pecorino Cheese
+Dairy,Pepper Jack
+Dairy,Pepperjack Cheese
+Dairy,Pizza Cheese
+Dairy,Powdered Milk
+Dairy,Provolone
+Dairy,Queso Fresco Cheese
+Dairy,Raclette Cheese
+Dairy,Red Leicester Cheese
+Dairy,Rice Milk
+Dairy,Ricotta
+Dairy,Romano
+Dairy,Soft Cheese
+Dairy,Sour Cream
+Dairy,Soy Milk
+Dairy,Stilton Cheese
+Dairy,Swiss Cheese
+Dairy,Velveeta
+Dairy,Wensleydale Cheese
+Dairy,Whipped Cream
+Dairy,Yogurt
+Grains,Angel Hair
+Grains,Bagel
+Grains,Baguette
+Grains,Barley
+Grains,Biscuits
+Grains,Bran
+Grains,Bread
+Grains,Bread Crumbs
+Grains,Breadsticks
+Grains,Brown Rice
+Grains,Buckwheat
+Grains,Cereal
+Grains,Challah
+Grains,Ciabatta
+Grains,Corn Tortillas
+Grains,Cornbread
+Grains,Couscous
+Grains,Cream Of Wheat
+Grains,Croissants
+Grains,Croutons
+Grains,English Muffin
+Grains,Flour Tortillas
+Grains,Gnocchi
+Grains,Hot Dog Bun
+Grains,Lasagna
+Grains,Macaroni Cheese Mix
+Grains,Matzo Meal
+Grains,Multigrain Bread
+Grains,Noodle
+Grains,Pasta
+Grains,Pierogi
+Grains,Pita
+Grains,Pizza Dough
+Grains,Polenta
+Grains,Popcorn
+Grains,Pretzel
+Grains,Quinoa
+Grains,Ramen
+Grains,Ravioli
+Grains,Rice
+Grains,Risotto
+Grains,Rolled Oats
+Grains,Spelt
+Grains,Vermicelli
+Grains,Wafer
+Grains,Wheat
+Grains,Wheat Germ
+Spices,Adobo Seasoning
+Spices,Allspice
+Spices,Aniseed
+Spices,Balsamic Glaze
+Spices,Bay Leaf
+Spices,Bbq Rub
+Spices,Bouillon
+Spices,Brine
+Spices,Cacao
+Spices,Cajun Seasoning
+Spices,Caraway
+Spices,Cardamom
+Spices,Caribbean Jerk Seasoning
+Spices,Cassia
+Spices,Cayenne
+Spices,Celery Salt
+Spices,Celery Seed
+Spices,Chile Powder
+Spices,Chili Paste
+Spices,Chili Powder
+Spices,Chili Sauce
+Spices,Chinese Five Spice
+Spices,Chipotle
+Spices,Cinnamon
+Spices,Clove
+Spices,Coriander
+Spices,Cream Of Tartar
+Spices,Cumin
+Spices,Curry Powder
+Spices,Dill Seed
+Spices,Fennel Seed
+Spices,Fenugreek
+Spices,Fish Stock
+Spices,Garam Masala
+Spices,Garlic Powder
+Spices,Ground Coriander
+Spices,Ground Ginger
+Spices,Ground Nutmeg
+Spices,Herbes De Provence
+Spices,Herbs
+Spices,Hoisin Sauce
+Spices,Italian Herbs
+Spices,Italian Seasoning
+Spices,Italian Spice
+Spices,Jamaican Jerk Spice
+Spices,Kasuri Methi
+Spices,Lavender
+Spices,Lemon Balm
+Spices,Liquid Smoke
+Spices,Mango Powder
+Spices,Marjoram
+Spices,Matcha Powder
+Spices,Miso
+Spices,Mustard Powder
+Spices,Mustard Seed
+Spices,Nutmeg
+Spices,Old Bay Seasoning
+Spices,Onion Flake
+Spices,Onion Powder
+Spices,Oregano
+Spices,Paprika
+Spices,Pepper
+Spices,Peppercorn
+Spices,Pickling Salt
+Spices,Pickling Spice
+Spices,Poppy Seed
+Spices,Poultry Seasoning
+Spices,Red Pepper Flake
+Spices,Rice Wine
+Spices,Rose Water
+Spices,Saffron
+Spices,Sage
+Spices,Salt
+Spices,Savory
+Spices,Sesame Seed
+Spices,Soy Sauce
+Spices,Star Anise
+Spices,Steak Seasoning
+Spices,Taco Seasoning
+Spices,Tamarind
+Spices,Tarragon
+Spices,Turmeric
+Spices,Wasabi
+Condiments,Adobo Sauce
+Condiments,Alfredo Sauce
+Condiments,Almond Oil
+Condiments,Apple Cider Vinegar
+Condiments,Avocado Oil
+Condiments,Balsamic Vinegar
+Condiments,Barbecue Sauce
+Condiments,Blue Cheese Dressing
+Condiments,Buffalo Sauce
+Condiments,Caesar Dressing
+Condiments,Canola Oil
+Condiments,Champagne Vinegar
+Condiments,Cocktail Sauce
+Condiments,Coconut Oil
+Condiments,Cooking Spray
+Condiments,Corn Oil
+Condiments,Cranberry Sauce
+Condiments,Cream Sauce
+Condiments,Curry Paste
+Condiments,Duck Sauce
+Condiments,Enchilada Sauce
+Condiments,Fish Sauce
+Condiments,French Dressing
+Condiments,Grape Seed Oil
+Condiments,Hazelnut Oil
+Condiments,Honey Mustard
+Condiments,Hot Sauce
+Condiments,Italian Dressing
+Condiments,Ketchup
+Condiments,Lard
+Condiments,Marsala
+Condiments,Mayonnaise
+Condiments,Mirin
+Condiments,Mustard
+Condiments,Mustard Oil
+Condiments,Olive Oil
+Condiments,Oyster Sauce
+Condiments,Palm Oil
+Condiments,Peanut Oil
+Condiments,Pesto
+Condiments,Picante Sauce
+Condiments,Pistachio Oil
+Condiments,Ponzu
+Condiments,Ranch Dressing
+Condiments,Rice Vinegar
+Condiments,Safflower Oil
+Condiments,Salad Dressing
+Condiments,Salsa
+Condiments,Sesame Dressing
+Condiments,Sesame Oil
+Condiments,Shortening
+Condiments,Soybean Oil
+Condiments,Soy Sauce
+Condiments,Sriracha
+Condiments,Steak Sauce
+Condiments,Sunflower Oil
+Condiments,Sweet And Sour Sauce
+Condiments,Tabasco
+Condiments,Taco Sauce
+Condiments,Tahini
+Condiments,Tartar Sauce
+Condiments,Teriyaki
+Condiments,Thousand Island Dressing
+Condiments,Tomato Paste
+Condiments,Tomato Sauce
+Condiments,Tzatziki Sauce
+Condiments,Vegetable Oil
+Condiments,Vinaigrette Dressing
+Condiments,Vinegar
+Condiments,Walnut Oil
+Condiments,Wine Vinegar
+Condiments,Worcestershire
+Condiments,Yuzu Juice
+Sweeteners,Agave Nectar
+Sweeteners,Artificial Sweetener
+Sweeteners,Brown Sugar
+Sweeteners,Confectioners Sugar
+Sweeteners,Corn Syrup
+Sweeteners,Honey
+Sweeteners,Maple Syrup
+Sweeteners,Molasses
+Sweeteners,Sugar
+Nuts,Almond
+Nuts,Almond Butter
+Nuts,Black Beans
+Nuts,Cannellini Beans
+Nuts,Cashew
+Nuts,Chestnut
+Nuts,Chia Seeds
+Nuts,Chickpea
+Nuts,Chili Beans
+Nuts,Edamame
+Nuts,Fava Beans
+Nuts,Flax
+Nuts,Flaxseed
+Nuts,French Beans
+Nuts,Great Northern Beans
+Nuts,Green Beans
+Nuts,Hazelnut
+Nuts,Hummus
+Nuts,Kidney Beans
+Nuts,Lentil
+Nuts,Lima Beans
+Nuts,Macadamia
+Nuts,Macaroon
+Nuts,Navy Beans
+Nuts,Peanut
+Nuts,Peanut Butter
+Nuts,Peas
+Nuts,Pecan
+Nuts,Pine Nut
+Nuts,Pinto Beans
+Nuts,Pistachio
+Nuts,Praline
+Nuts,Red Beans
+Nuts,Refried Beans
+Nuts,Snap Peas
+Nuts,Soybeans
+Nuts,Split Peas
+Nuts,Sunflower Seeds
+Nuts,Walnut
+Beverages,Absinthe
+Beverages,Amaretto
+Beverages,Anisette
+Beverages,Apple Cider
+Beverages,Apple Juice
+Beverages,Beer
+Beverages,Bitters
+Beverages,Bloody Mary
+Beverages,Bourbon
+Beverages,Brandy
+Beverages,Burgundy Wine
+Beverages,Cabernet Sauvignon
+Beverages,Champagne
+Beverages,Cherry Juice
+Beverages,Chocolate Liqueur
+Beverages,Chocolate Milk
+Beverages,Ciclon
+Beverages,Club Soda
+Beverages,Coffee
+Beverages,Cognac
+Beverages,Coke
+Beverages,Cooking Wine
+Beverages,Cranberry Juice
+Beverages,Creme De Menthe
+Beverages,Curacao
+Beverages,Dessert Wine
+Beverages,Drambuie
+Beverages,Espresso
+Beverages,Frangelico
+Beverages,Fruit Juice
+Beverages,Gin
+Beverages,Ginger Ale
+Beverages,Grand Marnier
+Beverages,Grappa
+Beverages,Green Tea
+Beverages,Grenadine
+Beverages,Irish Cream
+Beverages,Kahlua
+Beverages,Kool Aid
+Beverages,Lemonade
+Beverages,Limoncello
+Beverages,Liqueur
+Beverages,Madeira Wine
+Beverages,Maraschino
+Beverages,Margarita Mix
+Beverages,Masala
+Beverages,Mountain Dew
+Beverages,Orange Juice
+Beverages,Ouzo
+Beverages,Pepsi
+Beverages,Pineapple Juice
+Beverages,Port Wine
+Beverages,Raspberry Liquor
+Beverages,Red Wine
+Beverages,Rum
+Beverages,Sake
+Beverages,Schnapps
+Beverages,Shaoxing Wine
+Beverages,Sherry
+Beverages,Sparkling Wine
+Beverages,Sprite
+Beverages,Tea
+Beverages,Tequila
+Beverages,Tomato Juice
+Beverages,Triple Sec
+Beverages,Vermouth
+Beverages,Vodka
+Beverages,Whiskey
+Beverages,White Wine
+Baking,Amaretti Cookies
+Baking,Angel Food
+Baking,Apple Butter
+Baking,Apple Sauce
+Baking,Apricot Jam
+Baking,Baking Powder
+Baking,Baking Soda
+Baking,Bicarbonate Of Soda
+Baking,Biscotti Biscuit
+Baking,Bisquick
+Baking,Bittersweet Chocolate
+Baking,Blackberry Preserves
+Baking,Black Pudding
+Baking,Blueberry Jam
+Baking,Bread Dough
+Baking,Bread Flour
+Baking,Brownie Mix
+Baking,Butterscotch
+Baking,Cake Mix
+Baking,Caramel
+Baking,Cherry Jam
+Baking,Chili Jam
+Baking,Chocolate
+Baking,Chocolate Bar
+Baking,Chocolate Chips
+Baking,Chocolate Powder
+Baking,Chocolate Pudding
+Baking,Chocolate Syrup
+Baking,Chocolate Wafer
+Baking,Coconut Flake
+Baking,Coconut Flour
+Baking,Corn Chips
+Baking,Cornflour
+Baking,Cornmeal
+Baking,Cornstarch
+Baking,Cracker
+Baking,Crescent Roll Dough
+Baking,Currant Jelly
+Baking,Dark Chocolate
+Baking,Fig Jam
+Baking,Filo Dough
+Baking,Flour
+Baking,Graham Cracker
+Baking,Gram Flour
+Baking,Grape Jelly
+Baking,Jalapeno Jelly
+Baking,Jam
+Baking,Jello
+Baking,Lady Fingers
+Baking,Lemon Jelly
+Baking,Malt Extract
+Baking,Marshmallow
+Baking,Mint Jelly
+Baking,Muffin Mix
+Baking,Nutella
+Baking,Orange Jelly
+Baking,Oreo
+Baking,Pancake Mix
+Baking,Peach Preserves
+Baking,Pie Crust
+Baking,Plum Jam
+Baking,Potato Chips
+Baking,Potato Starch
+Baking,Pudding Mix
+Baking,Puff Pastry
+Baking,Quince Jelly
+Baking,Raspberry Jam
+Baking,Red Pepper Jelly
+Baking,Rice Flour
+Baking,Rye Flour
+Baking,Saltines
+Baking,Self Rising Flour
+Baking,Semolina
+Baking,Shortcrust Pastry
+Baking,Sorghum Flour
+Baking,Sourdough Starter
+Baking,Sponge Cake
+Baking,Starch
+Baking,Strawberry Jam
+Baking,Stuffing Mix
+Baking,Tapioca Flour
+Baking,Tapioca Starch
+Baking,Tortilla Chips
+Baking,Vanilla
+Baking,White Chocolate
+Baking,Whole Wheat Flour
+Baking,Yeast
+Baking,Yeast Flake
+Soups,Beef Broth
+Soups,Canned Beets
+Soups,Canned Carrots
+Soups,Canned Corn
+Soups,Canned Green Beans
+Soups,Canned Peas
+Soups,Canned Tomato
+Soups,Canned Vegetables
+Soups,Celery Soup
+Soups,Chicken Broth
+Soups,Chicken Soup
+Soups,Dashi
+Soups,Lamb Stock
+Soups,Mushroom Soup
+Soups,Onion Soup
+Soups,Pork Stock
+Soups,Tomato Soup
+Soups,Veal Stock
+Soups,Vegetable Bouillon
+Soups,Vegetable Soup
+Soups,Vegetable Stock

@@ -41,7 +41,7 @@
 **Kyle Johnson:**
 - Goals from last week: Add some additional functionality to the frontend, including a ‘reset pantry’ button, a message to let the user know that their pantry has been updated successfully. Make sure that the virtual pantry properly displays the items that a persistent user has in the database. Finish the logo and make the frontend more stylish. Beyond next week: Get the User Taste Profile operational.
 - Progress: Worked with the group on the User Documentation and Developer Documentation. Secured a domain name for our website (www.projectquarantinechef.com). Continued implementation of Frontend including style changes and the addition of a Recipe Filtering menu.
-- Goals for coming week: Incorporate Filters into the “Find Recipes” search and calls to the backend. Figure out logistics of serving our web app as a static website, and connect it to our acquired custom domain name.
+- Goals for coming week: Incorporate Filters into the “Find Recipes” search and calls to the backend. Figure out logistics of serving our web server as a static website, and connect it to our acquired custom domain name.
 
 **Julia Kalmykov:**
 - Goals from last week: Set up Frontend authentication using Google sign in, help Kyle to create Taste Profile. Implement new methods in Spark Server to enable new frontend experiences to communicate with the backend layer.

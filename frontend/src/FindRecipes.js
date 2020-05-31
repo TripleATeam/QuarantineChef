@@ -6,6 +6,8 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 
+const backend_url = "https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/";
+
 // this component handles recipe search/generation by communicating with
 // the backend recipe search methods
 class RecipeComponent extends Component {
@@ -18,7 +20,10 @@ class RecipeComponent extends Component {
 
   async handleSearch(event) {
     const filterData = JSON.stringify(this.props.getFilterData());
-    let response = await fetch("http://localhost:4567/find-recipe?filter=" + filterData, {credentials: 'include'});
+    let response = await fetch(backend_url + "find-recipe?filter=" + filterData, {
+      credentials: 'include',
+      mode: "no-cors"
+    });
     let recipes = await response.json();
     this.setState({
       recipes: recipes,

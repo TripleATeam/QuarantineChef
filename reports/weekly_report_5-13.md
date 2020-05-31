@@ -50,7 +50,7 @@ __Core Functionality of MVP:__
 
 **Kyle Johnson:**
 - Goals from last week: Implement Frontend MVP for next week’s Beta release. This should include a bare-bones UI with a way to add ingredients to your pantry (with optional expiration dates), and a ‘generate recipes’ button.
-- Progress: Got the frontend of our web app up and running and worked with Julia to integrate the frontend with the backend and database. 
+- Progress: Got the frontend of our web server up and running and worked with Julia to integrate the frontend with the backend and database. 
 - Goals for coming week: Add some additional functionality to the frontend, including a ‘reset pantry’ button, a message to let the user know that their pantry has been updated successfully. Make sure that the virtual pantry properly displays the items that a persistent user has in the database. Finish the logo and make the frontend more stylish. Beyond next week: Get the User Taste Profile operational.
 
 **Julia Kalmykov:**

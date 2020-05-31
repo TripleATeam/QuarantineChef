@@ -11,6 +11,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const backend_url = "https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/";
+
 // this function returns an 'Update Pantry' button
 // that updates the user pantry in our database
 // by using our java SparkServer
@@ -47,11 +49,12 @@ export default function UpdateDBPantry(props) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(pantry),
-            credentials: 'include'
+            credentials: 'include',
+            mode: 'no-cors'
         };
 
         // send pantry to database
-        fetch("http://localhost:4567/save-pantry", requestOptions);
+        fetch(backend_url + "save-pantry", requestOptions);
 
         // helper function to change date format to align with database
         function formatDate(date) {

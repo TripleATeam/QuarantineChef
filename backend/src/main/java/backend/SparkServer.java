@@ -15,8 +15,13 @@ import java.util.List;
 public class SparkServer {
 
     public static void main(String[] args) {
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
+        port(port);
+
         enableCors();
 
+        // for testing with google appengine
+        get("/", (req, res) -> "Hello world!");
 
         get("/find-recipe", (req, res) -> {
             String filterData = req.queryParams("filter");

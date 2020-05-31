@@ -15,8 +15,8 @@
 - Taste profile support for the backend has been finished.
 
 **Plans/Goals:**
-- Finish our planned features for the web app and decide if we want to implement any stretch features.
-- Get the web app live on the web as a static website.
+- Finish our planned features for the web server and decide if we want to implement any stretch features.
+- Get the web server live on the web as a static website.
 - Figure out how to pass the taste profile data between the front end and the back end, or if the taste profile needs to be received from the database.
 - Refactor some hard coded values and restructure.
 
@@ -27,9 +27,9 @@
 - Goals for coming week: Work on making the filter look through more than just the default 10 recipes so that there is a higher likelihood of finding a recipe that the user has everything for.
 
 **Kyle Johnson:**
-- Goals from last week: Incorporate Filters into the “Find Recipes” search and calls to the backend. Figure out logistics of serving our web app as a static website, and connect it to our acquired custom domain name.
-- Progress: Did some research on serving our web app as a static website, but haven’t done the implementation yet. I’m still unclear on a few things needed to do this. I tested how to serve a simple website with no special dependencies on Github pages and how to forward our custom domain name to the Github pages site.
-- Goals for coming week: Get the web app functional as a static website.
+- Goals from last week: Incorporate Filters into the “Find Recipes” search and calls to the backend. Figure out logistics of serving our web server as a static website, and connect it to our acquired custom domain name.
+- Progress: Did some research on serving our web server as a static website, but haven’t done the implementation yet. I’m still unclear on a few things needed to do this. I tested how to serve a simple website with no special dependencies on Github pages and how to forward our custom domain name to the Github pages site.
+- Goals for coming week: Get the web server functional as a static website.
 
 **Julia Kalmykov:**
 - Goals from last week: Finish Google sign in implementation. Implement new methods in Spark Server to enable new frontend experiences to communicate with the backend layer.
