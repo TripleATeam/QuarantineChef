@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import database.*;
 import spark.Request;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +67,14 @@ public class SparkServer {
             databaseAPI.updatePantry(up, p);
             return "OK";
         });
+
+        exception(Exception.class, (exception, request, response) -> {
+            response.status(500);
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            exception.printStackTrace(pw);
+            response.body(sw.toString());
+        });
     }
     private static int getUserId(Request req){
         String googleUserId = req.cookie("googleUserId");
@@ -75,7 +85,7 @@ public class SparkServer {
         if (userId == -1) {
             userId = databaseAPI.generateUserID(googleUserId);
             UserProfile profile = new UserProfile(userId , new int[11], new int[9], new int[5], new int[3], googleUserId);
-            Pantry pantry = new Pantry(new Ingredient[]{databaseAPI.getIngredient("Salt")}, new String[]{"01-01-2050"}, new int[]{1});
+            Pantry pantry = new Pantry(new Ingredient[]{}, new String[]{}, new int[]{});
             databaseAPI.placeInDatabase(profile, pantry);
         }
         return userId;
