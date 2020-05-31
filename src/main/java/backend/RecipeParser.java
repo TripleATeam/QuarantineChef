@@ -77,7 +77,7 @@ public class RecipeParser {
         // JsonParser method is depricated but should work for a while...
         // convert string to json object
         // also should use something other than a string, gson doesnt work with very large strings
-        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject(); //TODO: can't handle a query with filters
 
         // get array of hits
         JsonArray hitArr = jsonObject.getAsJsonArray("hits");
