@@ -31,7 +31,7 @@ public class SparkServer {
             Pantry currentPantry = null;
 
             // TODO: add filterView to recipe filter
-            RecipeFilter recipeFilter = new RecipeFilter(currentLoggedInUser, null, currentPantry);
+            RecipeFilter recipeFilter = new RecipeFilter(currentLoggedInUser, null, currentPantry, filterView);
             List<Recipe> recipeList = recipeFilter.getNewRecipes();
             List<RecipeView> recipes = new ArrayList<>();
             for (Recipe i : recipeList) {
@@ -125,7 +125,7 @@ public class SparkServer {
         public String[] expirations;
         public int[] quantities;
     }
-    private class FilterView{
+    public class FilterView {
         public String[] mealType;
         public String[] cuisineType;
         public String[] diet;

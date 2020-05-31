@@ -18,7 +18,10 @@ public class RecipeFilter {
     private Ingredient keyIngredient;
 
     //User taste profiles stored with keys {mealType, cuisineType, diet, health}
-    private Map<String, String> userTasteProfile;
+    private Map<String, List<String>> userTasteProfile;
+
+    //User preferences straight from the frontend
+    private SparkServer.FilterView userPreferences;
 
     //Edamam APP ID and KEY for API usage
     private static final String APP_ID = "56d7887a";
@@ -31,7 +34,7 @@ public class RecipeFilter {
      * @param keyIngredient Ingredient object for a key ingredient, input null if none specified
      * @param tempPantry Pantry object, only input a pantry if no user is specified
      */
-    public RecipeFilter(UserProfile currentUser, Ingredient keyIngredient, Pantry tempPantry) {
+    public RecipeFilter(UserProfile currentUser, Ingredient keyIngredient, Pantry tempPantry, SparkServer.FilterView preferences) {
         if (currentUser == null && tempPantry == null) {
             throw new IllegalArgumentException("Current user and temporary pantry cannot both be null");
         }
@@ -39,13 +42,13 @@ public class RecipeFilter {
             throw new IllegalArgumentException("Current user and temporary pantry cannot both have non-null value, one must be null");
         }
 
+        this.userPreferences = preferences;
+
         this.currentUser = currentUser;
         this.keyIngredient = keyIngredient;
         this.currentPantry = tempPantry;
         setUserPantry();
-        setUserTasteProfile();
-
-
+        //setUserTasteProfile();
 
     }
 
@@ -61,6 +64,7 @@ public class RecipeFilter {
     }
 
 
+    /*
     //Sets the users taste profile from the database
     private void setUserTasteProfile() {
         this.userTasteProfile = new HashMap<String, String>();
@@ -112,6 +116,7 @@ public class RecipeFilter {
 
         }
     }
+     */
 
     /**
      * Gets recipes to display
@@ -162,7 +167,8 @@ public class RecipeFilter {
             query.append(exclusionParameter);
         }
 
-        StringBuilder tasteQuery = addTasteProfileToQuery(query, this.userTasteProfile);
+        //StringBuilder tasteQuery = addTasteProfileToQuery(query, this.userTasteProfile);
+        StringBuilder tasteQuery = addPreferencesToQuery(query);
 
         String finalQuery = tasteQuery.toString();
         finalQuery = finalQuery.replaceAll("\\s", "%20");
@@ -411,6 +417,31 @@ public class RecipeFilter {
         return queryBuilder;
     }
 
+    private StringBuilder addPreferencesToQuery(StringBuilder query) {
+        String[] diet = this.userPreferences.diet;
+        String[] health = this.userPreferences.health;
+        String[] cuisine = this.userPreferences.cuisineType;
+        String[] meal = this.userPreferences.mealType;
+
+        StringBuilder queryAddDiet = addSinglePreferenceToQueryHelper(query, "diet", diet);
+        StringBuilder queryAddHealth = addSinglePreferenceToQueryHelper(queryAddDiet, "health", health);
+        StringBuilder queryAddCuisine = addSinglePreferenceToQueryHelper(queryAddHealth, "cuisineType", cuisine);
+        StringBuilder queryAddMeal = addSinglePreferenceToQueryHelper(queryAddCuisine, "mealType", meal);
+
+        return queryAddMeal;
+    }
+
+    private StringBuilder addSinglePreferenceToQueryHelper(StringBuilder query, String label, String[] options) {
+        if (options.length > 0) {
+            for (int i = 0; i < options.length; i++) {
+                query.append("&");
+                query.append(label);
+                query.append("=");
+                query.append(options[i]);
+            }
+        }
+        return query;
+    }
 
 
 }
