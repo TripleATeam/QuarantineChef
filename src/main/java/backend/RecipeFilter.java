@@ -17,6 +17,9 @@ public class RecipeFilter {
     //User specified key ingredient, optional and can be null
     private Ingredient keyIngredient;
 
+    //User taste profiles stored with keys {mealType, cuisineType, diet, health}
+    private Map<String, String> userTasteProfile;
+
     //Edamam APP ID and KEY for API usage
     private static final String APP_ID = "56d7887a";
     private static final String APP_KEY = "4740dac00a0df8a5f23c6f81ad502e26";
@@ -30,12 +33,20 @@ public class RecipeFilter {
      */
     public RecipeFilter(UserProfile currentUser, Ingredient keyIngredient, Pantry tempPantry) {
         if (currentUser == null && tempPantry == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Current user and temporary pantry cannot both be null");
         }
+        if (currentUser != null && tempPantry != null) {
+            throw new IllegalArgumentException("Current user and temporary pantry cannot both have non-null value, one must be null");
+        }
+
         this.currentUser = currentUser;
         this.keyIngredient = keyIngredient;
         this.currentPantry = tempPantry;
         setUserPantry();
+        setUserTasteProfile();
+
+
+
     }
 
 
@@ -50,6 +61,58 @@ public class RecipeFilter {
     }
 
 
+    //Sets the users taste profile from the database
+    private void setUserTasteProfile() {
+        this.userTasteProfile = new HashMap<String, String>();
+        if (this.currentUser != null) {
+
+            String[] allPreferences = {"american", "asian", "caribbean", "chinese", "french",
+            "indian", "italian", "japanese", "mediterranean", "mexican", "middle eastern"};
+            String[] allHealth = {"dairy-free", "gluten-free", "keto", "kosher", "low-sugar",
+            "paleo", "peanut-free", "vegan", "vegetarian"};
+            String[] allDiet = {"high fiber", "high protein", "low carb", "low fat", "low sodium"};
+            String[] allMeal = {"breakfast", "lunch", "dinner"};
+
+            int[] preferences = this.currentUser.preferences;
+            int[] health = this.currentUser.health;
+            int[] diet = this.currentUser.diet;
+            int[] meal = this.currentUser.meal;
+
+            //checks for index out of bounds errors
+            if (preferences.length != allPreferences.length ||
+            health.length != allHealth.length ||
+            diet.length != allDiet.length ||
+            meal.length != allMeal.length) {
+                throw new IllegalArgumentException("Database taste profiles don't match presets");
+            }
+
+            for (int i = 0; i < preferences.length; i++) {
+                if (preferences[i] == 1) {
+                    this.userTasteProfile.put("cuisineType", allPreferences[i]);
+                }
+            }
+
+            for (int i = 0; i < health.length; i++) {
+                if (health[i] == 1) {
+                    this.userTasteProfile.put("health", allHealth[i]);
+                }
+            }
+
+            for (int i = 0; i < diet.length; i++) {
+                if (diet[i] == 1) {
+                    this.userTasteProfile.put("diet", allDiet[i]);
+                }
+            }
+
+            for (int i = 0; i < meal.length; i++) {
+                if (meal[i] == 1) {
+                    this.userTasteProfile.put("mealType", allMeal[i]);
+                }
+            }
+
+        }
+    }
+
     /**
      * Gets recipes to display
      * @return Recipes formatted for frontend
@@ -57,10 +120,6 @@ public class RecipeFilter {
     public List<Recipe> getNewRecipes() {
         List<Recipe> unfilteredRecipes = getRecipes();
         List<Recipe> filteredRecipes = filterRecipes(unfilteredRecipes);
-
-        //TODO:format the recipes here for frontend
-
-        ///////////////////////////////////////////
 
         return filteredRecipes;
     }
@@ -103,7 +162,11 @@ public class RecipeFilter {
             query.append(exclusionParameter);
         }
 
-        String finalQuery = query.toString();
+        StringBuilder tasteQuery = addTasteProfileToQuery(query, this.userTasteProfile);
+
+        String finalQuery = tasteQuery.toString();
+        finalQuery = finalQuery.replaceAll("\\s", "%20");
+
         System.out.println(finalQuery);
         RecipeParser recipeParser = new RecipeParser(finalQuery);
 
@@ -322,6 +385,30 @@ public class RecipeFilter {
         }
 
         return sortedArray;
+    }
+
+    //Given a String of the current query, and a taste profile map as described below,
+    //adds mealType, cuisineType, diet, and health to the query and returns the query
+    //in a string form
+    private StringBuilder addTasteProfileToQuery(StringBuilder queryBuilder, Map<String, String> tasteProfile) {
+        /*tasteProfile: keys = mealType, cuisineType, diet, health
+         */
+        List<String> possibleTasteOptions = new ArrayList<String>();
+        possibleTasteOptions.add("diet");
+        possibleTasteOptions.add("health");
+        possibleTasteOptions.add("cuisineType");
+        possibleTasteOptions.add("mealType");
+
+        for (String tasteOption : possibleTasteOptions) {
+            if (tasteProfile.containsKey(tasteOption)) {
+                queryBuilder.append("&");
+                queryBuilder.append(tasteOption);
+                queryBuilder.append("=");
+                queryBuilder.append(tasteProfile.get(tasteOption));
+            }
+        }
+
+        return queryBuilder;
     }
 
 
