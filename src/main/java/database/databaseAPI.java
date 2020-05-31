@@ -11,9 +11,13 @@ import java.util.Scanner;
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class databaseAPI {
-    private static final int CUISINE_SIZE = 2;
-    private static final int DIET_SIZE = 2;
-    private static final int HEALTH_SIZE = 2;
+    private static final int CUISINE_SIZE = 11;  //Kyle: 11
+    private static final int DIET_SIZE = 5;  //Kyle: 5
+    private static final int HEALTH_SIZE = 9;  // Kyle: 9
+    private static final int MEAL_SIZE = 3;
+
+    private static final String SANDBOX_URL = "bolt://34.224.17.116:47989";
+    private static final String SANDBOX_PASSWORD = "military-disassemblies-bases";
 
     private static boolean initialized = false;
 
@@ -63,11 +67,11 @@ public class databaseAPI {
      * @param args The arguments
      */
     public static void main(String[] args) {
-        UserProfile up = new UserProfile(0, new int[2], new int[2], new int[2]);
+        UserProfile up = new UserProfile(20, new int[CUISINE_SIZE], new int[DIET_SIZE], new int[HEALTH_SIZE], new int[MEAL_SIZE]);
         Ingredient[] ingArr = new Ingredient[2];
         ingArr[0] = getIngredient("Beef Steak");
         ingArr[1] = getIngredient("Chicken Breast");
-        Pantry p = new Pantry(ingArr, new String[]{"01-06-2020", "02-01-2020"}, new int[]{1, 1});
+        Pantry p = new Pantry(ingArr, new String[]{null, "02-01-2020"}, new int[]{1, 1});
         System.out.println(placeInDatabase(up, p));
         Pantry p2 = getPantry(up);
         updateUser(up);
@@ -177,9 +181,9 @@ public class databaseAPI {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:User {userID: ");
         sb.append(up.userID);
-        sb.append(", googleUserID: '");
+        sb.append(", googleUserID: \"");
         sb.append(up.googleUserID);
-        sb.append("', cuisinePreferences: [");
+        sb.append("\", cuisinePreferences: [");
         sb.append(up.preferences[0]);
         for (int i = 1; i < up.preferences.length; i++) {
             sb.append( ", ");
@@ -196,6 +200,12 @@ public class databaseAPI {
         for (int i = 1; i < up.health.length; i++) {
             sb.append( ", ");
             sb.append(up.health[i]);
+        }
+        sb.append("], mealTypes: [");
+        sb.append(up.meal[0]);
+        for (int i = 1; i < up.diet.length; i++) {
+            sb.append( ", ");
+            sb.append(up.diet[i]);
         }
         sb.append("]})");
         String cypherQuery = sb.toString();
@@ -269,7 +279,9 @@ public class databaseAPI {
             sb.append( ", ");
             sb.append(up.preferences[i]);
         }
-        sb.append("], n.dietTypes = [");
+        sb.append("], n.googleUserID = \"");
+        sb.append(up.googleUserID);
+        sb.append("\", n.dietTypes = [");
         sb.append(up.diet[0]);
         for (int i = 1; i < up.diet.length; i++) {
             sb.append( ", ");
@@ -280,6 +292,12 @@ public class databaseAPI {
         for (int i = 1; i < up.health.length; i++) {
             sb.append( ", ");
             sb.append(up.health[i]);
+        }
+        sb.append("], n.mealTypes = [");
+        sb.append(up.meal[0]);
+        for (int i = 1; i < up.meal.length; i++) {
+            sb.append( ", ");
+            sb.append(up.meal[i]);
         }
         sb.append("] RETURN n");
         String cypherQuery = sb.toString();
@@ -296,22 +314,27 @@ public class databaseAPI {
      */
     public static UserProfile getUserProfile(int userID) {
         String cypherQuery = "MATCH (n:User) WHERE n.userID = " + userID + " RETURN" +
-                " n.cuisinePreferences as preferences, n.dietTypes as diet, n.healthRestrictions as health";
+                " n.cuisinePreferences as preferences, n.dietTypes as diet, " +
+                "n.healthRestrictions as health, n.mealTypes as meal" +
+                ", n.googleUserID as googleUserID";
         StatementResult sr = doQuery(cypherQuery);
         UserProfile ret = null;
         int[] preferences;
         int[] diet;
         int[] health;
+        int[] meal;
         while (sr.hasNext()) {
-            Record curr = sr.next();
+            org.neo4j.driver.v1.Record curr = sr.next();
 
             preferences =  new int[CUISINE_SIZE];
             diet = new int[DIET_SIZE];
             health = new int[HEALTH_SIZE];
+            meal = new int[MEAL_SIZE];
 
             Object[] objArr1 = curr.get("preferences").asList().toArray();
             Object[] objArr2 = curr.get("diet").asList().toArray();
             Object[] objArr3 = curr.get("health").asList().toArray();
+            Object[] objArr4 = curr.get("meal").asList().toArray();
             for (int i = 0; i < CUISINE_SIZE; i++) {
                 Long l = (Long) objArr1[i];
                 preferences[i] = l.intValue();
@@ -324,7 +347,12 @@ public class databaseAPI {
                 Long l = (Long) objArr3[i];
                 health[i] = l.intValue();
             }
-            ret = new UserProfile(userID, preferences, health, diet);
+            for (int i = 0; i < MEAL_SIZE; i++) {
+                Long l = (Long) objArr4[i];
+                meal[i] = l.intValue();
+            }
+            String googleUserID = curr.get("googleUserID").asString();
+            ret = new UserProfile(userID, preferences, health, diet, meal, googleUserID);
         }
         return ret;
     }
@@ -348,7 +376,7 @@ public class databaseAPI {
         Ingredient[] ingredients;
         int[] quantities;
         while (result.hasNext()) {
-            Record curr = result.next();
+            org.neo4j.driver.v1.Record curr = result.next();
 
             int size = curr.get("numIngredients").asInt();
             expirations =  new String[size];
@@ -430,8 +458,9 @@ public class databaseAPI {
         }
         return retlist;
     }
+
     public static int getUserIdFromGoogle(String googleUserId) {
-        String cypherQuery = "MATCH (n:User) WHERE n.googleUserID = '" + googleUserId + "' RETURN" +
+        String cypherQuery = "MATCH (n:User) WHERE n.googleUserID = \"" + googleUserId + "\" RETURN" +
                 " n.userID as userID";
         StatementResult result = doQuery(cypherQuery);
         int userId = -1;
@@ -439,24 +468,26 @@ public class databaseAPI {
             Record curr = result.next();
             userId = curr.get("userID").asInt();
         }
-        if (userId == -1){
-            // Find the "latest" userID
-            String cypherQuery2 = "MATCH (n:User) RETURN n.userID as userID ORDER BY n.userID DESC LIMIT 1";
-            StatementResult result2 = doQuery(cypherQuery2);
-
-            while (result2.hasNext()) {
-                Record curr = result2.next();
-                userId = curr.get("userID").asInt();
-            }
-            userId ++;
-            UserProfile up = new UserProfile(userId , new int[2], new int[2], new int[2], googleUserId);
-            createUserProfile(up);
-            createPantry(up, new Pantry(new Ingredient[]{ getIngredient("Salt")}, new String[]{"01-01-2050"}, new int[]{1} ));
-        }
         return userId;
-
     }
 
+    public static int generateUserID(String googleUserId) {
+        int userID = getUserIdFromGoogle(googleUserId);
+        while (userID == -1) {
+            userID = (int) (Math.random() * Integer.MAX_VALUE);
+            if (isTaken(userID)) {
+                userID = -1;
+            }
+        }
+        return userID;
+    }
+
+    private static boolean isTaken(int userID) {
+        String cypherQuery = "MATCH (n:User) WHERE n.userID = " + userID + " RETURN" +
+                " n.userID as userID";
+        StatementResult result = doQuery(cypherQuery);
+        return result.hasNext();
+    }
 
     /**
      * Returns an IngredientGroup that corresponds to the passed String.
@@ -509,7 +540,7 @@ public class databaseAPI {
      */
     private static StatementResult doQuery(String cypherQuery) {
         Config noSSL = Config.build().withEncryptionLevel(Config.EncryptionLevel.NONE).toConfig();
-        Driver driver = GraphDatabase.driver("bolt://34.224.17.116:47989", AuthTokens.basic("neo4j","military-disassemblies-bases"),noSSL); // <password>
+        Driver driver = GraphDatabase.driver(SANDBOX_URL, AuthTokens.basic("neo4j",SANDBOX_PASSWORD),noSSL); // <password>
         try (Session session = driver.session()) {
             return session.run(cypherQuery, parameters());
         }

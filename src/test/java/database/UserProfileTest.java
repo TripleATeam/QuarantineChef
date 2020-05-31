@@ -17,10 +17,11 @@ public class UserProfileTest {
     @Before
     public void initialize() {
         int userID = 0;
-        int[] pref = {1, 2};
-        int[] health = {3, 4};
-        int[] diet = {5, 6};
-        up = new UserProfile(userID, pref, health, diet);
+        int[] pref = new int[11];
+        int[] health = new int[9];
+        int[] diet = new int[5];
+        int[] meal = new int[3];
+        up = new UserProfile(userID, pref, health, diet, meal);
     }
 
     /**
@@ -39,10 +40,11 @@ public class UserProfileTest {
     @Test
     public void testEqualsIdentical() {
         int userID = 0;
-        int[] pref = {1, 2};
-        int[] health = {3, 4};
-        int[] diet = {5, 6};
-        UserProfile up2 = new UserProfile(userID, pref, health, diet);
+        int[] pref = new int[11];
+        int[] health = new int[9];
+        int[] diet = new int[5];
+        int[] meal = new int[3];
+        UserProfile up2 = new UserProfile(userID, pref, health, diet, meal);
         assertEquals(up, up2);
     }
 
@@ -53,16 +55,30 @@ public class UserProfileTest {
     @Test
     public void testEqualsNonIdentical() {
         int userID = 0;
-        int[] pref = {5, 4};
-        int[] health = {3, 4};
-        int[] diet = {5, 6};
-        UserProfile up2 = new UserProfile(userID, pref, health, diet);
+        int[] pref = new int[11];
+        int[] health = new int[9];
+        int[] diet = new int[5];
+        int[] meal = new int[3];
+        UserProfile up2 = new UserProfile(userID, pref, health, diet, meal);
+        assertEquals(up, up2);
+
+        up2 = new UserProfile(userID, pref, health, diet, meal, "01203");
         assertNotEquals(up, up2);
-        int[] health2 = {4, 3};
-        up2 = new UserProfile(userID, pref, health2, diet);
+
+        int[] pref2 = {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        up2 = new UserProfile(userID, pref2, health, diet, meal);
         assertNotEquals(up, up2);
-        int[] diet2 = {3, 2};
-        up2 = new UserProfile(userID, pref, health2, diet2);
+
+        int[] health2 = {-2, 0, 0, 0, 0, 0, 0, 0, 0};
+        up2 = new UserProfile(userID, pref2, health2, diet, meal);
+        assertNotEquals(up, up2);
+
+        int[] diet2 = {-3, 0, 0, 0, 0};
+        up2 = new UserProfile(userID, pref, health2, diet2, meal);
+        assertNotEquals(up, up2);
+
+        int[] meal2 = {-4, 0, 0};
+        up2 = new UserProfile(userID, pref, health2, diet2, meal2);
         assertNotEquals(up, up2);
     }
 }

@@ -5,9 +5,10 @@ import java.util.Arrays;
 public class UserProfile {
     public int userID;
     public String googleUserID;
-    public int[] preferences;
-    public int[] health;
-    public int[] diet;
+    public int[] preferences;  // American, Asian, Caribbean, Chinese, French, Indian, Italian, Japanese, Mediterranean, Mexican, Middle Eastern
+    public int[] health;  // Dairy-free, Gluten-free, Keto, Kosher, Low Sugar, Paleo, Peanut-free, Vegan, Vegetarian
+    public int[] diet;  // High Fiber, High Protein, Low Carb, Low Fat, Low Sodium
+    public int[] meal;  // Breakfast, Lunch, Dinner
 
     /**
      * Returns a UserProfile with the given userID, cuisine preferences,
@@ -22,17 +23,38 @@ public class UserProfile {
      *                      (0 = not a requirement, 1 = a requirement).
      * @param diet          a non-null array of integers representing the
      *                      diets the user is on (0 = not on diet, 1 = on diet).
+     * @param meal          a non-null array of integers representing the mealtimes
+     *                      that a user wants (0 = doesn't want, 1 = wants).
      */
-    public UserProfile(int userID, int[] preferences, int[] health, int[] diet) {
+    public UserProfile(int userID, int[] preferences, int[] health, int[] diet, int[] meal) {
         this.userID = userID;
         this.preferences = preferences;
         this.health = health;
         this.diet = diet;
+        this.meal = meal;
     }
-    public UserProfile(int userID, int[] preferences, int[] health, int[] diet, String googleUserID) {
-        this(userID, preferences, health, diet);
-        this.googleUserID = googleUserID;
 
+    /**
+     * Returns a UserProfile with the given userID, cuisine preferences,
+     * health restrictions, and diet types, respective to the passed parameters.
+     *
+     * @param userID        an int representing the ID for a user
+     * @param preferences   a non-null array of integers representing
+     *                      the cuisine preferences of the user
+     *                      (Every element is between 0 and 10).
+     * @param health        a non-null array of integers representing
+     *                      the health requirements of the user
+     *                      (0 = not a requirement, 1 = a requirement).
+     * @param diet          a non-null array of integers representing the
+     *                      diets the user is on (0 = not on diet, 1 = on diet).
+     * @param meal          a non-null array of integers representing the mealtimes
+     *                      that a user wants (0 = doesn't want, 1 = wants).
+     * @param googleUserID  a String that represents the Google User ID returned from
+     *                      a successful sign-in.
+     */
+    public UserProfile(int userID, int[] preferences, int[] health, int[] diet, int[] meal, String googleUserID) {
+        this(userID, preferences, health, diet, meal);
+        this.googleUserID = googleUserID;
     }
 
     /**
@@ -53,6 +75,8 @@ public class UserProfile {
         boolean bool1 = Arrays.equals(preferences, otherPan.preferences);
         boolean bool2 = Arrays.equals(health, otherPan.health);
         boolean bool3 = Arrays.equals(diet, otherPan.diet);
-        return bool1 && bool2 && bool3;
+        boolean bool4 = Arrays.equals(meal, otherPan.meal);
+        boolean bool5 = (this.googleUserID == null) == (otherPan.googleUserID == null);
+        return bool1 && bool2 && bool3 && bool4 && bool5;
     }
 }
