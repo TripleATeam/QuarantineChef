@@ -71,8 +71,14 @@ public class SparkServer {
         if (googleUserId == null) {
             return 0;
         }
-        //return databaseAPI.getUserIdFromGoogle(googleUserId);
-        return 0;
+        int userId = databaseAPI.getUserIdFromGoogle(googleUserId);
+        if (userId == -1) {
+            userId = databaseAPI.generateUserID(googleUserId);
+            UserProfile profile = new UserProfile(userId , new int[11], new int[9], new int[5], new int[3], googleUserId);
+            Pantry pantry = new Pantry(new Ingredient[]{databaseAPI.getIngredient("Salt")}, new String[]{"01-01-2050"}, new int[]{1});
+            databaseAPI.placeInDatabase(profile, pantry);
+        }
+        return userId;
 
     }
     private static void enableCors() {
