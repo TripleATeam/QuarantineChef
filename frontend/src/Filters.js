@@ -130,15 +130,16 @@ export default function FilterPanel(props) {
                 >
                     <Typography className={classes.heading}>{"FILTERS"}</Typography>
                 </ExpansionPanelSummary>
+                <div>* some filters are available in paid version only</div>
                 <ExpansionPanelDetails>
                     <List>
-                        <Typography className={classes.filterType}>Meal Type</Typography>
+                        <Typography className={classes.filterType}>Meal Type *</Typography>
                         {enumerate(mealType).map((value) => {
                             const labelId = `checkbox-list-label-${mealType[value]}`;
                             return (
                                 <ListItem key={mealType[value]}
                                           role={undefined}
-                                          dense button onClick={handleToggle(mealType[value])}>
+                                          dense>
                                     <ListItemIcon>
                                         <Checkbox
                                             edge="start"
@@ -147,6 +148,7 @@ export default function FilterPanel(props) {
                                             color={'primary'}
                                             disableRipple
                                             inputProps={{ 'aria-labelledby': labelId }}
+                                            disabled={true}
                                         />
                                     </ListItemIcon>
                                     <ListItemText id={labelId}
@@ -156,13 +158,13 @@ export default function FilterPanel(props) {
                         })}
                     </List>
                     <List>
-                        <Typography className={classes.filterType}>Cuisine Type</Typography>
+                        <Typography className={classes.filterType}>Cuisine Type *</Typography>
                         {enumerate(cuisineType).map((value) => {
                             const labelId = `checkbox-list-label-${cuisineType[value]}`;
                             return (
                                 <ListItem key={cuisineType[value]}
                                           role={undefined}
-                                          dense button onClick={handleToggle(cuisineType[value])}>
+                                          dense>
                                     <ListItemIcon>
                                         <Checkbox
                                             edge="start"
@@ -171,6 +173,7 @@ export default function FilterPanel(props) {
                                             color={'primary'}
                                             disableRipple
                                             inputProps={{ 'aria-labelledby': labelId }}
+                                            disabled={true}
                                         />
                                     </ListItemIcon>
                                     <ListItemText id={labelId}
@@ -204,13 +207,13 @@ export default function FilterPanel(props) {
                         })}
                     </List>
                     <List>
-                        <Typography className={classes.filterType}>Health</Typography>
+                        <Typography className={classes.filterType}>Health *</Typography>
                         {enumerate(health).map((value) => {
                             const labelId = `checkbox-list-label-${health[value]}`;
                             return (
                                 <ListItem key={health[value]}
                                           role={undefined}
-                                          dense button onClick={handleToggle(health[value])}>
+                                          dense>
                                     <ListItemIcon>
                                         <Checkbox
                                             edge="start"
@@ -219,6 +222,7 @@ export default function FilterPanel(props) {
                                             color={'primary'}
                                             disableRipple
                                             inputProps={{ 'aria-labelledby': labelId }}
+                                            disabled={true}
                                         />
                                     </ListItemIcon>
                                     <ListItemText id={labelId}

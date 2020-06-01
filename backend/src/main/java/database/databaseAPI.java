@@ -11,8 +11,8 @@ import java.util.Scanner;
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class databaseAPI {
-    private static final int CUISINE_SIZE = 11;  // Kyle: 11
-    private static final int DIET_SIZE = 4;  // Kyle: 4
+    private static final int CUISINE_SIZE = 11;  //Kyle: 11
+    private static final int DIET_SIZE = 4;  //Kyle: 4
     private static final int HEALTH_SIZE = 9;  // Kyle: 9
     private static final int MEAL_SIZE = 3;
 
@@ -31,7 +31,7 @@ public class databaseAPI {
      */
     private static void init() {
         try {
-            File file = new File("frontend/src/ingredients.csv");
+            File file = new File("src/main/java/frontend/src/ingredients.csv");
             Scanner scan = new Scanner(file);
             scan.nextLine();
             namesToGroups = new HashMap<>();
@@ -144,6 +144,12 @@ public class databaseAPI {
         if (pantry == null) {
             return;
         }
+        if (pantry.getIngredients().length == 0) {
+            String cypherQuery = "CREATE (n:Pantry {userID: "
+                    + up.userID + ", numIngredients: 0, ingredients: [], expirations: [], quantities: []})";
+            doQuery(cypherQuery);
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:Pantry {userID: ");
         sb.append(up.userID);
@@ -227,7 +233,7 @@ public class databaseAPI {
         }
         if (pantry.getIngredients().length == 0) {
             String cypherQuery = "MATCH (n:Pantry) WHERE n.userID = "
-                + up.userID + " SET n.numIngredients = 0, n.ingredients = [], n.expirations = [], n.quantities = []";
+                    + up.userID + " SET n.numIngredients = 0, n.ingredients = [], n.expirations = [], n.quantities = []";
             doQuery(cypherQuery);
             return;
         }
@@ -437,7 +443,7 @@ public class databaseAPI {
         if (!initialized) {
             init();
         }
-//        return namesToGroups.get(ingName.toLowerCase()); // causing nullPointerException?
+//        return namesToGroups.get(ingName.toLowerCase());
         return IngredientGroup.ETC;
     }
 

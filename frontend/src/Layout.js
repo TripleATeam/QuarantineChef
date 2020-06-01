@@ -276,9 +276,13 @@ const useStyles = makeStyles((theme) => ({
 // function to get user ingredients and expiration dates from database to populate virtual pantry
 // const getPantryFromDatabase = async () => {
 async function getPantryFromDatabase() {
+    // let userId = ("; "+document.cookie).split("; googleUserId=").pop().split(";").shift();
+    //
+    // console.log(userId);
 
-    let response = await fetch("https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/get-pantry", {credentials: 'include'});
+    let response = await fetch("https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/get-pantry",{credentials: 'include'});
     let databasePantry = await response.json();
+    // let databasePantry = await response.text();
 
     console.log(databasePantry);
     if (databasePantry !== null) {
@@ -293,6 +297,8 @@ async function getPantryFromDatabase() {
     }
     // cont = true;
 }
+
+const ID = null;
 
 // This function returns the overall layout for the web app
 export default function Layout() {

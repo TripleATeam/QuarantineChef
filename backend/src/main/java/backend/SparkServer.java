@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import database.*;
 import spark.Request;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class SparkServer {
             Pantry currentPantry = null;
 
             // TODO: add filterView to recipe filter
-            RecipeFilter recipeFilter = new RecipeFilter(currentLoggedInUser, null, currentPantry);
+            RecipeFilter recipeFilter = new RecipeFilter(currentLoggedInUser, null, currentPantry, filterView);
             List<Recipe> recipeList = recipeFilter.getNewRecipes();
             List<RecipeView> recipes = new ArrayList<>();
             for (Recipe i : recipeList) {
@@ -50,6 +52,7 @@ public class SparkServer {
         });
 
         get("/get-pantry", (req, res) -> {
+
             int userId = getUserId(req);
             UserProfile userProfile = new UserProfile(userId, null, null, null, (int[]) null);
             Pantry pantry = databaseAPI.getPantry(userProfile);
@@ -62,7 +65,7 @@ public class SparkServer {
             Gson gson = new Gson();
             PantryView pantryView = gson.fromJson(body, PantryView.class);
             UserProfile up = new UserProfile(getUserId(req), new int[2], new int[2], new int[2], new int[2]);
-            
+
             Ingredient[] ingArr = new Ingredient[pantryView.ingredients.length];
             for (int i = 0; i < pantryView.ingredients.length; i++) {
                 ingArr[i] = databaseAPI.getIngredient(pantryView.ingredients[i]);
@@ -71,15 +74,29 @@ public class SparkServer {
             databaseAPI.updatePantry(up, p);
             return "OK";
         });
-    }
 
+        exception(Exception.class, (exception, request, response) -> {
+            response.status(500);
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            exception.printStackTrace(pw);
+            response.body(sw.toString());
+        });
+    }
     private static int getUserId(Request req){
         String googleUserId = req.cookie("googleUserId");
         if (googleUserId == null) {
             return 0;
         }
-        return databaseAPI.getUserIdFromGoogle(googleUserId);
-//        return 0;
+        int userId = databaseAPI.getUserIdFromGoogle(googleUserId);
+        if (userId == -1) {
+            userId = databaseAPI.generateUserID(googleUserId);
+            UserProfile profile = new UserProfile(userId , new int[11], new int[9], new int[5], new int[3], googleUserId);
+            Pantry pantry = new Pantry(new Ingredient[]{}, new String[]{}, new int[]{});
+            databaseAPI.placeInDatabase(profile, pantry);
+        }
+        return userId;
+
     }
     private static void enableCors() {
         // Enable CORS in Spark Java: https://gist.github.com/saeidzebardast/e375b7d17be3e0f4dddf
@@ -102,10 +119,7 @@ public class SparkServer {
             return "OK";
         });
         before((request, response) -> {
-//            response.header("Access-Control-Allow-Origin", "http://localhost:3000"); // running locally port 3000
-//            response.header("Access-Control-Allow-Origin", "http://localhost:8080"); // running locally port 8080
             response.header("Access-Control-Allow-Origin", "https://quarantine-chef-278622.wl.r.appspot.com"); // frontend appengine
-//            response.header("Access-Control-Allow-Origin", "https://projectquarantinechef.com"); // custom url
             response.header("Access-Control-Allow-Credentials", "true");
         });
         //
@@ -128,7 +142,7 @@ public class SparkServer {
         public String[] expirations;
         public int[] quantities;
     }
-    private class FilterView{
+    public class FilterView {
         public String[] mealType;
         public String[] cuisineType;
         public String[] diet;

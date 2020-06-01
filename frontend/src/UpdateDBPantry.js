@@ -44,6 +44,7 @@ export default function UpdateDBPantry(props) {
 
         // convert object to format suitable to send to database
         const requestOptions = {
+            // userId: ("; "+document.cookie).split("; googleUserId=").pop().split(";").shift(),
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(pantry),
