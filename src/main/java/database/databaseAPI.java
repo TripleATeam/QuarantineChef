@@ -144,6 +144,12 @@ public class databaseAPI {
         if (pantry == null) {
             return;
         }
+        if (pantry.getIngredients().length == 0) {
+            String cypherQuery = "CREATE (n:Pantry {userID: "
+                    + up.userID + ", numIngredients: 0, ingredients: [], expirations: [], quantities: []})";
+            doQuery(cypherQuery);
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (n:Pantry {userID: ");
         sb.append(up.userID);
