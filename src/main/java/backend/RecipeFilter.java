@@ -393,12 +393,13 @@ public class RecipeFilter {
         return sortedArray;
     }
 
+    /*
     //Given a String of the current query, and a taste profile map as described below,
     //adds mealType, cuisineType, diet, and health to the query and returns the query
     //in a string form
     private StringBuilder addTasteProfileToQuery(StringBuilder queryBuilder, Map<String, String> tasteProfile) {
-        /*tasteProfile: keys = mealType, cuisineType, diet, health
-         */
+        //tasteProfile: keys = mealType, cuisineType, diet, health
+
         List<String> possibleTasteOptions = new ArrayList<String>();
         possibleTasteOptions.add("diet");
         possibleTasteOptions.add("health");
@@ -416,7 +417,9 @@ public class RecipeFilter {
 
         return queryBuilder;
     }
+     */
 
+    //uses inputted user preferences from front end to filter out recipes (only diet for free version)
     private StringBuilder addPreferencesToQuery(StringBuilder query) {
         String[] diet = this.userPreferences.diet;
         String[] health = this.userPreferences.health;
@@ -424,13 +427,14 @@ public class RecipeFilter {
         String[] meal = this.userPreferences.mealType;
 
         StringBuilder queryAddDiet = addSinglePreferenceToQueryHelper(query, "diet", diet);
-        StringBuilder queryAddHealth = addSinglePreferenceToQueryHelper(queryAddDiet, "health", health);
-        StringBuilder queryAddCuisine = addSinglePreferenceToQueryHelper(queryAddHealth, "cuisineType", cuisine);
-        StringBuilder queryAddMeal = addSinglePreferenceToQueryHelper(queryAddCuisine, "mealType", meal);
+        //StringBuilder queryAddHealth = addSinglePreferenceToQueryHelper(queryAddDiet, "health", health);
+        //StringBuilder queryAddCuisine = addSinglePreferenceToQueryHelper(queryAddHealth, "cuisineType", cuisine);
+        //StringBuilder queryAddMeal = addSinglePreferenceToQueryHelper(queryAddCuisine, "mealType", meal);
 
-        return queryAddMeal;
+        return queryAddDiet;
     }
 
+    //helper method for adding a single user preference to the query
     private StringBuilder addSinglePreferenceToQueryHelper(StringBuilder query, String label, String[] options) {
         if (options.length > 0) {
             for (int i = 0; i < options.length; i++) {
