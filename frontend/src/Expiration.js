@@ -9,9 +9,6 @@ const useStyles = makeStyles({
     root: {
         maxWidth: 170,
     },
-    // resize:{
-    //     fontSize: 8,
-    // },
 });
 
 // this function supplies a datepicker object for each ingredient
@@ -32,11 +29,6 @@ export default function ExpirationDatePicker(props) {
                     disableToolbar
                     variant="inline"
                     format="MM/dd/yyyy"
-                    // InputProps={{
-                    //     classes: {
-                    //         input: classes.resize,
-                    //     },
-                    // }}
                     label="Expiration Date"
                     value={selectedDate}
                     onChange={handleDateChange}

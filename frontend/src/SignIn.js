@@ -44,7 +44,7 @@ class SignInComponent extends Component {
             <div>
                 {this.state.isSignedIn
                     ? <div>Welcome {this.state.userName} <Button color="inherit" onClick={this.handleSignOut}>Sign Out</Button></div>
-                    : <div> <div className="g-signin2" data-onsuccess="handleSignIn"></div></div>
+                    : <div> <div className="g-signin2" data-onsuccess="handleSignIn"/> </div>
                 }
             </div>
         );

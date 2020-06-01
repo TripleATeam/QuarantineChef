@@ -12,7 +12,6 @@ class RecipeComponent extends Component {
   constructor(props) {
     super(props);
     this.state = { value: "", recipes: [] };
-    // this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
@@ -24,16 +23,7 @@ class RecipeComponent extends Component {
       recipes: recipes,
     });
     event.preventDefault();
-  } 
-
-  // async componentDidMount() {
-  //   let response = await fetch("http://localhost:4567/get-pantry?userId=0");
-  //   let pantry = await response.json();
-  // }
-
-  // handleChange(event) {
-  //   this.setState({ value: event.target.value });
-  // }
+  }
 
   render() {
     return (

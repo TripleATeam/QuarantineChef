@@ -27,12 +27,11 @@ const filterData = {
 };
 
 const hasFilter = new Map();
-for (let type in filterTypes) {
-    for (let i = 0; i < filterTypes[type].length; i++) {
-        hasFilter.set(filterTypes[type][i], false);
+for (let i = 0; i < filterTypes.length; i++) {
+    for (let j = 0; j < filterTypes[i].length; i++) {
+        hasFilter.set(filterTypes[i][j], false);
     }
 }
-// console.log(hasFilter);
 
 function enumerate(list) {
     let nums = [];
