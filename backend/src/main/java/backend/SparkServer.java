@@ -23,6 +23,8 @@ public class SparkServer {
         // for testing with google appengine
         get("/", (req, res) -> "Hello world!");
 
+        get("/kyle", (req, res) -> "Kyle");
+
         get("/find-recipe", (req, res) -> {
             String filterData = req.queryParams("filter");
             Gson gson = new Gson();
@@ -50,7 +52,7 @@ public class SparkServer {
         get("/get-pantry", (req, res) -> {
 
             int userId = getUserId(req);
-            UserProfile userProfile = new UserProfile(userId, null, null, null);
+            UserProfile userProfile = new UserProfile(0, null, null, null);
             Pantry pantry = databaseAPI.getPantry(userProfile);
             Gson gson = new Gson();
             return gson.toJson(pantry);
@@ -77,7 +79,7 @@ public class SparkServer {
             return 0;
         }
         return databaseAPI.getUserIdFromGoogle(googleUserId);
-
+//        return 0;
     }
     private static void enableCors() {
         // Enable CORS in Spark Java: https://gist.github.com/saeidzebardast/e375b7d17be3e0f4dddf
@@ -100,7 +102,8 @@ public class SparkServer {
             return "OK";
         });
         before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.header("Access-Control-Allow-Origin", "http://localhost:8080");
+//            response.header("Access-Control-Allow-Origin", "https://quarantine-chef-278622.wl.r.appspot.com/");
             response.header("Access-Control-Allow-Credentials", "true");
         });
         //

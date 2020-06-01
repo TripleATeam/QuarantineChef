@@ -27,7 +27,7 @@ public class databaseAPI {
      */
     private static void init() {
         try {
-            File file = new File("./ingredients.csv");
+            File file = new File("frontend/src/ingredients.csv");
             Scanner scan = new Scanner(file);
             scan.nextLine();
             namesToGroups = new HashMap<>();
@@ -409,7 +409,8 @@ public class databaseAPI {
         if (!initialized) {
             init();
         }
-        return namesToGroups.get(ingName.toLowerCase());
+//        return namesToGroups.get(ingName.toLowerCase());
+        return IngredientGroup.ETC;
     }
 
     /**
