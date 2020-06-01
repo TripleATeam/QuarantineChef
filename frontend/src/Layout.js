@@ -276,7 +276,8 @@ const useStyles = makeStyles((theme) => ({
 // function to get user ingredients and expiration dates from database to populate virtual pantry
 // const getPantryFromDatabase = async () => {
 async function getPantryFromDatabase() {
-    let response = await fetch("http://localhost:4567/get-pantry", {credentials: 'include'});
+
+    let response = await fetch("https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/get-pantry", {credentials: 'include'});
     let databasePantry = await response.json();
 
     console.log(databasePantry);

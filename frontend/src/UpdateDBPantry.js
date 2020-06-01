@@ -51,7 +51,7 @@ export default function UpdateDBPantry(props) {
         };
 
         // send pantry to database
-        fetch("http://localhost:4567/save-pantry", requestOptions)
+        fetch("https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/save-pantry", requestOptions)
             .then(response => response.text())
             .then(data => console.log(data));
 

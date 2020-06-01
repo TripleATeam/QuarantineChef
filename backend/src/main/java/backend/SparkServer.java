@@ -15,7 +15,14 @@ import java.util.List;
 public class SparkServer {
 
     public static void main(String[] args) {
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
+        port(port);
+
         enableCors();
+
+        // for testing with google appengine
+        get("/", (req, res) -> "Hello world!");
+        get("/kyle", (req, res) -> "Kyle");
 
 
         get("/find-recipe", (req, res) -> {
@@ -95,10 +102,10 @@ public class SparkServer {
             return "OK";
         });
         before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "http://localhost:3000"); // running locally port 3000
+//            response.header("Access-Control-Allow-Origin", "http://localhost:3000"); // running locally port 3000
 //            response.header("Access-Control-Allow-Origin", "http://localhost:8080"); // running locally port 8080
-//            response.header("Access-Control-Allow-Origin", "https://quarantine-chef-278622.wl.r.appspot.com/"); // frontend appengine
-//            response.header("Access-Control-Allow-Origin", "https://projectquarantinechef.com/"); // custom url
+            response.header("Access-Control-Allow-Origin", "https://quarantine-chef-278622.wl.r.appspot.com"); // frontend appengine
+//            response.header("Access-Control-Allow-Origin", "https://projectquarantinechef.com"); // custom url
             response.header("Access-Control-Allow-Credentials", "true");
         });
         //
