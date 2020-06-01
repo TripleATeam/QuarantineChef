@@ -102,8 +102,8 @@ public class SparkServer {
             return "OK";
         });
         before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "http://localhost:8080");
-//            response.header("Access-Control-Allow-Origin", "https://quarantine-chef-278622.wl.r.appspot.com/");
+//            response.header("Access-Control-Allow-Origin", "http://localhost:8080");
+            response.header("Access-Control-Allow-Origin", "https://quarantine-chef-278622.wl.r.appspot.com/");
             response.header("Access-Control-Allow-Credentials", "true");
         });
         //
