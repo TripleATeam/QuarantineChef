@@ -14,7 +14,7 @@ import List from "@material-ui/core/List";
 const mealType = ["Breakfast", "Lunch", "Dinner"];
 const cuisineType = ["American", "Asian", "Caribbean", "Chinese", "French", "Indian", "Italian",
     "Japanese", "Mediterranean", "Mexican", "Middle Eastern"];
-const diet = ["high-fiber", "high-protein", "low-carb", "low-fat", "low-sodium"];
+const diet = ["balanced", "high-protein", "low-carb", "low-fat"];
 const health = ["dairy-free", "gluten-free", "keto-friendly", "kosher", "low-sugar", "paleo",
     "peanut-free", "vegan", "vegetarian"];
 
