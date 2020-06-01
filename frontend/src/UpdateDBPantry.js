@@ -50,8 +50,11 @@ export default function UpdateDBPantry(props) {
             credentials: 'include'
         };
 
+        let userId = ("; "+document.cookie).split("; googleUserId=").pop().split(";").shift();
+
+
         // send pantry to database
-        fetch("https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/save-pantry", requestOptions)
+        fetch("https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/save-pantry?userId=" + userId, requestOptions)
             .then(response => response.text())
             .then(data => console.log(data));
 

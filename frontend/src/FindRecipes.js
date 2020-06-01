@@ -16,8 +16,10 @@ class RecipeComponent extends Component {
   }
 
   async handleSearch(event) {
+    let userId = ("; "+document.cookie).split("; googleUserId=").pop().split(";").shift();
+    console.log(userId);
     const filterData = JSON.stringify(this.props.getFilterData());
-    let response = await fetch("https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/find-recipe?filter=" + filterData, {credentials: 'include'});
+    let response = await fetch("https://backend-dot-quarantine-chef-278622.wl.r.appspot.com/find-recipe?userId=" + userId +"&filter=" + filterData, {credentials: 'include'});
     let recipes = await response.json();
     this.setState({
       recipes: recipes,

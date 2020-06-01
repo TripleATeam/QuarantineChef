@@ -32,9 +32,9 @@ public class SparkServer {
             Gson gson = new Gson();
             FilterView filterView = gson.fromJson(filterData, FilterView.class);
 
-            int userID = getUserId(req); //should be received from frontend
+//            int userID = getUserId(req); //should be received from frontend
             //Creation of a UserProfile retrieved from frontend
-            UserProfile currentLoggedInUser = databaseAPI.getUserProfile(userID);
+            UserProfile currentLoggedInUser = databaseAPI.getUserProfile(getUserId(req));
 
             //Creation of a Pantry for RecipeFilter
             Pantry currentPantry = null;
@@ -51,9 +51,10 @@ public class SparkServer {
         });
 
         get("/get-pantry", (req, res) -> {
-            int userId = getUserId(req);
-            UserProfile userProfile = new UserProfile(userId, null, null, null, null);
-            Pantry pantry = databaseAPI.getPantry(userProfile);
+//            int userId = getUserId(req);
+//            UserProfile userProfile = new UserProfile(userId, null, null, null, null);
+            UserProfile up = databaseAPI.getUserProfile(getUserId(req));
+            Pantry pantry = databaseAPI.getPantry(up);
             Gson gson = new Gson();
             return gson.toJson(pantry);
         });
@@ -62,8 +63,8 @@ public class SparkServer {
             String body = req.body();
             Gson gson = new Gson();
             PantryView pantryView = gson.fromJson(body, PantryView.class);
-            UserProfile up = new UserProfile(getUserId(req), new int[2], new int[2], new int[2], new int[2]);
-
+//            UserProfile up = new UserProfile(getUserId(req), new int[2], new int[2], new int[2], new int[2]);
+            UserProfile up = databaseAPI.getUserProfile(getUserId(req));
             Ingredient[] ingArr = new Ingredient[pantryView.ingredients.length];
             for (int i = 0; i < pantryView.ingredients.length; i++) {
                 ingArr[i] = databaseAPI.getIngredient(pantryView.ingredients[i]);
@@ -82,10 +83,11 @@ public class SparkServer {
         });
     }
     private static int getUserId(Request req){
-        String googleUserId = req.cookie("googleUserId");
-        if (googleUserId == null) {
-            return 0;
-        }
+//        String googleUserId = req.cookie("googleUserId");
+        String googleUserId = req.queryParams("userId");
+//        if (googleUserId == null) {
+//            return 0;
+//        }
         int userId = databaseAPI.getUserIdFromGoogle(googleUserId);
         if (userId == -1) {
             userId = databaseAPI.generateUserID(googleUserId);
@@ -118,7 +120,7 @@ public class SparkServer {
         });
         before((request, response) -> {
             response.header("Access-Control-Allow-Origin",
-                    "https://www.projectquarantinechef.com"); // frontend url
+                    "https://quarantine-chef-278622.wl.r.appspot.com"); // frontend url
             response.header("Access-Control-Allow-Credentials", "true");
         });
         //

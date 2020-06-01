@@ -467,6 +467,9 @@ public class databaseAPI {
     }
 
     public static int getUserIdFromGoogle(String googleUserId) {
+        if (googleUserId == null) {
+            return -1;
+        }
         String cypherQuery = "MATCH (n:User) WHERE n.googleUserID = \"" + googleUserId + "\" RETURN" +
                 " n.userID as userID";
         StatementResult result = doQuery(cypherQuery);

@@ -27,9 +27,15 @@ const filterData = {
 };
 
 const hasFilter = new Map();
-for (let i = 0; i < filterTypes.length; i++) {
-    for (let j = 0; j < filterTypes[i].length; i++) {
-        hasFilter.set(filterTypes[i][j], false);
+// for (let i = 0; i < filterTypes.length; i++) {
+//     for (let j = 0; j < filterTypes[i].length; i++) {
+//         hasFilter.set(filterTypes[i][j], false);
+//     }
+// }
+
+for (let type in filterTypes) {
+    for (let i = 0; i < filterTypes[type].length; i++) {
+        hasFilter.set(filterTypes[type][i], false);
     }
 }
 
