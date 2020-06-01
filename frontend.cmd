@@ -1,1 +1,1 @@
-cd .\src\main\java\frontend & npm install && npm start
+cd .\frontend & npm install && npm start

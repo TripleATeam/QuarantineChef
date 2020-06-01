@@ -1,1 +1,1 @@
-mvn package
+cd .\backend & mvn package

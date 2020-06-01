@@ -43,7 +43,6 @@ public class SparkServer {
         });
 
         get("/get-pantry", (req, res) -> {
-
             int userId = getUserId(req);
             UserProfile userProfile = new UserProfile(userId, null, null, null, (int[]) null);
             Pantry pantry = databaseAPI.getPantry(userProfile);
@@ -66,14 +65,14 @@ public class SparkServer {
             return "OK";
         });
     }
+
     private static int getUserId(Request req){
         String googleUserId = req.cookie("googleUserId");
         if (googleUserId == null) {
             return 0;
         }
-        //return databaseAPI.getUserIdFromGoogle(googleUserId);
-        return 0;
-
+        return databaseAPI.getUserIdFromGoogle(googleUserId);
+//        return 0;
     }
     private static void enableCors() {
         // Enable CORS in Spark Java: https://gist.github.com/saeidzebardast/e375b7d17be3e0f4dddf
@@ -96,7 +95,10 @@ public class SparkServer {
             return "OK";
         });
         before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.header("Access-Control-Allow-Origin", "http://localhost:3000"); // running locally port 3000
+//            response.header("Access-Control-Allow-Origin", "http://localhost:8080"); // running locally port 8080
+//            response.header("Access-Control-Allow-Origin", "https://quarantine-chef-278622.wl.r.appspot.com/"); // frontend appengine
+//            response.header("Access-Control-Allow-Origin", "https://projectquarantinechef.com/"); // custom url
             response.header("Access-Control-Allow-Credentials", "true");
         });
         //
