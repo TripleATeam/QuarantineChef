@@ -51,7 +51,9 @@ export default function UpdateDBPantry(props) {
         };
 
         // send pantry to database
-        fetch("http://localhost:4567/save-pantry", requestOptions);
+        fetch("http://localhost:4567/save-pantry", requestOptions)
+            .then(response => response.text())
+            .then(data => console.log(data));
 
         // helper function to change date format to align with database
         function formatDate(date) {

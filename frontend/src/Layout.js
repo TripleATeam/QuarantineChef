@@ -279,12 +279,15 @@ async function getPantryFromDatabase() {
     let response = await fetch("http://localhost:4567/get-pantry", {credentials: 'include'});
     let databasePantry = await response.json();
 
-    for (let i = 0; i < databasePantry.ingredients.length; i++) {
-        pantry.set(databasePantry.ingredients[i].name, true);
-        if (databasePantry.expirations[i] != "null") {
-            const parts = databasePantry.expirations[i].split("-");
-            const date = new Date(+parts[2], +parts[1] - 1, +parts[0]);
-            expiration.set(databasePantry.ingredients[i].name, date);
+    console.log(databasePantry);
+    if (databasePantry !== null) {
+        for (let i = 0; i < databasePantry.ingredients.length; i++) {
+            pantry.set(databasePantry.ingredients[i].name, true);
+            if (databasePantry.expirations[i] !== "null") {
+                const parts = databasePantry.expirations[i].split("-");
+                const date = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+                expiration.set(databasePantry.ingredients[i].name, date);
+            }
         }
     }
     // cont = true;
