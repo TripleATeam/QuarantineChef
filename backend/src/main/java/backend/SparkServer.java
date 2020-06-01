@@ -47,7 +47,6 @@ public class SparkServer {
                 recipes.add(new RecipeView(i.getLabel(),i.getRecipeUrl(), i.getImageUrl()));
             }
 
-
             return gson.toJson(recipes);
         });
 
