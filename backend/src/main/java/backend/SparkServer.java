@@ -52,9 +52,8 @@ public class SparkServer {
         });
 
         get("/get-pantry", (req, res) -> {
-
             int userId = getUserId(req);
-            UserProfile userProfile = new UserProfile(userId, null, null, null, (int[]) null);
+            UserProfile userProfile = new UserProfile(userId, null, null, null, null);
             Pantry pantry = databaseAPI.getPantry(userProfile);
             Gson gson = new Gson();
             return gson.toJson(pantry);
@@ -119,7 +118,8 @@ public class SparkServer {
             return "OK";
         });
         before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "https://quarantine-chef-278622.wl.r.appspot.com"); // frontend appengine
+            response.header("Access-Control-Allow-Origin",
+                    "https://www.projectquarantinechef.com"); // frontend url
             response.header("Access-Control-Allow-Credentials", "true");
         });
         //
